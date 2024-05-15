@@ -14,5 +14,6 @@ if (localStorage.hasOwnProperty("sp:bundler")) {
     localStorage.setItem("sp:bundler", keypair.secret());
 
     const horizon = new Horizon.Server(import.meta.env.PUBLIC_horizonUrl);
-    await horizon.friendbot(keypair.publicKey()).call();
+    
+    horizon.friendbot(keypair.publicKey()).call();
 }

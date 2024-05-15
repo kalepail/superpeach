@@ -6,6 +6,9 @@
     import { list_sigs } from "../lib/list_sigs";
     import { onMount } from "svelte";
     import { get_balance } from "../lib/get_balance";
+    import base64url from "base64url";
+    import { hash } from "@stellar/stellar-sdk";
+    import { id } from "../lib/id";
 
     let sigs: string[] = [];
     let balance: number = 0;
@@ -26,12 +29,16 @@
         console.log($deployee);
         localStorage.setItem("sp:deployee", $deployee);
         await fund();
+        await onGetBalance();
+        await onListSigs();
     }
     async function onConnect() {
         deployee.set(await connect());
         console.log($deployee);
         localStorage.setItem("sp:deployee", $deployee);
         await fund();
+        await onGetBalance();
+        await onListSigs();
     }
 
     // TODO add a logout button
@@ -39,38 +46,42 @@
 
 <main class="flex flex-col items-start p-2">
     <h1 class="text-2xl mb-2">Super Peach</h1>
-    <p>{$deployee}</p>
-    <br />
-    <p>
-        Balance {balance} XLM
-        <button
-            class="text-xs uppercase bg-slate-600 rounded text-white px-2 py-1"
-            on:click={onGetBalance}>Refresh</button
-        >
-    </p>
-    <br />
-    <p>
-        Signers
-        <button
-            class="text-xs uppercase bg-slate-600 rounded text-white px-2 py-1"
-            on:click={onListSigs}>Refresh</button
-        >
-    </p>
-    <ul>
-        {#each sigs as sig}
-            <li>{sig}</li>
-        {/each}
-    </ul>
+
+    {#if $deployee && $id}
+        <p>{$deployee}</p>
+        <p>{hash(base64url.toBuffer($id)).toString("base64")}</p>
+        <br />
+        <p>
+            Balance {balance} XLM
+            <button
+                class="text-xs uppercase bg-slate-600 rounded text-white px-2 py-1"
+                on:click={onGetBalance}>Refresh</button
+            >
+        </p>
+        <br />
+        <p>
+            Signers
+            <button
+                class="text-xs uppercase bg-slate-600 rounded text-white px-2 py-1"
+                on:click={onListSigs}>Refresh</button
+            >
+        </p>
+        <ul>
+            {#each sigs as sig}
+                <li>{sig}</li>
+            {/each}
+        </ul>
+        <br />
+    {/if}
 
     {#if !$deployee}
-        <br />
         <button
             class="bg-indigo-600 text-white px-2 py-1 rounded mb-2"
-            on:click={onRegister}>Register new super key</button
+            on:click={onRegister}>+ Register new super key</button
         >
         <button
-            class="bg-slate-600 text-white px-2 py-1 rounded mb-4"
-            on:click={onConnect}>Connect existing super key</button
+            class="bg-slate-600 text-white px-2 py-1 rounded mb-2"
+            on:click={onConnect}>+ Connect existing super key</button
         >
     {/if}
 </main>

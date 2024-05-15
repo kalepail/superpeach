@@ -5,7 +5,10 @@
     import { add_signer_send } from "../lib/add_signer_send";
     import base64url from "base64url";
     import * as WebAuthn from "@simplewebauthn/browser";
-    import { hash } from "@stellar/stellar-sdk";
+    import { SorobanRpc, hash, xdr } from "@stellar/stellar-sdk";
+    import { register } from "../lib/register";
+    import { fund } from "../lib/fund";
+    import { connect } from "../lib/connect";
 
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
@@ -14,49 +17,90 @@
     const signerPublicKey = Buffer.from(params.get("publicKey")!, "hex");
 
     async function add_signer() {
-        const { authTxn, authHash, lastLedger } = await add_signer_build(
-            signerId,
-            signerPublicKey,
-        );
+        if (signerPublicKey.length) {
+            const { authTxn, authHash, lastLedger } = await add_signer_build(
+                signerId,
+                signerPublicKey,
+            );
 
-        const signRes = await WebAuthn.startAuthentication({
-            challenge: base64url(authHash),
-            // rpId: undefined,
-            allowCredentials: $id
-                ? [
-                      {
-                          id: $id,
-                          type: "public-key",
-                      },
-                  ]
-                : undefined,
-            userVerification: "discouraged",
-        });
+            const signRes = await WebAuthn.startAuthentication({
+                challenge: base64url(authHash),
+                // rpId: undefined,
+                allowCredentials: $id
+                    ? [
+                        {
+                            id: $id,
+                            type: "public-key",
+                        },
+                    ]
+                    : undefined,
+                userVerification: "discouraged",
+            });
 
-        await add_signer_send(
-            authTxn,
-            hash(base64url.toBuffer(signRes.id)),
-            lastLedger,
-            signRes,
-        );
+            await add_signer_send(
+                authTxn,
+                hash(base64url.toBuffer(signRes.id)),
+                lastLedger,
+                signRes,
+            );
+        } else {
+            const rpc = new SorobanRpc.Server(import.meta.env.PUBLIC_rpcUrl);
+            // await rpc.getContractData($deployee, xdr.ScVal.scvLedgerKeyContractInstance())
+            try {
+                await rpc.getContractData($deployee, xdr.ScVal.scvBytes(signerId))
+            } catch (err: any) {
+                return alert(err.message);
+            }
+        }
 
         window.opener.postMessage(
             { type: "wallet", deployee: $deployee },
             origin,
         );
     }
+    async function onRegister() {
+        deployee.set(await register());
+        console.log($deployee);
+        localStorage.setItem("sp:deployee", $deployee);
+        await fund();
+    }
+    async function onConnect() {
+        deployee.set(await connect());
+        console.log($deployee);
+        localStorage.setItem("sp:deployee", $deployee);
+        await fund();
+    }
 </script>
 
 <main class="flex flex-col items-start p-2">
     <h1 class="text-2xl mb-2">Add Signer</h1>
-    <p>{$deployee}</p>
-    <p>{$id}</p>
-    <p>{origin}</p>
-    <p>{signerId.toString("hex")}</p>
-    <p>{signerPublicKey.toString("hex")}</p>
-    <br />
-    <button
-        class="bg-indigo-600 text-white px-2 py-1 rounded"
-        on:click={add_signer}>+ Add signer</button
-    >
+
+    {#if $deployee}
+        <p>{$deployee}</p>
+        <p>{signerId.toString('base64')}</p>
+        <br />
+
+        {#if signerPublicKey.length}
+            <button
+                class="bg-indigo-600 text-white px-2 py-1 rounded"
+                on:click={add_signer}>+ Add signer</button
+            >
+        {:else}
+            <button
+                class="bg-slate-600 text-white px-2 py-1 rounded mb-2"
+                on:click={add_signer}>+ Connect signer</button
+            >
+        {/if}
+    {:else}
+        <p>Register a new or connect an existing super key</p>
+        <br />
+        <button
+            class="bg-indigo-600 text-white px-2 py-1 rounded mb-2"
+            on:click={onRegister}>+ Register new super key</button
+        >
+        <button
+            class="bg-slate-600 text-white px-2 py-1 rounded mb-2"
+            on:click={onConnect}>+ Connect existing super key</button
+        >
+    {/if}
 </main>

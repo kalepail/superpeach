@@ -24,6 +24,7 @@
     "typescript": "^5.4.5"
   },
   "devDependencies": {
+    "@simplewebauthn/types": "^10.0.0",
     "@types/node": "^20.12.11",
     "vite-plugin-node-polyfills": "^0.21.0"
   }

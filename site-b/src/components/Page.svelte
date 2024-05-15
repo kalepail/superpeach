@@ -8,6 +8,7 @@
     import * as WebAuthn from "@simplewebauthn/browser";
     import base64url from "base64url";
     import { hash } from "@stellar/stellar-sdk";
+    import { connect } from "../lib/connect";
 
     // Register new passkey
     // Forward that key to super peach (both the id and the pk)
@@ -37,8 +38,13 @@
         }
     }
 
-    async function openPage() {
-        const reg = await register();
+    async function openPage(type?: 'signin') {
+        let reg
+
+        if (type === 'signin')
+            reg = await connect();
+        else
+            reg = await register();
 
         const w = 400;
         const h = 500;
@@ -48,7 +54,7 @@
         const windowFeatures = `width=${w},height=${h},left=${left},top=${top},resizable=no,scrollbars=no,menubar=no,toolbar=no,location=no,status=no`;
         
         popup = window.open(
-            `${to}/add-signer?from=${encodeURIComponent(from)}&id=${reg.id.toString("hex")}&publicKey=${reg.publicKey.toString("hex")}`,
+            `${to}/add-signer?from=${encodeURIComponent(from)}&id=${reg.id.toString("hex")}&publicKey=${reg.publicKey?.toString("hex")}`,
             "PopupWindow",
             windowFeatures,
         ); // TODO should probably pass id and public key through postmessage vs the url
@@ -85,8 +91,11 @@
 
 <main class="flex flex-col items-start p-2">
     <h1 class="text-2xl mb-2">Site B</h1>
-    <h2>{$deployee}</h2>
-    <br />
+    {#if $deployee && $id}
+        <p>{$deployee}</p>
+        <p>{hash(base64url.toBuffer($id)).toString('base64')}</p>
+        <br />
+    {/if}
     {#if $deployee}
         <button
             class="bg-indigo-600 text-white px-2 py-1 rounded"
@@ -94,8 +103,12 @@
         >
     {:else}
         <button
-            class="bg-indigo-600 text-white px-2 py-1 rounded"
-            on:click={openPage}>+ Create signer</button
+            class="bg-indigo-600 text-white px-2 py-1 rounded mb-2"
+            on:click={() => openPage()}>+ Register new signer</button
+        >
+        <button
+            class="bg-slate-600 text-white px-2 py-1 rounded mb-2"
+            on:click={() => openPage('signin')}>+ Connect existing signer</button
         >
     {/if}
 </main>

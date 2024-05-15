@@ -2,23 +2,33 @@ import * as CBOR from 'cbor-x/decode'
 import base64url from 'base64url';
 import { bufToBigint, bigintToBuf } from 'bigint-conversion'
 import { hash } from '@stellar/stellar-sdk';
+import type { AuthenticationResponseJSON, RegistrationResponseJSON } from '@simplewebauthn/types';
 
-export async function getPublicKeys(registration: any) {
-    const id = hash(base64url.toBuffer(registration.id))
+export async function getPublicKeys(value: RegistrationResponseJSON | AuthenticationResponseJSON) {
+    const id = hash(base64url.toBuffer(value.id))
 
-    console.log(JSON.stringify(registration, null, 2));
+    console.log(JSON.stringify(value, null, 2));
 
-    const { publicKeyObject } = getPublicKeyObject(registration.response.attestationObject);
-    const publicKey = Buffer.from([
-        4, // (0x04 prefix) https://en.bitcoin.it/wiki/Elliptic_Curve_Digital_Signature_Algorithm
-        ...publicKeyObject.get('-2')!,
-        ...publicKeyObject.get('-3')!
-    ])
+    let publicKey: Buffer | undefined
+
+    if (isAuthentication(value)) {
+        const { publicKeyObject } = getPublicKeyObject(value.response.attestationObject);
+        
+        publicKey = Buffer.from([
+            4, // (0x04 prefix) https://en.bitcoin.it/wiki/Elliptic_Curve_Digital_Signature_Algorithm
+            ...publicKeyObject.get('-2')!,
+            ...publicKeyObject.get('-3')!
+        ])
+    }
 
     return {
         id,
         publicKey
     }
+}
+
+function isAuthentication(value: any): value is RegistrationResponseJSON {
+    return value?.response?.attestationObject;
 }
 
 function getPublicKeyObject(attestationObject: string) {

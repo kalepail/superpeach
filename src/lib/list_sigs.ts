@@ -29,7 +29,7 @@ export async function list_sigs() {
         let res: Uint8Array[] = scValToNative(simResp.result?.retval!)
 
         return res.map((sig) => {
-            return base64url(Buffer.from(sig))
+            return Buffer.from(sig).toString('base64')
         })
     }
 }
