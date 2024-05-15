@@ -37,11 +37,11 @@ If you fiddle with contracts in `./contracts` you'll need to run the make comman
 - [ ] Add loading indicators
 - [ ] Error handling
 - [ ] Think about a reverse lookup mechanic for instances where you start with a child account that needs to sign into a super account
-    Contract meta?
-    Storage items?
-    Contract hash or address derivation?
-    Deploy lookup contracts?
-    Stellar toml?
+    - Contract meta?
+    - Storage items?
+    - Contract hash or address derivation?
+    - Deploy lookup contracts?
+    - Stellar toml?
 
 ## Done
 - [x] Show contract account balance
