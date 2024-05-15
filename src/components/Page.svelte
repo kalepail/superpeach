@@ -16,7 +16,7 @@
     let sigs: string[] = [];
     let balance: number = 0;
 
-    $: idParsed = hash(base64url.toBuffer($id)).toString("base64")
+    $: idParsed = $id ? hash(base64url.toBuffer($id)).toString("base64") : undefined
 
     onMount(async () => {
         await onGetBalance();
