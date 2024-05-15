@@ -16,7 +16,13 @@ export async function handleDeploy(bundlerKey: Keypair, contractSalt: Buffer, pu
 
     // This is a signup deploy vs a signin deploy. Look up if this contract has been already been deployed, otherwise fail
     if (!publicKey) {
-        await rpc.getContractData(deployee, xdr.ScVal.scvLedgerKeyContractInstance())
+        try {
+            await rpc.getContractData(deployee, xdr.ScVal.scvLedgerKeyContractInstance())
+        } catch (err: any) {
+            alert(err.message);
+            throw err
+        }
+
         return deployee
     }
 

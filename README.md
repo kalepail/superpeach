@@ -3,12 +3,10 @@
 A passkey powered multi signer abstract account contract example.
 
 ## Todo
-- [] Allow signers to be deleted
 - [] Signer list should be paginated
 - [] Attach some meaningful metadata to signers so you know which one belongs to which domain
 - [] Add loading indicators
 - [] Error handling
-- [] Add logout buttons
 - [] Think about a reverse lookup mechanic for instances where you start with a child account that needs to sign into a super account
     Contract meta?
     Storage items?
@@ -22,6 +20,9 @@ A passkey powered multi signer abstract account contract example.
 - [x] Add ability to sign in on child pages
 - [x] Test on mobile browsers (only works once deployed, something about localhost/ips doesn't work)
 - [x] Mechanic for listing out all an account's signers
+- [x] Allow signers to be deleted
+- [x] Add logout buttons
+- [x] Set and manage sudo signer
 
 ---
 

@@ -38,13 +38,11 @@
         }
     }
 
-    async function openPage(type?: 'signin') {
-        let reg
+    async function openPage(type?: "signin") {
+        let reg;
 
-        if (type === 'signin')
-            reg = await connect();
-        else
-            reg = await register();
+        if (type === "signin") reg = await connect();
+        else reg = await register();
 
         const w = 400;
         const h = 500;
@@ -52,7 +50,7 @@
         const top = window.screenY + (window.outerHeight - h) / 2;
 
         const windowFeatures = `width=${w},height=${h},left=${left},top=${top},resizable=no,scrollbars=no,menubar=no,toolbar=no,location=no,status=no`;
-        
+
         popup = window.open(
             `${to}/add-signer?from=${encodeURIComponent(from)}&id=${reg.id.toString("hex")}&publicKey=${reg.publicKey?.toString("hex")}`,
             "PopupWindow",
@@ -65,7 +63,6 @@
             popup.focus();
         }
     }
-
     async function transfer() {
         const { authTxn, authHash, lastLedger } = await transfer_build();
 
@@ -83,17 +80,35 @@
             userVerification: "discouraged",
         });
 
-        await transfer_send(authTxn, hash(base64url.toBuffer($id)), lastLedger, signRes);
+        await transfer_send(
+            authTxn,
+            hash(base64url.toBuffer($id)),
+            lastLedger,
+            signRes,
+        );
 
         alert("✅ Transfer complete");
+    }
+    async function logout() {
+        localStorage.removeItem("sp:id");
+        localStorage.removeItem("sp:bundler");
+        localStorage.removeItem("sp:deployee");
+        window.location.reload();
     }
 </script>
 
 <main class="flex flex-col items-start p-2">
-    <h1 class="text-2xl mb-2">Site B</h1>
+    <h1 class="text-2xl mb-2 flex items-center">
+        Site B
+        <button
+            class="text-xs uppercase bg-slate-600 rounded text-white px-2 py-1 ml-2"
+            on:click={logout}>Reset</button
+        >
+    </h1>
+
     {#if $deployee && $id}
         <p>{$deployee}</p>
-        <p>{hash(base64url.toBuffer($id)).toString('base64')}</p>
+        <p>{hash(base64url.toBuffer($id)).toString("base64")}</p>
         <br />
     {/if}
     {#if $deployee}
@@ -108,7 +123,8 @@
         >
         <button
             class="bg-slate-600 text-white px-2 py-1 rounded mb-2"
-            on:click={() => openPage('signin')}>+ Connect existing signer</button
+            on:click={() => openPage("signin")}
+            >+ Connect existing signer</button
         >
     {/if}
 </main>

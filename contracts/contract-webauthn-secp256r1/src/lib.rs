@@ -17,18 +17,18 @@ pub struct Contract;
 #[contracterror]
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub enum Error {
-    NotInited = 1,
-    AlreadyInited = 2,
+    NotFound = 1,
+    NotPermitted = 2,
     ClientDataJsonChallengeIncorrect = 3,
     Secp256r1PublicKeyParse = 4,
     Secp256r1SignatureParse = 5,
     Secp256r1VerifyFailed = 6,
     JsonParseError = 7,
-    NotFound = 8,
+    InvalidContext = 8,
 }
 
 const SIGNERS: Symbol = symbol_short!("sigs");
-const SIGNER_NUMBER: Symbol = symbol_short!("sig_num"); // TODO do we need to track this? Especially if we're tracking a Vec of all signers?
+const SUDO_SIGNER: Symbol = symbol_short!("sudo_sig");
 
 #[contractimpl]
 impl Contract {
@@ -44,20 +44,70 @@ impl Contract {
         env.deployer()
             .extend_ttl_for_contract_instance(contract_address.clone(), max_ttl, max_ttl);
     }
+    pub fn resudo(env: Env, id: BytesN<32>) -> Result<(), Error> {
+        env.current_contract_address().require_auth();
+
+        let sigs = env
+            .storage()
+            .instance()
+            .get::<Symbol, Vec<BytesN<32>>>(&SIGNERS)
+            .ok_or(Error::NotFound)?;
+
+        // Ensure the new proposed sudo signer exists
+        match sigs.binary_search(&id) {
+            Ok(_) => env.storage().instance().set(&SUDO_SIGNER, &id),
+            Err(_) => return Err(Error::NotFound),
+        };
+
+        Self::extend_ttl(env);
+
+        Ok(())
+    }
+    pub fn rm_sig(env: Env, id: BytesN<32>) -> Result<(), Error> {
+        // Don't delete the sudo signer
+        if id
+            == env
+                .storage()
+                .instance()
+                .get::<Symbol, BytesN<32>>(&SUDO_SIGNER)
+                .ok_or(Error::NotFound)?
+        {
+            return Err(Error::NotPermitted);
+        }
+
+        env.current_contract_address().require_auth();
+
+        let mut sigs = env
+            .storage()
+            .instance()
+            .get::<Symbol, Vec<BytesN<32>>>(&SIGNERS)
+            .ok_or(Error::NotFound)?;
+
+        match sigs.binary_search(id) {
+            Ok(i) => {
+                sigs.remove(i);
+                env.storage().instance().set(&SIGNERS, &sigs);
+            }
+            Err(_) => return Err(Error::NotFound),
+        };
+
+        Self::extend_ttl(env);
+
+        Ok(())
+    }
     pub fn add_sig(env: Env, id: BytesN<32>, pk: BytesN<65>) -> Result<(), Error> {
-        if env.storage().instance().has(&SIGNER_NUMBER) {
-            env.current_contract_address().require_auth(); // TODO this auth should enforce the original "deploy" signer to sign so other child signers can't add signers
+        if env.storage().instance().has(&SUDO_SIGNER) {
+            env.current_contract_address().require_auth();
+        }
+        // initialize the passkey account with a sudo signer
+        else {
+            env.storage().instance().set(&SUDO_SIGNER, &id);
         }
 
         let max_ttl = env.storage().max_ttl();
 
         env.storage().persistent().set(&id, &pk);
         env.storage().persistent().extend_ttl(&id, max_ttl, max_ttl);
-
-        env.storage().instance().set(
-            &SIGNER_NUMBER,
-            &(env.storage().instance().get(&SIGNER_NUMBER).unwrap_or(0) + 1),
-        );
 
         let mut sigs = env
             .storage()
@@ -74,8 +124,7 @@ impl Contract {
         Ok(())
     }
     pub fn list_sigs(env: Env) -> Vec<BytesN<32>> {
-        env
-            .storage()
+        env.storage()
             .instance()
             .get::<Symbol, Vec<BytesN<32>>>(&SIGNERS)
             .unwrap_or(Vec::new(&env))
@@ -105,8 +154,32 @@ impl CustomAccountInterface for Contract {
         env: Env,
         signature_payload: Hash<32>,
         signature: Signature,
-        _auth_contexts: Vec<Context>,
+        auth_contexts: Vec<Context>,
     ) -> Result<(), Error> {
+        // Only the sudo signer can `add_sig`, `rm_sig` and `resudo`
+        for context in auth_contexts.iter() {
+            match context {
+                Context::Contract(c) => {
+                    if c.contract == env.current_contract_address()
+                        && (c.fn_name == Symbol::new(&env, "add_sig")
+                            || c.fn_name == Symbol::new(&env, "rm_sig")
+                            || c.fn_name == Symbol::new(&env, "resudo"))
+                    {
+                        if signature.id
+                            != env
+                                .storage()
+                                .instance()
+                                .get::<Symbol, BytesN<32>>(&SUDO_SIGNER)
+                                .ok_or(Error::NotFound)?
+                        {
+                            return Err(Error::NotPermitted);
+                        }
+                    }
+                }
+                Context::CreateContractHostFn(_) => return Err(Error::InvalidContext),
+            };
+        }
+
         // Verify that the public key produced the signature.
         let pk = env
             .storage()
@@ -139,6 +212,11 @@ impl CustomAccountInterface for Contract {
         if client_data.challenge.as_bytes() != expected_challenge {
             return Err(Error::ClientDataJsonChallengeIncorrect);
         }
+
+        let max_ttl = env.storage().max_ttl();
+        env.storage()
+            .persistent()
+            .extend_ttl(&signature.id, max_ttl, max_ttl);
 
         Self::extend_ttl(env);
 

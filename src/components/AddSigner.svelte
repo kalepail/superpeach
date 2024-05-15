@@ -45,11 +45,12 @@
             );
         } else {
             const rpc = new SorobanRpc.Server(import.meta.env.PUBLIC_rpcUrl);
-            // await rpc.getContractData($deployee, xdr.ScVal.scvLedgerKeyContractInstance())
+
             try {
                 await rpc.getContractData($deployee, xdr.ScVal.scvBytes(signerId))
             } catch (err: any) {
-                return alert(err.message);
+                alert(err.message);
+                throw err
             }
         }
 
