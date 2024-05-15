@@ -7,6 +7,7 @@ interface ImportMetaEnv {
     readonly PUBLIC_accountSecp256r1ContractWasm: string;
     readonly PUBLIC_rpcUrl: string;
     readonly PUBLIC_horizonUrl: string;
+    readonly PUBLIC_superpeachUrl: string;
 }
 
 interface ImportMeta {

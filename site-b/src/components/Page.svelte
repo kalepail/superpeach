@@ -15,7 +15,7 @@
 
     let popup: Window | null;
 
-    const to = "http://localhost:4321"; // TODO this needs to be an env variable
+    const to = import.meta.env.PUBLIC_superpeachUrl;
     const from = location.origin;
 
     onDestroy(() => {
