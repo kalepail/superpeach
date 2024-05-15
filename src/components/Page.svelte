@@ -64,7 +64,7 @@
 
         await remove_sig_send(
             authTxn,
-            Buffer.from(idParsed, 'base64'),
+            Buffer.from(idParsed!, 'base64'),
             lastLedger,
             signRes,
         );
