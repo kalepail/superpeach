@@ -54,10 +54,11 @@ impl Contract {
             .ok_or(Error::NotFound)?;
 
         // Ensure the new proposed sudo signer exists
-        match sigs.binary_search(&id) {
-            Ok(_) => env.storage().instance().set(&SUDO_SIGNER, &id),
-            Err(_) => return Err(Error::NotFound),
-        };
+        if sigs.contains(&id) {
+            env.storage().instance().set(&SUDO_SIGNER, &id);
+        } else {
+            return Err(Error::NotFound);
+        }
 
         Self::extend_ttl(env);
 
@@ -83,10 +84,11 @@ impl Contract {
             .get::<Symbol, Vec<BytesN<32>>>(&SIGNERS)
             .ok_or(Error::NotFound)?;
 
-        match sigs.binary_search(id) {
+        match sigs.binary_search(&id) {
             Ok(i) => {
                 sigs.remove(i);
                 env.storage().instance().set(&SIGNERS, &sigs);
+                env.storage().persistent().remove(&id);
             }
             Err(_) => return Err(Error::NotFound),
         };
@@ -115,9 +117,13 @@ impl Contract {
             .get::<Symbol, Vec<BytesN<32>>>(&SIGNERS)
             .unwrap_or(Vec::new(&env));
 
-        sigs.push_back(id);
-
-        env.storage().instance().set(&SIGNERS, &sigs);
+        match sigs.binary_search(&id) {
+            Ok(_) => return Err(Error::NotPermitted), // don't allow dupes
+            Err(i) => {
+                sigs.insert(i, id);
+                env.storage().instance().set(&SIGNERS, &sigs);
+            }
+        };
 
         Self::extend_ttl(env);
 
