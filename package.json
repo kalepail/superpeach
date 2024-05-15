@@ -1,0 +1,31 @@
+{
+  "name": "superpeach",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev --host",
+    "start": "astro dev --host",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.6.0",
+    "@astrojs/svelte": "^5.4.0",
+    "@astrojs/tailwind": "^5.1.0",
+    "@simplewebauthn/browser": "^10.0.0",
+    "@stellar/stellar-sdk": "12.0.0-rc.2",
+    "astro": "^4.8.3",
+    "base64url": "^3.0.1",
+    "bigint-conversion": "^2.4.3",
+    "cbor-x": "^1.5.9",
+    "svelte": "^4.2.16",
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.11",
+    "@vitejs/plugin-basic-ssl": "^1.1.0",
+    "vite-plugin-node-polyfills": "^0.21.0"
+  }
+}

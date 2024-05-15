@@ -1,0 +1,8 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AddSigner from '../../components/AddSigner.svelte';
+---
+
+<Layout title="Welcome to Astro.">
+	<AddSigner client:only="svelte" />
+</Layout>
