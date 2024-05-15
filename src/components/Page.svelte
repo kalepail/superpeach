@@ -14,8 +14,8 @@
     let balance: number = 0;
 
     onMount(async () => {
-        onGetBalance();
-        onListSigs();
+        await onGetBalance();
+        await onListSigs();
     });
 
     async function onGetBalance() {
@@ -40,8 +40,6 @@
         await onGetBalance();
         await onListSigs();
     }
-
-    // TODO add a logout button
 </script>
 
 <main class="flex flex-col items-start p-2">

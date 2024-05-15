@@ -8,6 +8,7 @@ A passkey powered multi signer abstract account contract example.
 - [] Attach some meaningful metadata to signers so you know which one belongs to which domain
 - [] Add loading indicators
 - [] Error handling
+- [] Add logout buttons
 - [] Think about a reverse lookup mechanic for instances where you start with a child account that needs to sign into a super account
     Contract meta?
     Storage items?
