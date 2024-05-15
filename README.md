@@ -2,6 +2,30 @@
 
 A passkey powered multi signer abstract account contract example.
 
+```
+mv .env.example .env
+pnpm i
+pnpm run dev
+```
+
+```
+cd site-a/
+mv .env.example .env
+pnpm i
+pnpm run dev
+```
+
+```
+cd site-b/
+mv .env.example .env
+pnpm i
+pnpm run dev
+```
+
+If you fiddle with contracts in `./contracts` you'll need to run the make commands. Just remember to update the `WEBAUTHN_FACTORY` and `WEBAUTHN_WASM` values from the `make deploy` command before running `make init`. Once you run `make init` you'll need to update all the `.env` site files with the new `PUBLIC_factoryContractId`. 
+
+---
+
 ## Todo
 - [] Signer list should be paginated
 - [] Attach some meaningful metadata to signers so you know which one belongs to which domain
@@ -23,7 +47,3 @@ A passkey powered multi signer abstract account contract example.
 - [x] Allow signers to be deleted
 - [x] Add logout buttons
 - [x] Set and manage sudo signer
-
----
-
-Part of generating and adding new signers could be attaching specific policies to each signer
