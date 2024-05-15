@@ -4,7 +4,7 @@ import { getPublicKeys } from './webauthn'
 import { id } from "./id";
 
 export async function register() {
-    const user = `Mini Peach A ${formatDate()}`
+    const user = `Mini Peach B ${formatDate()}`
 
     const res = await WebAuthn.startRegistration({
         challenge: base64url("createchallenge"),
