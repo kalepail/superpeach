@@ -12,13 +12,18 @@
     import * as WebAuthn from "@simplewebauthn/browser";
     import { remove_sig_build } from "../lib/remove_sig_build";
     import { remove_sig_send } from "../lib/remove_sig_send";
+    import { setBundlerKey } from "../lib/bundler";
 
     let sigs: string[] = [];
     let balance: number = 0;
+    let idParsed: string;
 
-    $: idParsed = $id ? hash(base64url.toBuffer($id)).toString("base64") : undefined
+    id.subscribe(async (val) => {
+        idParsed = hash(base64url.toBuffer(val)).toString("base64")
+    })
 
     onMount(async () => {
+        await setBundlerKey()
         await onGetBalance();
         await onListSigs();
     });

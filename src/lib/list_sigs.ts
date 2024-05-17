@@ -2,7 +2,6 @@ import { get } from "svelte/store";
 import { deployee } from "./deployee";
 import { Operation, TransactionBuilder, Account, SorobanRpc, scValToNative } from "@stellar/stellar-sdk";
 import { bundlerKey } from "./bundler";
-import base64url from "base64url";
 
 export async function list_sigs() {
     const op = Operation.invokeContractFunction({

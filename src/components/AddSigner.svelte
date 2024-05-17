@@ -10,6 +10,7 @@
     import { fund } from "../lib/fund";
     import { connect } from "../lib/connect";
     import { onMount } from "svelte";
+    import { setBundlerKey } from "../lib/bundler";
 
     let url: URL
     let params: URLSearchParams
@@ -17,12 +18,14 @@
     let signerId: Buffer
     let signerPublicKey: Buffer
 
-    onMount(() => {
+    onMount(async () => {
         url = new URL(window.location.href);
         params = new URLSearchParams(url.search);
         origin = decodeURIComponent(params.get("from")!);
         signerId = Buffer.from(params.get("id")!, "hex");
         signerPublicKey = Buffer.from(params.get("publicKey")!, "hex");
+
+        await setBundlerKey()
     });
 
     // const url = new URL(window.location.href);
