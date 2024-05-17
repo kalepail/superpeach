@@ -22,7 +22,7 @@ export async function register() {
         },
         authenticatorSelection: {
             requireResidentKey: false,
-            residentKey: "discouraged",
+            residentKey: "preferred",
             userVerification: "discouraged",
         },
         pubKeyCredParams: [{ alg: -7, type: "public-key" }],
