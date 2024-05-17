@@ -10,23 +10,23 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.6.0",
+    "@astrojs/check": "^0.7.0",
     "@astrojs/cloudflare": "^10.2.6",
     "@astrojs/svelte": "^5.4.0",
     "@astrojs/tailwind": "^5.1.0",
     "@simplewebauthn/browser": "^10.0.0",
-    "@stellar/stellar-sdk": "12.0.0-rc.2",
-    "astro": "^4.8.3",
+    "@stellar/stellar-sdk": "12.0.0-rc.3",
+    "astro": "^4.8.5",
     "base64url": "^3.0.1",
     "bigint-conversion": "^2.4.3",
     "cbor-x": "^1.5.9",
-    "svelte": "^4.2.16",
+    "svelte": "^4.2.17",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.5"
   },
   "devDependencies": {
     "@simplewebauthn/types": "^10.0.0",
-    "@types/node": "^20.12.11",
+    "@types/node": "^20.12.12",
     "vite-plugin-node-polyfills": "^0.21.0"
   }
 }
