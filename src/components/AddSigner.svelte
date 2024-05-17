@@ -94,7 +94,7 @@
 <main class="flex flex-col items-start p-2">
     <h1 class="text-2xl mb-2">Add Signer</h1>
 
-    {#if $deployee}
+    {#if $deployee && signerId}
         <p>{$deployee}</p>
         <p>{signerId.toString('base64')}</p>
         <br />
