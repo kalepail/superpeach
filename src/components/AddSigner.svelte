@@ -9,12 +9,27 @@
     import { register } from "../lib/register";
     import { fund } from "../lib/fund";
     import { connect } from "../lib/connect";
+    import { onMount } from "svelte";
 
-    const url = new URL(window.location.href);
-    const params = new URLSearchParams(url.search);
-    const origin = decodeURIComponent(params.get("from")!);
-    const signerId = Buffer.from(params.get("id")!, "hex");
-    const signerPublicKey = Buffer.from(params.get("publicKey")!, "hex");
+    let url: URL
+    let params: URLSearchParams
+    let origin: string
+    let signerId: Buffer
+    let signerPublicKey: Buffer
+
+    onMount(() => {
+        url = new URL(window.location.href);
+        params = new URLSearchParams(url.search);
+        origin = decodeURIComponent(params.get("from")!);
+        signerId = Buffer.from(params.get("id")!, "hex");
+        signerPublicKey = Buffer.from(params.get("publicKey")!, "hex");
+    });
+
+    // const url = new URL(window.location.href);
+    // const params = new URLSearchParams(url.search);
+    // const origin = decodeURIComponent(params.get("from")!);
+    // const signerId = Buffer.from(params.get("id")!, "hex");
+    // const signerPublicKey = Buffer.from(params.get("publicKey")!, "hex");
 
     async function add_signer() {
         if (signerPublicKey.length) {
