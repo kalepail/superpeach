@@ -126,6 +126,18 @@
             {/each}
         </ul>
         <br />
+        <p>Sites</p>
+        {#if import.meta.env.DEV}
+            <ul>
+                <li><a class="text-indigo-600 underline" target="_blank" rel="noopener noreferrer" href="http://localhost:4322/">localhost:4322</a></li>
+                <li><a class="text-indigo-600 underline" target="_blank" rel="noopener noreferrer" href="http://localhost:4323/">localhost:4323</a></li>
+            </ul>
+        {:else}
+            <ul>
+                <li><a class="text-indigo-600 underline" target="_blank" rel="noopener noreferrer" href="https://minipeach-a.pages.dev/">minipeach-a.pages.dev</a></li>
+                <li><a class="text-indigo-600 underline" target="_blank" rel="noopener noreferrer" href="https://minipeach-b.pages.dev/">minipeach-b.pages.dev</a></li>
+            </ul>
+        {/if}
     {/if}
 
     {#if !$deployee}
