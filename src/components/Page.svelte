@@ -84,8 +84,8 @@
     }
 </script>
 
-<main class="flex">
-    <div class="flex flex-col items-start py-2 px-5 w-1/2 flex-shrink-0 border-r-2 border-[#424257] min-w-[600px]">
+<main class="flex flex-col lg:flex-row">
+    <div class="flex flex-col items-start py-2 px-5 flex-shrink-0 border-[#424257] order-1 lg:min-w-[600px] lg:w-1/2 lg:border-r-2 lg:order-0">
         <h1 class="mb-2 flex items-center">
             <span class="text-[56px] font-black">Super Peach</span>
             <button
@@ -153,7 +153,7 @@
         {/if}
     </div>
     
-    <div class="w-full h-dvh bg-[url('/meta.webp')] bg-no-repeat bg-center">
+    <div class="h-[128px] w-full bg-[url('/meta.webp')] bg-no-repeat bg-center order-0 lg:order-1 lg:h-dvh">
         <!-- <img src="/meta.webp"> -->
     </div>
 </main>
