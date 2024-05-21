@@ -84,70 +84,76 @@
     }
 </script>
 
-<main class="flex flex-col items-start p-2">
-    <h1 class="text-2xl mb-2 flex items-center">
-        Super Peach
-        <button
-            class="text-xs uppercase bg-slate-600 rounded text-white px-2 py-1 ml-2"
-            on:click={logout}>Reset</button
-        >
-    </h1>
-
-    {#if $deployee && $id}
-        <p>{$deployee}</p>
-        <p>{idParsed}</p>
-        <br />
-        <p>
-            Balance {balance} XLM
+<main class="flex">
+    <div class="flex flex-col items-start py-2 px-5 w-1/2 flex-shrink-0 border-r-2 border-[#424257] min-w-[600px]">
+        <h1 class="mb-2 flex items-center">
+            <span class="text-[56px] font-black">Super Peach</span>
             <button
-                class="text-xs uppercase bg-slate-600 rounded text-white px-2 py-1"
-                on:click={onGetBalance}>Refresh</button
+                class="text-xs uppercase bg-[#566b9b] rounded text-white px-2 py-1 ml-5"
+                on:click={logout}>Reset</button
             >
-        </p>
-        <br />
-        <p>
-            Signers
-            <button
-                class="text-xs uppercase bg-slate-600 rounded text-white px-2 py-1"
-                on:click={onListSigs}>Refresh</button
-            >
-        </p>
-        <ul>
-            {#each sigs as sig}
-                <li>
-                    {sig}
-                    {#if sig !== idParsed}
-                        <button
-                            class="text-xs uppercase bg-rose-600 rounded text-white px-2 py-1"
-                            on:click={() => onRemoveSig(sig)}>Remove</button
-                        >
-                    {/if}
-                </li>
-            {/each}
-        </ul>
-        <br />
-        <p>Sites</p>
-        {#if import.meta.env.DEV}
+        </h1>
+    
+        {#if $deployee && $id}
+            <p>{$deployee}</p>
+            <p>{idParsed}</p>
+            <br />
+            <p>
+                Balance {balance} XLM
+                <button
+                    class="text-xs uppercase bg-[#566b9b] rounded text-white px-2 py-1"
+                    on:click={onGetBalance}>Refresh</button
+                >
+            </p>
+            <br />
+            <p>
+                Signers
+                <button
+                    class="text-xs uppercase bg-[#566b9b] rounded text-white px-2 py-1"
+                    on:click={onListSigs}>Refresh</button
+                >
+            </p>
             <ul>
-                <li><a class="text-indigo-600 underline" target="_blank" rel="noopener noreferrer" href="http://localhost:4322/">localhost:4322</a></li>
-                <li><a class="text-indigo-600 underline" target="_blank" rel="noopener noreferrer" href="http://localhost:4323/">localhost:4323</a></li>
+                {#each sigs as sig}
+                    <li>
+                        {sig}
+                        {#if sig !== idParsed}
+                            <button
+                                class="text-xs uppercase bg-[#ee494e] rounded text-white px-2 py-1"
+                                on:click={() => onRemoveSig(sig)}>Remove</button
+                            >
+                        {/if}
+                    </li>
+                {/each}
             </ul>
-        {:else}
-            <ul>
-                <li><a class="text-indigo-600 underline" target="_blank" rel="noopener noreferrer" href="https://minipeach-a.pages.dev/">minipeach-a.pages.dev</a></li>
-                <li><a class="text-indigo-600 underline" target="_blank" rel="noopener noreferrer" href="https://minipeach-b.pages.dev/">minipeach-b.pages.dev</a></li>
-            </ul>
+            <br />
+            <p>Sites</p>
+            {#if import.meta.env.DEV}
+                <ul>
+                    <li><a class="text-[#ccaff8] underline" target="_blank" rel="noopener noreferrer" href="http://localhost:4322/">localhost:4322</a></li>
+                    <li><a class="text-[#ccaff8] underline" target="_blank" rel="noopener noreferrer" href="http://localhost:4323/">localhost:4323</a></li>
+                </ul>
+            {:else}
+                <ul>
+                    <li><a class="text-[#ccaff8] underline" target="_blank" rel="noopener noreferrer" href="https://minipeach-a.pages.dev/">minipeach-a.pages.dev</a></li>
+                    <li><a class="text-[#ccaff8] underline" target="_blank" rel="noopener noreferrer" href="https://minipeach-b.pages.dev/">minipeach-b.pages.dev</a></li>
+                </ul>
+            {/if}
         {/if}
-    {/if}
-
-    {#if !$deployee}
-        <button
-            class="bg-indigo-600 text-white px-2 py-1 rounded mb-2"
-            on:click={onRegister}>+ Register new super key</button
-        >
-        <button
-            class="bg-slate-600 text-white px-2 py-1 rounded mb-2"
-            on:click={onConnect}>+ Connect existing super key</button
-        >
-    {/if}
+    
+        {#if !$deployee}
+            <button
+                class="bg-[#51ba95] text-white px-2 py-1 rounded mb-2"
+                on:click={onRegister}>+ Register new super key</button
+            >
+            <button
+                class="bg-[#566b9b] text-white px-2 py-1 rounded mb-2"
+                on:click={onConnect}>+ Connect existing super key</button
+            >
+        {/if}
+    </div>
+    
+    <div class="w-full h-dvh bg-[url('/meta.webp')] bg-no-repeat bg-center">
+        <!-- <img src="/meta.webp"> -->
+    </div>
 </main>

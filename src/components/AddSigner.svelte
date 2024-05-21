@@ -101,12 +101,12 @@
 
         {#if signerPublicKey.length}
             <button
-                class="bg-indigo-600 text-white px-2 py-1 rounded"
+                class="bg-[#f27457] text-white px-2 py-1 rounded"
                 on:click={add_signer}>+ Add signer</button
             >
         {:else}
             <button
-                class="bg-slate-600 text-white px-2 py-1 rounded mb-2"
+                class="bg-[#566b9b] text-white px-2 py-1 rounded mb-2"
                 on:click={add_signer}>+ Connect signer</button
             >
         {/if}
@@ -114,11 +114,11 @@
         <p>Register a new or connect an existing super key</p>
         <br />
         <button
-            class="bg-indigo-600 text-white px-2 py-1 rounded mb-2"
+            class="bg-[#51ba95] text-white px-2 py-1 rounded mb-2"
             on:click={onRegister}>+ Register new super key</button
         >
         <button
-            class="bg-slate-600 text-white px-2 py-1 rounded mb-2"
+            class="bg-[#566b9b] text-white px-2 py-1 rounded mb-2"
             on:click={onConnect}>+ Connect existing super key</button
         >
     {/if}

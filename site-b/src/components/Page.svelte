@@ -101,7 +101,7 @@
     <h1 class="text-2xl mb-2 flex items-center">
         Site B
         <button
-            class="text-xs uppercase bg-slate-600 rounded text-white px-2 py-1 ml-2"
+            class="text-xs uppercase bg-[#566b9b] rounded text-white px-2 py-1 ml-2"
             on:click={logout}>Reset</button
         >
     </h1>
@@ -113,16 +113,16 @@
     {/if}
     {#if $deployee}
         <button
-            class="bg-indigo-600 text-white px-2 py-1 rounded"
+            class="bg-[#51ba95] text-white px-2 py-1 rounded"
             on:click={transfer}>Transfer 1 XLM</button
         >
     {:else}
         <button
-            class="bg-indigo-600 text-white px-2 py-1 rounded mb-2"
+            class="bg-[#51ba95] text-white px-2 py-1 rounded mb-2"
             on:click={() => openPage()}>+ Register new signer</button
         >
         <button
-            class="bg-slate-600 text-white px-2 py-1 rounded mb-2"
+            class="bg-[#566b9b] text-white px-2 py-1 rounded mb-2"
             on:click={() => openPage("signin")}
             >+ Connect existing signer</button
         >
