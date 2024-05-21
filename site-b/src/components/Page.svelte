@@ -98,10 +98,10 @@
 </script>
 
 <main class="flex flex-col items-start p-2">
-    <h1 class="text-2xl mb-2 flex items-center">
-        Site B
+    <h1 class="mb-2 flex items-center">
+        <span class="text-[56px] font-black">Site B</span>
         <button
-            class="text-xs uppercase bg-[#566b9b] rounded text-white px-2 py-1 ml-2"
+            class="text-xs uppercase bg-[#566b9b] rounded text-white px-2 py-1 ml-5"
             on:click={logout}>Reset</button
         >
     </h1>
