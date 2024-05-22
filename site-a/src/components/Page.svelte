@@ -97,7 +97,7 @@
     }
 </script>
 
-<main class="flex flex-col items-start p-2">
+<main class="flex flex-col items-start py-2 px-5">
     <h1 class="mb-2 flex items-center">
         <span class="text-[56px] font-black">Site A</span>
         <button
