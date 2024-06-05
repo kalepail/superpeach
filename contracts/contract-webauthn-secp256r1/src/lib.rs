@@ -4,8 +4,12 @@ use soroban_sdk::{
     auth::{Context, CustomAccountInterface},
     contract, contracterror, contractimpl, contracttype,
     crypto::Hash,
-    symbol_short, Bytes, BytesN, Env, Symbol, Vec,
+    symbol_short, vec, Address, Bytes, BytesN, Env, Symbol, Vec,
 };
+
+// TODO should we store user friendly names anywhere here? It's a little oof as it increases size and there's nothing stopping a user from changing the name outside the contract thereby causing confusion
+// It is tough to know what contract signer maps to what passkey though frfr
+// We could maybe store unhashed passkey ids as Strings or unbound Bytes arrays
 
 mod base64_url;
 
@@ -25,14 +29,17 @@ pub enum Error {
     Secp256r1VerifyFailed = 6,
     JsonParseError = 7,
     InvalidContext = 8,
+    AlreadyInited = 9,
+    NotInited = 10,
 }
 
 const SIGNERS: Symbol = symbol_short!("sigs");
+const FACTORY: Symbol = symbol_short!("factory");
 const SUDO_SIGNER: Symbol = symbol_short!("sudo_sig");
 
 #[contractimpl]
 impl Contract {
-    pub fn extend_ttl(env: Env) {
+    pub fn extend_ttl(env: &Env) {
         let max_ttl = env.storage().max_ttl();
         let contract_address = env.current_contract_address();
 
@@ -44,13 +51,31 @@ impl Contract {
         env.deployer()
             .extend_ttl_for_contract_instance(contract_address.clone(), max_ttl, max_ttl);
     }
-    pub fn resudo(env: Env, id: BytesN<32>) -> Result<(), Error> {
+    pub fn init(env: Env, id: Bytes, pk: BytesN<65>, factory: Address) -> Result<(), Error> {
+        if env.storage().instance().has(&SUDO_SIGNER) {
+            return Err(Error::AlreadyInited);
+        }
+
+        let max_ttl = env.storage().max_ttl();
+
+        env.storage().persistent().set(&id, &pk);
+        env.storage().persistent().extend_ttl(&id, max_ttl, max_ttl);
+
+        env.storage().instance().set(&SUDO_SIGNER, &id);
+        env.storage().instance().set(&FACTORY, &factory);
+        env.storage().instance().set(&SIGNERS, &vec![&env, id]);
+
+        Self::extend_ttl(&env);
+
+        Ok(())
+    }
+    pub fn resudo(env: Env, id: Bytes) -> Result<(), Error> {
         env.current_contract_address().require_auth();
 
         let sigs = env
             .storage()
             .instance()
-            .get::<Symbol, Vec<BytesN<32>>>(&SIGNERS)
+            .get::<Symbol, Vec<Bytes>>(&SIGNERS)
             .ok_or(Error::NotFound)?;
 
         // Ensure the new proposed sudo signer exists
@@ -60,17 +85,17 @@ impl Contract {
             return Err(Error::NotFound);
         }
 
-        Self::extend_ttl(env);
+        Self::extend_ttl(&env);
 
         Ok(())
     }
-    pub fn rm_sig(env: Env, id: BytesN<32>) -> Result<(), Error> {
+    pub fn rm_sig(env: Env, id: Bytes) -> Result<(), Error> {
         // Don't delete the sudo signer
         if id
             == env
                 .storage()
                 .instance()
-                .get::<Symbol, BytesN<32>>(&SUDO_SIGNER)
+                .get::<Symbol, Bytes>(&SUDO_SIGNER)
                 .ok_or(Error::NotFound)?
         {
             return Err(Error::NotPermitted);
@@ -78,10 +103,22 @@ impl Contract {
 
         env.current_contract_address().require_auth();
 
+        let factory = env
+            .storage()
+            .instance()
+            .get::<Symbol, Address>(&FACTORY)
+            .ok_or(Error::NotInited)?;
+
+        let () = env.invoke_contract(
+            &factory,
+            &symbol_short!("rm_sig"),
+            vec![&env, id.to_val(), env.current_contract_address().to_val()],
+        );
+
         let mut sigs = env
             .storage()
             .instance()
-            .get::<Symbol, Vec<BytesN<32>>>(&SIGNERS)
+            .get::<Symbol, Vec<Bytes>>(&SIGNERS)
             .ok_or(Error::NotFound)?;
 
         match sigs.binary_search(&id) {
@@ -93,18 +130,31 @@ impl Contract {
             Err(_) => return Err(Error::NotFound),
         };
 
-        Self::extend_ttl(env);
+        Self::extend_ttl(&env);
 
         Ok(())
     }
-    pub fn add_sig(env: Env, id: BytesN<32>, pk: BytesN<65>) -> Result<(), Error> {
-        if env.storage().instance().has(&SUDO_SIGNER) {
-            env.current_contract_address().require_auth();
+    pub fn add_sig(env: Env, id: Bytes, pk: BytesN<65>) -> Result<(), Error> {
+        // TODO should we be verifying a signature of the new key here to ensure the new signer is actually owned?
+        // I could see a potential attack vector where an app adds a signature that is in fact _not_ the passkey
+        // Which I guess the malicious app could also pass in a valid signature along with their own signing key
+        if !env.storage().instance().has(&SUDO_SIGNER) {
+            return Err(Error::NotInited);
         }
-        // initialize the passkey account with a sudo signer
-        else {
-            env.storage().instance().set(&SUDO_SIGNER, &id);
-        }
+
+        env.current_contract_address().require_auth();
+
+        let factory = env
+            .storage()
+            .instance()
+            .get::<Symbol, Address>(&FACTORY)
+            .ok_or(Error::NotInited)?;
+
+        let () = env.invoke_contract(
+            &factory,
+            &symbol_short!("add_sig"),
+            vec![&env, id.to_val(), env.current_contract_address().to_val()],
+        );
 
         let max_ttl = env.storage().max_ttl();
 
@@ -114,7 +164,7 @@ impl Contract {
         let mut sigs = env
             .storage()
             .instance()
-            .get::<Symbol, Vec<BytesN<32>>>(&SIGNERS)
+            .get::<Symbol, Vec<Bytes>>(&SIGNERS)
             .unwrap_or(Vec::new(&env));
 
         match sigs.binary_search(&id) {
@@ -125,21 +175,15 @@ impl Contract {
             }
         };
 
-        Self::extend_ttl(env);
+        Self::extend_ttl(&env);
 
         Ok(())
-    }
-    pub fn list_sigs(env: Env) -> Vec<BytesN<32>> {
-        env.storage()
-            .instance()
-            .get::<Symbol, Vec<BytesN<32>>>(&SIGNERS)
-            .unwrap_or(Vec::new(&env))
     }
 }
 
 #[contracttype]
 pub struct Signature {
-    pub id: BytesN<32>,
+    pub id: Bytes,
     pub authenticator_data: Bytes,
     pub client_data_json: Bytes,
     pub signature: BytesN<64>,
@@ -175,7 +219,7 @@ impl CustomAccountInterface for Contract {
                             != env
                                 .storage()
                                 .instance()
-                                .get::<Symbol, BytesN<32>>(&SUDO_SIGNER)
+                                .get::<Symbol, Bytes>(&SUDO_SIGNER)
                                 .ok_or(Error::NotFound)?
                         {
                             return Err(Error::NotPermitted);
@@ -224,7 +268,7 @@ impl CustomAccountInterface for Contract {
             .persistent()
             .extend_ttl(&signature.id, max_ttl, max_ttl);
 
-        Self::extend_ttl(env);
+        Self::extend_ttl(&env);
 
         Ok(())
     }

@@ -1,6 +1,6 @@
 #![cfg(test)]
 
-use soroban_sdk::{testutils::BytesN as _, BytesN, Env};
+use soroban_sdk::{testutils::BytesN as _, Bytes, BytesN, Env};
 
 mod factory {
     soroban_sdk::contractimport!(file = "../out/webauthn_factory.optimized.wasm");
@@ -8,7 +8,6 @@ mod factory {
 
 mod passkey {
     use soroban_sdk::auth::Context;
-
     soroban_sdk::contractimport!(file = "../out/webauthn_account_secp256r1.optimized.wasm");
 }
 
@@ -25,7 +24,8 @@ fn test() {
 
     factory_client.init(&passkkey_hash);
 
-    let salt: BytesN<32> = BytesN::random(&env);
+    let items: [u8; 32] = env.prng().gen();
+    let salt = Bytes::from_array(&env, &items);
     let pk: BytesN<65> = BytesN::random(&env);
 
     let deployee_address = factory_client.deploy(&salt, &pk);
