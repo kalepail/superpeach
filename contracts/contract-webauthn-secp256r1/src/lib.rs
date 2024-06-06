@@ -7,9 +7,15 @@ use soroban_sdk::{
     symbol_short, vec, Address, Bytes, BytesN, Env, Symbol, Vec,
 };
 
-// TODO should we store user friendly names anywhere here? It's a little oof as it increases size and there's nothing stopping a user from changing the name outside the contract thereby causing confusion
-// It is tough to know what contract signer maps to what passkey though frfr
-// We could maybe store unhashed passkey ids as Strings or unbound Bytes arrays
+/* TODO
+    - Should we store user friendly names anywhere here?
+        It's a little oof as it increases size and there's nothing stopping a user from changing the name outside the contract thereby causing confusion
+        If we track the key ids vs hashes of key ids we could always have a client lookup key info client side
+        @No
+    - It is tough to know what contract signer maps to what passkey though frfr
+        We could maybe store unhashed passkey ids as Strings or unbound Bytes arrays
+        @Done
+*/
 
 mod base64_url;
 
@@ -21,16 +27,16 @@ pub struct Contract;
 #[contracterror]
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub enum Error {
-    NotFound = 1,
-    NotPermitted = 2,
-    ClientDataJsonChallengeIncorrect = 3,
-    Secp256r1PublicKeyParse = 4,
-    Secp256r1SignatureParse = 5,
-    Secp256r1VerifyFailed = 6,
-    JsonParseError = 7,
-    InvalidContext = 8,
-    AlreadyInited = 9,
-    NotInited = 10,
+    NotInited = 1,
+    NotFound = 2,
+    NotPermitted = 3,
+    AlreadyInited = 4,
+    JsonParseError = 5,
+    InvalidContext = 6,
+    ClientDataJsonChallengeIncorrect = 7,
+    Secp256r1PublicKeyParse = 8,
+    Secp256r1SignatureParse = 9,
+    Secp256r1VerifyFailed = 10,
 }
 
 const SIGNERS: Symbol = symbol_short!("sigs");
@@ -80,7 +86,10 @@ impl Contract {
 
         // Ensure the new proposed sudo signer exists
         if sigs.contains(&id) {
+            let max_ttl = env.storage().max_ttl();
+
             env.storage().instance().set(&SUDO_SIGNER, &id);
+            env.storage().persistent().extend_ttl(&id, max_ttl, max_ttl);
         } else {
             return Err(Error::NotFound);
         }
@@ -91,12 +100,12 @@ impl Contract {
     }
     pub fn rm_sig(env: Env, id: Bytes) -> Result<(), Error> {
         // Don't delete the sudo signer
-        if id
-            == env
-                .storage()
-                .instance()
-                .get::<Symbol, Bytes>(&SUDO_SIGNER)
-                .ok_or(Error::NotFound)?
+        if env
+            .storage()
+            .instance()
+            .get::<Symbol, Bytes>(&SUDO_SIGNER)
+            .ok_or(Error::NotFound)?
+            == id
         {
             return Err(Error::NotPermitted);
         }
@@ -135,9 +144,13 @@ impl Contract {
         Ok(())
     }
     pub fn add_sig(env: Env, id: Bytes, pk: BytesN<65>) -> Result<(), Error> {
-        // TODO should we be verifying a signature of the new key here to ensure the new signer is actually owned?
-        // I could see a potential attack vector where an app adds a signature that is in fact _not_ the passkey
-        // Which I guess the malicious app could also pass in a valid signature along with their own signing key
+        /* TODO
+            - Should we be verifying a signature of the new key here to ensure the new signer is actually owned?
+                Not really concerned about this as I don't see what the impact significance of this is or what ensuring ownership would protect against
+                @No
+            - Add the ability to add additional sudo signers. Currently too much rides on one single key
+        */
+
         if !env.storage().instance().has(&SUDO_SIGNER) {
             return Err(Error::NotInited);
         }

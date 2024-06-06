@@ -25,11 +25,11 @@ fn test() {
     factory_client.init(&passkkey_hash);
 
     let items: [u8; 32] = env.prng().gen();
-    let salt = Bytes::from_array(&env, &items);
+    let id = Bytes::from_array(&env, &items);
     let pk: BytesN<65> = BytesN::random(&env);
 
-    let deployee_address = factory_client.deploy(&salt, &pk);
+    let deployee_address = factory_client.deploy(&id, &pk);
     let deployee_client = passkey::Client::new(&env, &deployee_address);
 
-    deployee_client.add_sig(&salt, &pk);
+    deployee_client.add_sig(&id, &pk);
 }
