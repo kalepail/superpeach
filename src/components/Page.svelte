@@ -29,14 +29,14 @@
     });
 
     async function onRegister() {
-        await register(account, $keyId, $contractId);
+        await register(account);
         await fund(account, $contractId);
 
         await onGetBalance();
         await onGetData();
     }
     async function onConnect() {
-        await connect(account, $keyId, $contractId);
+        await connect(account);
 
         await onGetBalance();
         await onGetData();

@@ -37,7 +37,7 @@
     });
 
     async function onRegister() {
-        await register(account, $keyId, $contractId);
+        await register(account);
         await fund(account, $contractId);
     }
     async function addSigner() {
@@ -105,7 +105,7 @@
         >
         <button
             class="bg-[#566b9b] text-white px-2 py-1 rounded mb-2"
-            on:click={() => connect(account, $keyId, $contractId)}>+ Connect existing super key</button
+            on:click={() => connect(account)}>+ Connect existing super key</button
         >
     {/if}
 </main>

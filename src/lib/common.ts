@@ -29,7 +29,7 @@ export const fundKeypair = new Promise<Keypair>(async (resolve) => {
 })
 export const fundPubkey = (await fundKeypair).publicKey()
 
-export async function register(account: PasskeyAccount, $keyId: string, $contractId: string) {
+export async function register(account: PasskeyAccount) {
     const user = `Super Peach ${formatDate()}`;
     const {
         keyId: kid,
@@ -46,31 +46,35 @@ export async function register(account: PasskeyAccount, $keyId: string, $contrac
 
     await account.send(txn);
 
-    keyId.set(base64url(kid));
-    console.log($keyId);
-    localStorage.setItem("sp:keyId", $keyId);
+    const keyId_base64url = base64url(kid)
+
+    keyId.set(keyId_base64url);
+    console.log(keyId_base64url);
+    localStorage.setItem("sp:keyId", keyId_base64url);
 
     contractId.set(cid);
-    console.log($contractId);
-    localStorage.setItem("sp:contractId", $contractId);
+    console.log(cid);
+    localStorage.setItem("sp:contractId", cid);
 }
-export async function connect(account: PasskeyAccount, $keyId: string, $contractId: string) {
+export async function connect(account: PasskeyAccount) {
     const { keyId: kid, contractId: cid } = await account.connectWallet();
 
-    keyId.set(base64url(kid));
-    console.log($keyId);
-    localStorage.setItem("sp:keyId", $keyId);
+    const keyId_base64url = base64url(kid)
+
+    keyId.set(keyId_base64url);
+    console.log(keyId_base64url);
+    localStorage.setItem("sp:keyId", keyId_base64url);
 
     contractId.set(cid);
-    console.log($contractId);
-    localStorage.setItem("sp:contractId", $contractId);
+    console.log(cid);
+    localStorage.setItem("sp:contractId", cid);
 }
-export async function fund(account: PasskeyAccount, $contractId: string) {
+export async function fund(account: PasskeyAccount, to: string) {
     const txn = await transferSAC({
         SAC: import.meta.env.PUBLIC_nativeContractId,
         source: fundPubkey,
         from: fundPubkey,
-        to: $contractId,
+        to,
         amount: 100 * 10_000_000,
     });
 
