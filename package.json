@@ -15,7 +15,7 @@
     "base64url": "^3.0.1",
     "bigint-conversion": "^2.4.3",
     "cbor-x": "^1.5.9",
-    "passkey-kit": "0.0.23"
+    "passkey-kit": "0.0.28"
   },
   "devDependencies": {
     "@astrojs/check": "^0.7.0",

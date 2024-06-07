@@ -1,71 +1,98 @@
 <script lang="ts">
-    import { deployee } from "../lib/deployee";
-    import { id } from "../lib/id";
-    import { add_signer_build } from "../lib/add_signer_build";
-    import { add_signer_send } from "../lib/add_signer_send";
-    import base64url from "base64url";
-    import * as WebAuthn from "@simplewebauthn/browser";
-    import { SorobanRpc, hash, xdr } from "@stellar/stellar-sdk";
-    import { register } from "../lib/register";
-    import { fund } from "../lib/fund";
-    import { connect } from "../lib/connect";
+    import { contractId } from "../store/contractId";
+    import { keyId } from "../store/keyId";
+    // import { add_signer_build } from "../lib/add_signer_build";
+    // import { add_signer_send } from "../lib/add_signer_send";
+    // import base64url from "base64url";
+    // import * as WebAuthn from "@simplewebauthn/browser";
+    import { Networks, Transaction } from "@stellar/stellar-sdk";
+    // import { register } from "../lib/register";
+    // import { fund } from "../lib/fund";
+    // import { connect } from "../lib/connect";
     import { onMount } from "svelte";
-    import { setBundlerKey } from "../lib/bundler";
+    import { PasskeyAccount } from "passkey-kit";
+    import { fundKeypair, fundPubkey, sequenceKeypair } from "../lib/common";
+    import { formatDate } from "../lib/utils";
+    import base64url from "base64url";
+    import { transferSAC } from "../lib/passkey";
 
     let url: URL
     let params: URLSearchParams
     let origin: string
-    let signerId: Buffer
+    let signerKeyId: Buffer
     let signerPublicKey: Buffer
+
+    const account = new PasskeyAccount({
+        sequencePublicKey: sequenceKeypair.publicKey(),
+        networkPassphrase: import.meta.env.PUBLIC_networkPassphrase as Networks,
+        horizonUrl: import.meta.env.PUBLIC_horizonUrl,
+        rpcUrl: import.meta.env.PUBLIC_rpcUrl,
+        feeBumpUrl: import.meta.env.PUBLIC_feeBumpUrl,
+        feeBumpJwt: import.meta.env.PUBLIC_feeBumpJwt,
+    });
+
+    keyId.subscribe(async (kid) => {
+        if (kid && !account.keyId)
+            await account.connectWallet(kid);
+    });
 
     onMount(async () => {
         url = new URL(window.location.href);
         params = new URLSearchParams(url.search);
-        origin = decodeURIComponent(params.get("from")!);
-        signerId = Buffer.from(params.get("id")!, "hex");
-        signerPublicKey = Buffer.from(params.get("publicKey")!, "hex");
 
-        await setBundlerKey()
+        if (params.size) {
+            origin = decodeURIComponent(params.get("from")!);
+            signerKeyId = Buffer.from(params.get("keyId")!, "hex");
+            signerPublicKey = Buffer.from(params.get("publicKey")!, "hex");
+        }
     });
 
-    // const url = new URL(window.location.href);
-    // const params = new URLSearchParams(url.search);
-    // const origin = decodeURIComponent(params.get("from")!);
-    // const signerId = Buffer.from(params.get("id")!, "hex");
-    // const signerPublicKey = Buffer.from(params.get("publicKey")!, "hex");
-
-    async function add_signer() {
+    async function addSigner() {
         if (signerPublicKey.length) {
-            const { authTxn, authHash, lastLedger } = await add_signer_build(
-                signerId,
-                signerPublicKey,
-            );
+            // const { authTxn, authHash, lastLedger } = await add_signer_build(
+            //     signerId,
+            //     signerPublicKey,
+            // );
 
-            const signRes = await WebAuthn.startAuthentication({
-                challenge: base64url(authHash),
-                // rpId: undefined,
-                allowCredentials: $id
-                    ? [
-                        {
-                            id: $id,
-                            type: "public-key",
-                        },
-                    ]
-                    : undefined,
-                userVerification: "discouraged",
+            // const signRes = await WebAuthn.startAuthentication({
+            //     challenge: base64url(authHash),
+            //     // rpId: undefined,
+            //     allowCredentials: $keyId
+            //         ? [
+            //             {
+            //                 id: $keyId,
+            //                 type: "public-key",
+            //             },
+            //         ]
+            //         : undefined,
+            //     userVerification: "discouraged",
+            // });
+
+            // await add_signer_send(
+            //     authTxn,
+            //     hash(base64url.toBuffer(signRes.id)),
+            //     lastLedger,
+            //     signRes,
+            // );
+
+            const { built } = await account.wallet!.add_sig({
+                id: signerKeyId,
+                pk: signerPublicKey,
             });
 
-            await add_signer_send(
-                authTxn,
-                hash(base64url.toBuffer(signRes.id)),
-                lastLedger,
-                signRes,
-            );
-        } else {
-            const rpc = new SorobanRpc.Server(import.meta.env.PUBLIC_rpcUrl);
+            // xdr to txn funk due to TypeError: XDR Write Error: [object Object] is not a DecoratedSignature
+            const xdr = await account.sign(built!, { keyId: 'sudo' });
+            const txn = new Transaction(xdr, import.meta.env.PUBLIC_networkPassphrase)
 
+            txn.sign(sequenceKeypair);
+
+            const res = await account.send(txn);
+
+            console.log(res);
+
+        } else {
             try {
-                await rpc.getContractData($deployee, xdr.ScVal.scvBytes(signerId))
+                await account.getData();
             } catch (err: any) {
                 alert(err.message);
                 throw err
@@ -73,42 +100,87 @@
         }
 
         window.opener.postMessage(
-            { type: "wallet", deployee: $deployee },
+            { type: "wallet", contractId: $contractId },
             origin,
         );
     }
+
+    // TODO these three functions are all dupes from Page.svelte so we should DRY this out
+    async function onFund() {
+        const txn = await transferSAC({
+            SAC: import.meta.env.PUBLIC_nativeContractId,
+            source: fundPubkey,
+            from: fundPubkey,
+            to: $contractId,
+            amount: 100 * 10_000_000,
+        });
+
+        txn.sign(await fundKeypair);
+
+        const res = await account.send(txn);
+
+        console.log(res);
+    }
     async function onRegister() {
-        deployee.set(await register());
-        console.log($deployee);
-        localStorage.setItem("sp:deployee", $deployee);
-        await fund();
+        const user = `Super Peach ${formatDate()}`;
+        const {
+            keyId: kid,
+            contractId: cid,
+            xdr,
+        } = await account.createWallet("Super Peach", user);
+
+        const txn = new Transaction(
+            xdr,
+            import.meta.env.PUBLIC_networkPassphrase,
+        );
+
+        txn.sign(sequenceKeypair);
+
+        await account.send(txn);
+
+        keyId.set(base64url(kid));
+        console.log($keyId);
+        localStorage.setItem("sp:keyId", $keyId);
+
+        contractId.set(cid);
+        console.log($contractId);
+        localStorage.setItem("sp:contractId", $contractId);
+
+        await onFund();
     }
     async function onConnect() {
-        deployee.set(await connect());
-        console.log($deployee);
-        localStorage.setItem("sp:deployee", $deployee);
-        await fund();
+        const { keyId: kid, contractId: cid } = await account.connectWallet();
+        
+        keyId.set(base64url(kid));
+        console.log($keyId);
+        localStorage.setItem("sp:keyId", $keyId);
+
+        contractId.set(cid);
+        console.log($contractId);
+        localStorage.setItem("sp:contractId", $contractId);
     }
 </script>
 
 <main class="flex flex-col items-start p-2">
     <h1 class="text-2xl mb-2">Add Signer</h1>
 
-    {#if $deployee && signerId}
-        <p>{$deployee}</p>
-        <p>{signerId.toString('base64')}</p>
-        <br />
-
-        {#if signerPublicKey.length}
-            <button
-                class="bg-[#f27457] text-white px-2 py-1 rounded"
-                on:click={add_signer}>+ Add signer</button
-            >
-        {:else}
-            <button
-                class="bg-[#566b9b] text-white px-2 py-1 rounded mb-2"
-                on:click={add_signer}>+ Connect signer</button
-            >
+    {#if $contractId}
+        <p>{$contractId}</p>
+        
+        {#if signerKeyId}
+            <p>{signerKeyId.toString('base64')}</p>
+            <br />
+            {#if signerPublicKey.length}
+                <button
+                    class="bg-[#f27457] text-white px-2 py-1 rounded"
+                    on:click={addSigner}>+ Add signer</button
+                >
+            {:else}
+                <button
+                    class="bg-[#566b9b] text-white px-2 py-1 rounded mb-2"
+                    on:click={addSigner}>+ Connect signer</button
+                >
+            {/if}
         {/if}
     {:else}
         <p>Register a new or connect an existing super key</p>

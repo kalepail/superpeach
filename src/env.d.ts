@@ -3,10 +3,12 @@
 interface ImportMetaEnv {
     readonly PUBLIC_networkPassphrase: string;
     readonly PUBLIC_nativeContractId: string;
-    readonly PUBLIC_factoryContractId: string;
     readonly PUBLIC_rpcUrl: string;
     readonly PUBLIC_horizonUrl: string;
-    readonly PUBLIC_superpeachUrl: string;
+    readonly PUBLIC_fundSecret: string;
+    readonly PUBLIC_sequenceSecret: string;
+    readonly PUBLIC_feeBumpUrl: string;
+    readonly PUBLIC_feeBumpJwt: string;
 }
 
 interface ImportMeta {

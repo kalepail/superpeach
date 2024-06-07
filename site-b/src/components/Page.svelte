@@ -1,20 +1,28 @@
 <script lang="ts">
     import { onDestroy, onMount } from "svelte";
-    import { deployee } from "../lib/deployee";
-    import { id } from "../lib/id";
-    import { register } from "../lib/register";
-    import { transfer_build } from "../lib/transfer_build";
-    import { transfer_send } from "../lib/transfer_send";
-    import * as WebAuthn from "@simplewebauthn/browser";
+    import { contractId } from "../store/contractId";
+    import { keyId } from "../store/keyId";
     import base64url from "base64url";
-    import { hash } from "@stellar/stellar-sdk";
-    import { connect } from "../lib/connect";
+    import { Networks, Transaction, hash } from "@stellar/stellar-sdk";
+    import { formatDate } from "../lib/utils";
+    import { sequenceKeypair, sequencePubkey } from '../lib/common'
+    import { PasskeyAccount } from "passkey-kit";
+    import { transferSAC } from "../lib/passkey";
 
     // Register new passkey
     // Forward that key to super peach (both the id and the pk)
     // Send contract address back if successfully added
 
     let popup: Window | null;
+
+    const account = new PasskeyAccount({
+        sequencePublicKey: sequenceKeypair.publicKey(),
+        networkPassphrase: import.meta.env.PUBLIC_networkPassphrase as Networks,
+        horizonUrl: import.meta.env.PUBLIC_horizonUrl,
+        rpcUrl: import.meta.env.PUBLIC_rpcUrl,
+        feeBumpUrl: import.meta.env.PUBLIC_feeBumpUrl,
+        feeBumpJwt: import.meta.env.PUBLIC_feeBumpJwt,
+    });
 
     const to = import.meta.env.PUBLIC_superpeachUrl;
     const from = location.origin;
@@ -31,18 +39,23 @@
         if (event.origin !== to) return;
 
         if (event.data.type === "wallet") {
-            deployee.set(event.data.deployee);
-            console.log($deployee);
-            localStorage.setItem("sp:deployee", $deployee);
+            contractId.set(event.data.contractId);
+            console.log($contractId);
+            localStorage.setItem("sp:contractId", $contractId);
+
             popup?.close();
         }
     }
 
     async function openPage(type?: "signin") {
-        let reg;
+        let reg: { keyId: Buffer; publicKey?: Buffer };
 
-        if (type === "signin") reg = await connect();
-        else reg = await register();
+        if (type === "signin") reg = await account.connectWallet();
+        else reg = await account.createKey("Super Peach", `Mini Peach A ${formatDate()}`);
+
+        keyId.set(base64url(reg.keyId));
+        console.log($keyId);
+        localStorage.setItem("sp:keyId", $keyId);
 
         const w = 400;
         const h = 500;
@@ -52,7 +65,7 @@
         const windowFeatures = `width=${w},height=${h},left=${left},top=${top},resizable=no,scrollbars=no,menubar=no,toolbar=no,location=no,status=no`;
 
         popup = window.open(
-            `${to}/add-signer?from=${encodeURIComponent(from)}&id=${reg.id.toString("hex")}&publicKey=${reg.publicKey?.toString("hex")}`,
+            `${to}/add-signer?from=${encodeURIComponent(from)}&keyId=${reg.keyId.toString("hex")}&publicKey=${reg.publicKey?.toString("hex")}`,
             "PopupWindow",
             windowFeatures,
         ); // TODO should probably pass id and public key through postmessage vs the url
@@ -64,35 +77,28 @@
         }
     }
     async function transfer() {
-        const { authTxn, authHash, lastLedger } = await transfer_build();
+        const built = await transferSAC({
+			SAC: import.meta.env.PUBLIC_nativeContractId,
+			source: sequencePubkey,
+			from: $contractId,
+			to: account.factory.options.contractId,
+			amount: 10_000_000
+		});
 
-        const signRes = await WebAuthn.startAuthentication({
-            challenge: base64url(authHash),
-            // rpId: undefined,
-            allowCredentials: $id
-                ? [
-                      {
-                          id: $id,
-                          type: "public-key",
-                      },
-                  ]
-                : undefined,
-            userVerification: "discouraged",
-        });
+		const xdr = await account.sign(built, { keyId: $keyId });
+		const txn = new Transaction(xdr, import.meta.env.PUBLIC_networkPassphrase)
 
-        await transfer_send(
-            authTxn,
-            hash(base64url.toBuffer($id)),
-            lastLedger,
-            signRes,
-        );
+		txn.sign(sequenceKeypair);
+
+		const res = await account.send(txn);
+
+		console.log(res);
 
         alert("✅ Transfer complete");
     }
     async function logout() {
-        localStorage.removeItem("sp:id");
-        localStorage.removeItem("sp:bundler");
-        localStorage.removeItem("sp:deployee");
+        localStorage.removeItem("sp:keyId");
+        localStorage.removeItem("sp:contractId");
         window.location.reload();
     }
 </script>
@@ -106,12 +112,12 @@
         >
     </h1>
 
-    {#if $deployee && $id}
-        <p>{$deployee}</p>
-        <p>{hash(base64url.toBuffer($id)).toString("base64")}</p>
+    {#if $contractId && $keyId}
+        <p>{$contractId}</p>
+        <p>{hash(base64url.toBuffer($keyId)).toString("base64")}</p>
         <br />
     {/if}
-    {#if $deployee}
+    {#if $contractId}
         <button
             class="bg-[#51ba95] text-white px-2 py-1 rounded"
             on:click={transfer}>Transfer 1 XLM</button
