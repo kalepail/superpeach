@@ -3,9 +3,9 @@
     import base64url from "base64url";
     import { Networks, Transaction } from "@stellar/stellar-sdk";
     import { keyId } from "../store/keyId";
-    import { getBalance, transferSAC } from "../lib/passkey";
-    import { fundKeypair, fundPubkey, sequenceKeypair } from "../lib/common";
-    import { arraysEqual, formatDate } from "../lib/utils";
+    import { getBalance } from "../lib/passkey";
+    import { connect, fund, register, sequenceKeypair } from "../lib/common";
+    import { arraysEqual } from "../lib/utils";
     import { PasskeyAccount } from "passkey-kit";
 
     let walletData: Map<string, any> = new Map();
@@ -29,44 +29,14 @@
     });
 
     async function onRegister() {
-        const user = `Super Peach ${formatDate()}`;
-        const {
-            keyId: kid,
-            contractId: cid,
-            xdr,
-        } = await account.createWallet("Super Peach", user);
+        await register(account, $keyId, $contractId);
+        await fund(account, $contractId);
 
-        const txn = new Transaction(
-            xdr,
-            import.meta.env.PUBLIC_networkPassphrase,
-        );
-
-        txn.sign(sequenceKeypair);
-
-        await account.send(txn);
-
-        keyId.set(base64url(kid));
-        console.log($keyId);
-        localStorage.setItem("sp:keyId", $keyId);
-
-        contractId.set(cid);
-        console.log($contractId);
-        localStorage.setItem("sp:contractId", $contractId);
-
-        await onFund();
         await onGetBalance();
         await onGetData();
     }
     async function onConnect() {
-        const { keyId: kid, contractId: cid } = await account.connectWallet();
-        
-        keyId.set(base64url(kid));
-        console.log($keyId);
-        localStorage.setItem("sp:keyId", $keyId);
-
-        contractId.set(cid);
-        console.log($contractId);
-        localStorage.setItem("sp:contractId", $contractId);
+        await connect(account, $keyId, $contractId);
 
         await onGetBalance();
         await onGetData();
@@ -76,21 +46,6 @@
     }
     async function onGetData() {
         walletData = await account.getData();
-    }
-    async function onFund() {
-        const txn = await transferSAC({
-            SAC: import.meta.env.PUBLIC_nativeContractId,
-            source: fundPubkey,
-            from: fundPubkey,
-            to: $contractId,
-            amount: 100 * 10_000_000,
-        });
-
-        txn.sign(await fundKeypair);
-
-        const res = await account.send(txn);
-
-        console.log(res);
     }
     async function onRemoveSignature(signer: Uint8Array) {
         const { built } = await account.wallet!.rm_sig({
@@ -136,7 +91,7 @@
 
                 <button
                     class="text-xs uppercase bg-[#566b9b] rounded text-white px-2 py-1"
-                    on:click={onFund}>Fund</button
+                    on:click={() => fund(account, $contractId)}>Fund</button
                 >
                 <button
                     class="text-xs uppercase bg-[#566b9b] rounded text-white px-2 py-1"
