@@ -51,7 +51,7 @@
         let reg: { keyId: Buffer; publicKey?: Buffer };
 
         if (type === "signin") reg = await account.connectWallet();
-        else reg = await account.createKey("Super Peach", `Mini Peach A ${formatDate()}`);
+        else reg = await account.createKey("Super Peach", `Mini Peach B ${formatDate()}`);
 
         keyId.set(base64url(reg.keyId));
         console.log($keyId);
