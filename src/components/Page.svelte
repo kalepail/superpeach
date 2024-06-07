@@ -13,6 +13,13 @@
     import { remove_sig_build } from "../lib/remove_sig_build";
     import { remove_sig_send } from "../lib/remove_sig_send";
     import { setBundlerKey } from "../lib/bundler";
+    import { PasskeyAccount } from 'passkey-kit'
+
+    console.log(PasskeyAccount);
+
+    // const account = new PasskeyAccount({
+
+    // })
 
     let sigs: string[] = [];
     let balance: number = 0;
