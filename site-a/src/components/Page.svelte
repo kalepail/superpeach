@@ -114,7 +114,7 @@
 
     {#if $contractId && $keyId}
         <p>{$contractId}</p>
-        <p>{hash(base64url.toBuffer($keyId)).toString("base64")}</p>
+        <p>{$keyId}</p>
         <br />
     {/if}
     {#if $contractId}
