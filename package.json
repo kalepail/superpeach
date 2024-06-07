@@ -11,23 +11,23 @@
   },
   "dependencies": {
     "@simplewebauthn/browser": "^10.0.0",
-    "@stellar/stellar-sdk": "12.0.0-rc.3",
+    "@stellar/stellar-sdk": "12.0.1",
     "base64url": "^3.0.1",
     "bigint-conversion": "^2.4.3",
     "cbor-x": "^1.5.9",
-    "passkey-kit": "0.0.28"
+    "passkey-kit": "0.0.29"
   },
   "devDependencies": {
     "@astrojs/check": "^0.7.0",
-    "@astrojs/cloudflare": "^10.2.6",
-    "@astrojs/svelte": "^5.4.0",
+    "@astrojs/cloudflare": "^10.3.0",
+    "@astrojs/svelte": "^5.5.0",
     "@astrojs/tailwind": "^5.1.0",
     "@simplewebauthn/types": "^10.0.0",
-    "@types/node": "^20.12.12",
-    "astro": "^4.8.5",
-    "svelte": "^4.2.17",
-    "tailwindcss": "^3.4.3",
+    "@types/node": "^20.14.2",
+    "astro": "^4.10.0",
+    "svelte": "^4.2.18",
+    "tailwindcss": "^3.4.4",
     "typescript": "^5.4.5",
-    "vite-plugin-node-polyfills": "^0.21.0"
+    "vite-plugin-node-polyfills": "^0.22.0"
   }
 }

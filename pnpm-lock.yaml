@@ -12,8 +12,8 @@ importers:
         specifier: ^10.0.0
         version: 10.0.0
       '@stellar/stellar-sdk':
-        specifier: 12.0.0-rc.3
-        version: 12.0.0-rc.3
+        specifier: 12.0.1
+        version: 12.0.1
       base64url:
         specifier: ^3.0.1
         version: 3.0.1
@@ -24,17 +24,17 @@ importers:
         specifier: ^1.5.9
         version: 1.5.9
       passkey-kit:
-        specifier: 0.0.28
-        version: 0.0.28
+        specifier: 0.0.29
+        version: 0.0.29
     devDependencies:
       '@astrojs/check':
         specifier: ^0.7.0
         version: 0.7.0(typescript@5.4.5)
       '@astrojs/cloudflare':
-        specifier: ^10.2.6
+        specifier: ^10.3.0
         version: 10.3.0(astro@4.10.0(@types/node@20.14.2)(typescript@5.4.5))
       '@astrojs/svelte':
-        specifier: ^5.4.0
+        specifier: ^5.5.0
         version: 5.5.0(astro@4.10.0(@types/node@20.14.2)(typescript@5.4.5))(svelte@4.2.18)(typescript@5.4.5)(vite@5.2.13(@types/node@20.14.2))
       '@astrojs/tailwind':
         specifier: ^5.1.0
@@ -43,23 +43,23 @@ importers:
         specifier: ^10.0.0
         version: 10.0.0
       '@types/node':
-        specifier: ^20.12.12
+        specifier: ^20.14.2
         version: 20.14.2
       astro:
-        specifier: ^4.8.5
+        specifier: ^4.10.0
         version: 4.10.0(@types/node@20.14.2)(typescript@5.4.5)
       svelte:
-        specifier: ^4.2.17
+        specifier: ^4.2.18
         version: 4.2.18
       tailwindcss:
-        specifier: ^3.4.3
+        specifier: ^3.4.4
         version: 3.4.4
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
       vite-plugin-node-polyfills:
-        specifier: ^0.21.0
-        version: 0.21.0(rollup@4.18.0)(vite@5.2.13(@types/node@20.14.2))
+        specifier: ^0.22.0
+        version: 0.22.0(rollup@4.18.0)(vite@5.2.13(@types/node@20.14.2))
 
 packages:
 
@@ -1166,8 +1166,8 @@ packages:
   '@stellar/stellar-base@12.0.0':
     resolution: {integrity: sha512-uGpahDFFXbE39myOmBnEZSjVys4yUkQ/ASNuYENGyS8MNdfA0TS7DPWkiO6t17P+rW+FRV1zmumJtjRHwxxMdw==}
 
-  '@stellar/stellar-sdk@12.0.0-rc.3':
-    resolution: {integrity: sha512-FYO+F8VokXjP3Mu+OQtK0GrJWWvwf1+DL3n3aOi6M5H6EwJ6bp/yAOtfnClx6vqzzvpMbWveYABn8U9QNpcHww==}
+  '@stellar/stellar-sdk@12.0.1':
+    resolution: {integrity: sha512-0+YXUTS2LpZ+Of383hSYVpsRl9BJ3X9lHcj05ouS3VkVL9BH7w+Par8RHPkiHS6lLYn3gWRgaJauTebkamY/Jw==}
 
   '@sveltejs/vite-plugin-svelte-inspector@2.1.0':
     resolution: {integrity: sha512-9QX28IymvBlSCqsCll5t0kQVxipsfhFFL+L2t3nTWfXnddYwxBuAEtTtlaVQpRz9c37BhJjltSeY4AJSC03SSg==}
@@ -2543,14 +2543,14 @@ packages:
   pascal-case@3.1.2:
     resolution: {integrity: sha512-uWlGT3YSnK9x3BQJaOdcZwrnV6hPpd8jFH1/ucpiLRPh/2zCVJKS19E4GvYHvaCcACn3foXZ0cLB9Wrx1KGe5g==}
 
-  passkey-factory-sdk@0.0.6:
-    resolution: {integrity: sha512-OW3C78CIdZXVkFYer0HRUje6OIS47SzWMBhztiqZEplfRzV3rHtxUllZEEsjpXCdhxLclJL5H0wZnex3dofWdw==}
+  passkey-factory-sdk@0.0.7:
+    resolution: {integrity: sha512-Vrkdgnvha2KVU1jP+h3JG64JD/HXJms78hIrm5Joq22dVF4FHJBLit3WSGWgh+q00UrfU/rG5fmtPx34CAEXWQ==}
 
-  passkey-kit-sdk@0.0.6:
-    resolution: {integrity: sha512-KFW7iaQHEBur+xRkYsN56uxx1rcO0jKJfemo2W8AcUO+9/gtOoTsv3n+/K3r96X7KkmA1fiRdVroxmwJNHyqSw==}
+  passkey-kit-sdk@0.0.7:
+    resolution: {integrity: sha512-3e1stExMOFL0g9cBTeRsBdgxwj4Fdiz4c48cHjKFwW9qA4aHo0t0O7ohiYwBcQV8Jep1iVBT1T1iNtVgYOKbEQ==}
 
-  passkey-kit@0.0.28:
-    resolution: {integrity: sha512-B+FHjAqVvPZmBMb09yxqkCOEm1IXz2cXNDHY8U6eKczviTr7Qovf3vXvypugtQtFY+uyzS7+OLRIHspbOQTARQ==}
+  passkey-kit@0.0.29:
+    resolution: {integrity: sha512-+5F+BbzfKj1wKeHw3nRaxCBZAJqrue+B7aD61aOUDhSZ+PN6dIzzCzVLSfWFpHtKMMdxeiP3xX+9dTPlFdlZYw==}
 
   path-browserify@1.0.1:
     resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
@@ -3149,8 +3149,8 @@ packages:
   vfile@6.0.1:
     resolution: {integrity: sha512-1bYqc7pt6NIADBJ98UiG0Bn/CHIVOoZ/IyEkqIruLg0mE1BKzkOXY2D6CSqQIcKqgadppE5lrxgWXJmXd7zZJw==}
 
-  vite-plugin-node-polyfills@0.21.0:
-    resolution: {integrity: sha512-Sk4DiKnmxN8E0vhgEhzLudfJQfaT8k4/gJ25xvUPG54KjLJ6HAmDKbr4rzDD/QWEY+Lwg80KE85fGYBQihEPQA==}
+  vite-plugin-node-polyfills@0.22.0:
+    resolution: {integrity: sha512-F+G3LjiGbG8QpbH9bZ//GSBr9i1InSTkaulfUHFa9jkLqVGORFBoqc2A/Yu5Mmh1kNAbiAeKeK+6aaQUf3x0JA==}
     peerDependencies:
       vite: ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
 
@@ -4241,7 +4241,7 @@ snapshots:
     optionalDependencies:
       sodium-native: 4.1.1
 
-  '@stellar/stellar-sdk@12.0.0-rc.3':
+  '@stellar/stellar-sdk@12.0.1':
     dependencies:
       '@stellar/stellar-base': 12.0.0
       axios: 1.7.2
@@ -6088,31 +6088,31 @@ snapshots:
       no-case: 3.0.4
       tslib: 2.6.3
 
-  passkey-factory-sdk@0.0.6:
+  passkey-factory-sdk@0.0.7:
     dependencies:
-      '@stellar/stellar-sdk': 12.0.0-rc.3
+      '@stellar/stellar-sdk': 12.0.1
       buffer: 6.0.3
     transitivePeerDependencies:
       - debug
 
-  passkey-kit-sdk@0.0.6:
+  passkey-kit-sdk@0.0.7:
     dependencies:
-      '@stellar/stellar-sdk': 12.0.0-rc.3
+      '@stellar/stellar-sdk': 12.0.1
       buffer: 6.0.3
     transitivePeerDependencies:
       - debug
 
-  passkey-kit@0.0.28:
+  passkey-kit@0.0.29:
     dependencies:
       '@simplewebauthn/browser': 10.0.0
       '@simplewebauthn/types': 10.0.0
-      '@stellar/stellar-sdk': 12.0.0-rc.3
+      '@stellar/stellar-sdk': 12.0.1
       base64url: 3.0.1
       bigint-conversion: 2.4.3
       buffer: 6.0.3
       cbor-x: 1.5.9
-      passkey-factory-sdk: 0.0.6
-      passkey-kit-sdk: 0.0.6
+      passkey-factory-sdk: 0.0.7
+      passkey-kit-sdk: 0.0.7
     transitivePeerDependencies:
       - debug
 
@@ -6881,7 +6881,7 @@ snapshots:
       unist-util-stringify-position: 4.0.0
       vfile-message: 4.0.2
 
-  vite-plugin-node-polyfills@0.21.0(rollup@4.18.0)(vite@5.2.13(@types/node@20.14.2)):
+  vite-plugin-node-polyfills@0.22.0(rollup@4.18.0)(vite@5.2.13(@types/node@20.14.2)):
     dependencies:
       '@rollup/plugin-inject': 5.0.5(rollup@4.18.0)
       node-stdlib-browser: 1.2.0
