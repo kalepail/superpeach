@@ -5,6 +5,7 @@
     import { onMount } from "svelte";
     import { PasskeyAccount } from "passkey-kit";
     import { connect, fund, register, sequenceKeypair } from "../lib/common";
+    import base64url from "base64url";
 
     let url: URL;
     let params: URLSearchParams;
@@ -82,7 +83,7 @@
         <p>{$contractId}</p>
 
         {#if signerKeyId}
-            <p>{signerKeyId.toString("base64")}</p>
+            <p>{base64url(signerKeyId)}</p>
             <br />
             {#if signerPublicKey.length}
                 <button
