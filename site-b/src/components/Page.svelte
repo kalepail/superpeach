@@ -3,7 +3,7 @@
     import { contractId } from "../store/contractId";
     import { keyId } from "../store/keyId";
     import base64url from "base64url";
-    import { Networks, Transaction, hash } from "@stellar/stellar-sdk";
+    import { Networks, Transaction } from "@stellar/stellar-sdk";
     import { formatDate } from "../lib/utils";
     import { sequenceKeypair, sequencePubkey } from '../lib/common'
     import { PasskeyAccount } from "passkey-kit";
@@ -48,12 +48,16 @@
     }
 
     async function openPage(type?: "signin") {
-        let reg: { keyId: Buffer; publicKey?: Buffer };
+        let reg: { keyId: Buffer; publicKey?: Buffer } | undefined;
 
-        if (type === "signin") reg = await account.connectWallet();
-        else reg = await account.createKey("Super Peach", `Mini Peach B ${formatDate()}`);
+        try {
+            if (type === "signin") reg = await account.connectWallet();
+            else reg = await account.createKey("Super Peach", `Mini Peach B ${formatDate()}`);
+        } catch(err: any) {
+            alert(err.message)
+        }
 
-        keyId.set(base64url(reg.keyId));
+        keyId.set(base64url(reg!.keyId));
         console.log($keyId);
         localStorage.setItem("sp:keyId", $keyId);
 
@@ -64,11 +68,12 @@
 
         const windowFeatures = `width=${w},height=${h},left=${left},top=${top},resizable=no,scrollbars=no,menubar=no,toolbar=no,location=no,status=no`;
 
+        // TODO should probably pass id and public key through postmessage vs the url
         popup = window.open(
-            `${to}/add-signer?from=${encodeURIComponent(from)}&keyId=${reg.keyId.toString("hex")}&publicKey=${reg.publicKey?.toString("hex")}`,
-            "PopupWindow",
+            `${to}/add-signer?from=${encodeURIComponent(from)}&keyId=${reg!.keyId.toString("hex")}&publicKey=${reg!.publicKey?.toString("hex")}`,
+            "Super Peach",
             windowFeatures,
-        ); // TODO should probably pass id and public key through postmessage vs the url
+        );
 
         if (!popup) {
             alert("Popup was blocked by the browser.");
