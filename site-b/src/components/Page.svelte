@@ -40,26 +40,48 @@
 
         if (event.data.type === "wallet") {
             contractId.set(event.data.contractId);
-            console.log($contractId);
-            localStorage.setItem("sp:contractId", $contractId);
+            console.log(event.data.contractId);
+            localStorage.setItem("sp:contractId", event.data.contractId);
 
             popup?.close();
         }
     }
 
     async function openPage(type?: "signin") {
-        let reg: { keyId: Buffer; publicKey?: Buffer } | undefined;
+        let kid: Buffer | undefined
+        let publicKey: Buffer | undefined
 
         try {
-            if (type === "signin") reg = await account.connectWallet();
-            else reg = await account.createKey("Super Peach", `Mini Peach B ${formatDate()}`);
+            if (type === "signin") {
+                const wallet = await account.connectWallet();
+
+                kid = wallet.keyId
+
+                contractId.set(wallet.contractId);
+                console.log(wallet.contractId);
+                localStorage.setItem("sp:contractId", $contractId);
+            } else {
+                const key = await account.createKey("Super Peach", `Mini Peach B ${formatDate()}`)
+
+                kid = key.keyId
+                publicKey = key.publicKey
+            }
         } catch(err: any) {
             alert(err.message)
         }
 
-        keyId.set(base64url(reg!.keyId));
-        console.log($keyId);
-        localStorage.setItem("sp:keyId", $keyId);
+        const keyId_base64url = base64url.encode(kid!);
+
+        keyId.set(keyId_base64url);
+        console.log(keyId_base64url);
+        localStorage.setItem("sp:keyId", keyId_base64url);
+
+        // Successfully signed in, no need to forward anything to Super Peach
+        if ($keyId && $contractId)
+            return;
+
+        if (!kid || !publicKey) 
+            return alert("Something went wrong")
 
         const w = 400;
         const h = 500;
@@ -70,7 +92,7 @@
 
         // TODO should probably pass id and public key through postmessage vs the url
         popup = window.open(
-            `${to}/add-signer?from=${encodeURIComponent(from)}&keyId=${reg!.keyId.toString("hex")}&publicKey=${reg!.publicKey?.toString("hex")}`,
+            `${to}/add-signer?from=${encodeURIComponent(from)}&keyId=${kid.toString("hex")}&publicKey=${publicKey.toString("hex")}`,
             "Super Peach",
             windowFeatures,
         );
@@ -122,7 +144,7 @@
         <p>{$keyId}</p>
         <br />
     {/if}
-    
+
     {#if $contractId}
         <button
             class="bg-[#51ba95] text-white px-2 py-1 rounded"

@@ -42,32 +42,23 @@
         await fund(account, $contractId);
     }
     async function addSigner() {
-        if (signerPublicKey.length) {
-            const { built } = await account.wallet!.add_sig({
-                id: signerKeyId,
-                pk: signerPublicKey,
-            });
+        const { built } = await account.wallet!.add_sig({
+            id: signerKeyId,
+            pk: signerPublicKey,
+        });
 
-            // xdr to txn funk due to TypeError: XDR Write Error: [object Object] is not a DecoratedSignature
-            const xdr = await account.sign(built!, { keyId: "sudo" });
-            const txn = new Transaction(
-                xdr,
-                import.meta.env.PUBLIC_networkPassphrase,
-            );
+        // xdr to txn funk due to TypeError: XDR Write Error: [object Object] is not a DecoratedSignature
+        const xdr = await account.sign(built!, { keyId: "sudo" });
+        const txn = new Transaction(
+            xdr,
+            import.meta.env.PUBLIC_networkPassphrase,
+        );
 
-            txn.sign(sequenceKeypair);
+        txn.sign(sequenceKeypair);
 
-            const res = await account.send(txn);
+        const res = await account.send(txn);
 
-            console.log(res);
-        } else {
-            try {
-                await account.getData();
-            } catch (err: any) {
-                alert(err.message);
-                throw err;
-            }
-        }
+        console.log(res);
 
         window.opener.postMessage(
             { type: "wallet", contractId: $contractId },
@@ -90,11 +81,6 @@
                     class="bg-[#f27457] text-white px-2 py-1 rounded"
                     on:click={addSigner}>+ Add signer</button
                 >
-            {:else}
-                <button
-                    class="bg-[#566b9b] text-white px-2 py-1 rounded mb-2"
-                    on:click={addSigner}>+ Connect signer</button
-                >
             {/if}
         {/if}
     {:else}
@@ -106,7 +92,8 @@
         >
         <button
             class="bg-[#566b9b] text-white px-2 py-1 rounded mb-2"
-            on:click={() => connect(account)}>+ Connect existing super key</button
+            on:click={() => connect(account)}
+            >+ Connect existing super key</button
         >
     {/if}
 </main>
