@@ -117,6 +117,7 @@
         <p>{$keyId}</p>
         <br />
     {/if}
+
     {#if $contractId}
         <button
             class="bg-[#51ba95] text-white px-2 py-1 rounded"
@@ -125,11 +126,11 @@
     {:else}
         <button
             class="bg-[#51ba95] text-white px-2 py-1 rounded mb-2"
-            on:click={() => openPage()}>+ Register new signer</button
+            on:click|trusted={() => openPage()}>+ Register new signer</button
         >
         <button
             class="bg-[#566b9b] text-white px-2 py-1 rounded mb-2"
-            on:click={() => openPage("signin")}
+            on:click|trusted={() => openPage("signin")}
             >+ Connect existing signer</button
         >
     {/if}
