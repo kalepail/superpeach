@@ -52,7 +52,7 @@
 
         try {
             if (type === "signin") reg = await account.connectWallet();
-            else reg = await account.createKey("Super Peach", `Mini Peach B ${formatDate()}`);
+            else reg = await account.createKey("Super Peach", `Mini Peach A ${formatDate()}`);
         } catch(err: any) {
             alert(err.message)
         }
