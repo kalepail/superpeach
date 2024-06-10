@@ -1,4 +1,4 @@
-import { Address, Keypair, Networks, Operation, Transaction } from "@stellar/stellar-base";
+import { Address, Keypair, Networks, Transaction } from "@stellar/stellar-base";
 import type { APIRoute } from "astro"
 import { PasskeyAccount } from 'passkey-kit'
 

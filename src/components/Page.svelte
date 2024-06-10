@@ -152,8 +152,8 @@
                             class="text-[#ccaff8] underline"
                             target="_blank"
                             rel="noopener noreferrer"
-                            href="https://minipeach-a.pages.dev/"
-                            >minipeach-a.pages.dev</a
+                            href="https://minipeach-a.vercel.app/"
+                            >minipeach-a.vercel.app</a
                         >
                     </li>
                     <li>
@@ -161,8 +161,8 @@
                             class="text-[#ccaff8] underline"
                             target="_blank"
                             rel="noopener noreferrer"
-                            href="https://minipeach-b.pages.dev/"
-                            >minipeach-b.pages.dev</a
+                            href="https://minipeach-b.vercel.app/"
+                            >minipeach-b.vercel.app</a
                         >
                     </li>
                 </ul>
