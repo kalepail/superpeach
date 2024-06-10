@@ -1,21 +1,24 @@
 import { defineConfig } from 'astro/config';
 import tailwind from "@astrojs/tailwind";
-import { nodePolyfills } from 'vite-plugin-node-polyfills';
+// import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import svelte from "@astrojs/svelte";
 import vercel from "@astrojs/vercel/serverless";
 
 // https://astro.build/config
 export default defineConfig({
-    output: "hybrid",
+    output: "server",
     adapter: vercel({
-        edgeMiddleware: true
+        excludeFiles: ["site/**/*"],
     }),
-    vite: {
-        plugins: [
-            nodePolyfills({
-                include: ['buffer']
-            })
-        ]
-    },
+    // vite: {
+    //     define: {
+    //         global: 'globalThis'
+    //     },
+    //     plugins: [
+    //         nodePolyfills({
+    //             include: ['buffer']
+    //         })
+    //     ]
+    // },
     integrations: [tailwind(), svelte()]
 });

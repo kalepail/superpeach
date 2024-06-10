@@ -54,7 +54,7 @@
 
         const xdr = await account.sign(built!, { keyId: "sudo" });
 
-        const res = await fetch("/api/sign", {
+        const res = await fetch("/api/submit", {
             method: "POST",
             body: xdr,
         }).then(async (res) => {

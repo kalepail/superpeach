@@ -6,6 +6,7 @@
     "dev": "astro dev --host",
     "start": "astro dev --host",
     "build": "astro build",
+    "deploy": "pnpm run build && vercel deploy --prod",
     "astro": "astro",
     "site:a": "cd site && astro dev --host",
     "site:b": "cd site && PUBLIC_name='Site B' PUBLIC_style='background-color: #f7fee7; color: #84cc16;' astro dev --host"
