@@ -11,9 +11,11 @@ export default defineConfig({
         edgeMiddleware: true
     }),
     vite: {
-        plugins: [nodePolyfills({
-            include: ['buffer']
-        })]
+        plugins: [
+            nodePolyfills({
+                include: ['buffer']
+            })
+        ]
     },
     integrations: [tailwind(), svelte()]
 });
