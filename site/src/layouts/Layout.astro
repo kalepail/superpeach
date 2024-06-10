@@ -17,7 +17,7 @@ const { title } = Astro.props;
 		<title>{title}</title>
 	</head>
 	
-	<body class=`${import.meta.env.PUBLIC_style} font-mono`>
+	<body class="font-mono" style={import.meta.env.PUBLIC_style}>
 		<slot />
 	</body>
 </html>
