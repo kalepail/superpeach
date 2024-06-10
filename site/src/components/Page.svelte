@@ -61,7 +61,7 @@
                 console.log(wallet.contractId);
                 localStorage.setItem("sp:contractId", $contractId);
             } else {
-                const key = await account.createKey("Super Peach", `Mini Peach A ${formatDate()}`)
+                const key = await account.createKey("Super Peach", `${import.meta.env.PUBLIC_name} ${formatDate()}`)
 
                 kid = key.keyId
                 publicKey = key.publicKey
@@ -132,7 +132,7 @@
 
 <main class="flex flex-col items-start py-2 px-5">
     <h1 class="mb-2 flex items-center">
-        <span class="text-[56px] font-black">Site A</span>
+        <span class="text-[56px] font-black">{import.meta.env.PUBLIC_name}</span>
         <button
             class="text-xs uppercase bg-[#566b9b] rounded text-white px-2 py-1 ml-5"
             on:click={logout}>Reset</button

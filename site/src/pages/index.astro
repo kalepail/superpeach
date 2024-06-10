@@ -3,6 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import Page from '../components/Page.svelte';
 ---
 
-<Layout title="Site A">
+<Layout title={import.meta.env.PUBLIC_name}>
 	<Page client:only="svelte" />
 </Layout>

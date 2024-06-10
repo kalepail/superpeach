@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "astro dev --host",
     "start": "astro dev --host",
+    "site:a": "cd site && astro dev --host",
+    "site:b": "cd site && PUBLIC_name='Site B' PUBLIC_style='bg-lime-50 text-lime-500' astro dev --host",
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro"
