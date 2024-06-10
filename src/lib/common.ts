@@ -30,6 +30,16 @@ export const fundKeypair = new Promise<Keypair>(async (resolve) => {
 })
 export const fundPubkey = (await fundKeypair).publicKey()
 
+export async function submit(xdr: string) {
+    return fetch("/api/submit", {
+        method: "POST",
+        body: xdr,
+    }).then(async (res) => {
+        if (res.ok) return res.json();
+        else throw await res.text();
+    });
+}
+
 export async function register(account: PasskeyAccount) {
     const user = `Super Peach ${formatDate()}`;
     const {
@@ -37,15 +47,8 @@ export async function register(account: PasskeyAccount) {
         contractId: cid,
         xdr,
     } = await account.createWallet("Super Peach", user);
-
-    const txn = new Transaction(
-        xdr,
-        import.meta.env.PUBLIC_networkPassphrase,
-    );
-
-    txn.sign(sequenceKeypair);
-
-    await account.send(txn);
+    
+    await submit(xdr);
 
     const keyId_base64url = base64url(kid)
 

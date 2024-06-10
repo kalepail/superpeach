@@ -4,7 +4,7 @@
     import { Networks, Transaction } from "@stellar/stellar-sdk";
     import { keyId } from "../store/keyId";
     import { getBalance } from "../lib/passkey";
-    import { connect, fund, register, sequenceKeypair } from "../lib/common";
+    import { connect, fund, register, sequenceKeypair, submit } from "../lib/common";
     import { arraysEqual } from "../lib/utils";
     import { PasskeyAccount } from "passkey-kit";
 
@@ -53,14 +53,7 @@
         });
 
         const xdr = await account.sign(built!, { keyId: "sudo" });
-
-        const res = await fetch("/api/submit", {
-            method: "POST",
-            body: xdr,
-        }).then(async (res) => {
-            if (res.ok) return res.json();
-            else throw await res.text();
-        });
+        const res = await submit(xdr)
 
         console.log(res);
 

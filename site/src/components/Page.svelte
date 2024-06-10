@@ -5,7 +5,7 @@
     import base64url from "base64url";
     import { Networks, Transaction } from "@stellar/stellar-sdk";
     import { formatDate } from "../lib/utils";
-    import { sequenceKeypair, sequencePubkey } from '../lib/common'
+    import { sequenceKeypair, sequencePubkey, submit } from '../lib/common'
     import { PasskeyAccount } from "passkey-kit";
     import { transferSAC } from "../lib/passkey";
 
@@ -113,11 +113,7 @@
 		});
 
 		const xdr = await account.sign(built, { keyId: $keyId });
-		const txn = new Transaction(xdr, import.meta.env.PUBLIC_networkPassphrase)
-
-		txn.sign(sequenceKeypair);
-
-		const res = await account.send(txn);
+        const res = await submit(xdr)
 
 		console.log(res);
 
