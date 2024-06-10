@@ -49,17 +49,20 @@
     }
     async function onRemoveSignature(signer: Uint8Array) {
         const { built } = await account.wallet!.rm_sig({
-			id: Buffer.from(signer),
-		});
+            id: Buffer.from(signer),
+        });
 
-		const xdr = await account.sign(built!, { keyId: 'sudo' });
-		const txn = new Transaction(xdr, import.meta.env.PUBLIC_networkPassphrase)
+        const xdr = await account.sign(built!, { keyId: "sudo" });
 
-		txn.sign(sequenceKeypair);
+        const res = await fetch("/api/sign", {
+            method: "POST",
+            body: xdr,
+        }).then(async (res) => {
+            if (res.ok) return res.json();
+            else throw await res.text();
+        });
 
-		const res = await account.send(txn);
-
-		console.log(res);
+        console.log(res);
 
         await onGetData();
     }
@@ -114,7 +117,8 @@
                         {#if walletData.size && !arraysEqual(signer, walletData.get("sudo_sig"))}
                             <button
                                 class="text-xs uppercase bg-[#ee494e] rounded text-white px-2 py-1"
-                                on:click={() => onRemoveSignature(signer)}>Remove</button
+                                on:click={() => onRemoveSignature(signer)}
+                                >Remove</button
                             >
                         {/if}
                     </li>

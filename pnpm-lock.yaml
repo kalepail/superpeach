@@ -11,6 +11,9 @@ importers:
       '@simplewebauthn/browser':
         specifier: ^10.0.0
         version: 10.0.0
+      '@stellar/stellar-base':
+        specifier: ^12.0.0
+        version: 12.0.0
       '@stellar/stellar-sdk':
         specifier: 12.0.1
         version: 12.0.1
