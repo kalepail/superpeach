@@ -6,10 +6,8 @@ const sequenceKeypair = Keypair.fromSecret(import.meta.env.PRIVATE_sequenceSecre
 const sequencePubkey = sequenceKeypair.publicKey()
 
 const account = new PasskeyBase({
-    sequencePublicKey: sequenceKeypair.publicKey(),
     networkPassphrase: import.meta.env.PUBLIC_networkPassphrase as Networks,
     horizonUrl: import.meta.env.PUBLIC_horizonUrl,
-    rpcUrl: import.meta.env.PUBLIC_rpcUrl,
     feeBumpUrl: import.meta.env.PUBLIC_feeBumpUrl,
     feeBumpJwt: import.meta.env.PRIVATE_feeBumpJwt,
 });
