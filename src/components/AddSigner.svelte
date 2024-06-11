@@ -38,7 +38,7 @@
 
     async function onRegister() {
         await register(account);
-        await fund(account, $contractId);
+        await fund($contractId);
     }
     async function addSigner() {
         const { built } = await account.wallet!.add_sig({

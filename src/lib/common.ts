@@ -60,18 +60,19 @@ export async function connect(account: PasskeyAccount) {
     console.log(cid);
     localStorage.setItem("sp:contractId", cid);
 }
-export async function fund(account: PasskeyAccount, to: string) {
+export async function fund(to: string) {
     const txn = await transferSAC({
         SAC: import.meta.env.PUBLIC_nativeContractId,
         source: fundPubkey,
         from: fundPubkey,
         to,
         amount: 100 * 10_000_000,
+        fee: 10_000
     });
 
     txn.sign(await fundKeypair);
 
-    const res = await account.send(txn);
+    const res = await horizon.submitTransaction(txn)
 
     console.log(res);
 }

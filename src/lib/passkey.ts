@@ -34,12 +34,13 @@ export async function transferSAC(args: {
     from: string, 
     to: string, 
     amount: number
+    fee?: number
 }) {
-    const { SAC, source, from, to, amount } = args
+    const { SAC, source, from, to, amount, fee = 0 } = args
     const account = await rpc.getAccount(source).then((res) => new Account(res.accountId(), res.sequenceNumber()))
 
     const simTxn = new TransactionBuilder(account, {
-        fee: '0',
+        fee: fee.toString(),
         networkPassphrase: import.meta.env.PUBLIC_networkPassphrase
     })
         .addOperation(Operation.invokeContractFunction({

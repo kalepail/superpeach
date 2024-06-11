@@ -28,7 +28,7 @@
 
     async function onRegister() {
         await register(account);
-        await fund(account, $contractId);
+        await fund($contractId);
 
         await onGetBalance();
         await onGetData();
@@ -38,6 +38,10 @@
 
         await onGetBalance();
         await onGetData();
+    }
+    async function onFund() {
+        await fund($contractId);
+        await onGetBalance();
     }
     async function onGetBalance() {
         balance = await getBalance($contractId);
@@ -51,7 +55,7 @@
         });
 
         const xdr = await account.sign(built!, { keyId: "sudo" });
-        const res = await submit(xdr)
+        const res = await submit(xdr);
 
         console.log(res);
 
@@ -85,7 +89,7 @@
 
                 <button
                     class="text-xs uppercase bg-[#566b9b] rounded text-white px-2 py-1"
-                    on:click={() => fund(account, $contractId)}>Fund</button
+                    on:click={onFund}>Fund</button
                 >
                 <button
                     class="text-xs uppercase bg-[#566b9b] rounded text-white px-2 py-1"
