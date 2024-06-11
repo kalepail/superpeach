@@ -4,8 +4,7 @@
     import { Networks } from "@stellar/stellar-sdk";
     import { keyId } from "../store/keyId";
     import { getBalance, submit } from "../lib/passkey";
-    import { connect, fund, register } from "../lib/common";
-    import { arraysEqual } from "../lib/utils";
+    import { arraysEqual, connect, fund, register } from "../lib/common";
     import { PasskeyKit } from "passkey-kit";
 
     let walletData: Map<string, any> = new Map();
