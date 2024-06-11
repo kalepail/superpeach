@@ -2,7 +2,7 @@ import { Account, nativeToScVal, Operation, scValToNative, SorobanRpc, Transacti
 import { rpc } from './common';
 
 export async function submit(xdr: string) {
-    return fetch(`${import.meta.env.PUBLIC_superpeachUrl}/api/submit`, {
+    return fetch('/api/submit', {
         method: "POST",
         body: xdr,
     }).then(async (res) => {
