@@ -1,15 +1,13 @@
 import { Address, Keypair, Networks, Transaction } from "@stellar/stellar-base";
 import type { APIRoute } from "astro"
-import { PasskeyAccount } from 'passkey-kit'
+import { PasskeyBase } from 'passkey-kit'
 
 const sequenceKeypair = Keypair.fromSecret(import.meta.env.PRIVATE_sequenceSecret);
 const sequencePubkey = sequenceKeypair.publicKey()
 
-const account = new PasskeyAccount({
-    sequencePublicKey: sequenceKeypair.publicKey(),
+const account = new PasskeyBase({
     networkPassphrase: import.meta.env.PUBLIC_networkPassphrase as Networks,
     horizonUrl: import.meta.env.PUBLIC_horizonUrl,
-    rpcUrl: import.meta.env.PUBLIC_rpcUrl,
     feeBumpUrl: import.meta.env.PUBLIC_feeBumpUrl,
     feeBumpJwt: import.meta.env.PRIVATE_feeBumpJwt,
 });

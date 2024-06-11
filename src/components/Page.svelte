@@ -6,12 +6,12 @@
     import { getBalance, submit } from "../lib/passkey";
     import { connect, fund, register } from "../lib/common";
     import { arraysEqual } from "../lib/utils";
-    import { PasskeyAccount } from "passkey-kit";
+    import { PasskeyKit } from "passkey-kit";
 
     let walletData: Map<string, any> = new Map();
     let balance: string = "0";
 
-    const account = new PasskeyAccount({
+    const account = new PasskeyKit({
         sequencePublicKey: import.meta.env.PUBLIC_sequencePublickey,
         networkPassphrase: import.meta.env.PUBLIC_networkPassphrase as Networks,
         horizonUrl: import.meta.env.PUBLIC_horizonUrl,

@@ -5,7 +5,7 @@
     import base64url from "base64url";
     import { Networks } from "@stellar/stellar-sdk";
     import { formatDate } from "../lib/utils";
-    import { PasskeyAccount } from "passkey-kit";
+    import { PasskeyKit } from "passkey-kit";
     import { submit, transferSAC } from "../lib/passkey";
 
     // Register new passkey
@@ -14,7 +14,7 @@
 
     let popup: Window | null;
 
-    const account = new PasskeyAccount({
+    const account = new PasskeyKit({
         sequencePublicKey: import.meta.env.PUBLIC_sequencePublickey,
         networkPassphrase: import.meta.env.PUBLIC_networkPassphrase as Networks,
         horizonUrl: import.meta.env.PUBLIC_horizonUrl,

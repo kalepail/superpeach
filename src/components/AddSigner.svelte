@@ -3,7 +3,7 @@
     import { keyId } from "../store/keyId";
     import { Networks } from "@stellar/stellar-sdk";
     import { onMount } from "svelte";
-    import { PasskeyAccount } from "passkey-kit";
+    import { PasskeyKit } from "passkey-kit";
     import { connect, fund, register } from "../lib/common";
     import base64url from "base64url";
     import { submit } from "../lib/passkey";
@@ -14,7 +14,7 @@
     let signerKeyId: Buffer;
     let signerPublicKey: Buffer;
 
-    const account = new PasskeyAccount({
+    const account = new PasskeyKit({
         sequencePublicKey: import.meta.env.PUBLIC_sequencePublickey,
         networkPassphrase: import.meta.env.PUBLIC_networkPassphrase as Networks,
         horizonUrl: import.meta.env.PUBLIC_horizonUrl,
