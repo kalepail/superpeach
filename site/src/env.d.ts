@@ -9,6 +9,10 @@ interface ImportMetaEnv {
     readonly PUBLIC_superpeachUrl: string;
     readonly PUBLIC_name: string;
     readonly PUBLIC_style: string;
+    readonly PUBLIC_sequencePublickey: string;
+
+    readonly PRIVATE_sequenceSecret: string;
+    readonly PRIVATE_feeBumpJwt: string
 }
 
 interface ImportMeta {

@@ -3,11 +3,10 @@
     import { contractId } from "../store/contractId";
     import { keyId } from "../store/keyId";
     import base64url from "base64url";
-    import { Networks, Transaction } from "@stellar/stellar-sdk";
+    import { Networks } from "@stellar/stellar-sdk";
     import { formatDate } from "../lib/utils";
-    import { sequenceKeypair, sequencePubkey, submit } from '../lib/common'
     import { PasskeyAccount } from "passkey-kit";
-    import { transferSAC } from "../lib/passkey";
+    import { submit, transferSAC } from "../lib/passkey";
 
     // Register new passkey
     // Forward that key to super peach (both the id and the pk)
@@ -16,12 +15,10 @@
     let popup: Window | null;
 
     const account = new PasskeyAccount({
-        sequencePublicKey: sequenceKeypair.publicKey(),
+        sequencePublicKey: import.meta.env.PUBLIC_sequencePublickey,
         networkPassphrase: import.meta.env.PUBLIC_networkPassphrase as Networks,
         horizonUrl: import.meta.env.PUBLIC_horizonUrl,
         rpcUrl: import.meta.env.PUBLIC_rpcUrl,
-        feeBumpUrl: import.meta.env.PUBLIC_feeBumpUrl,
-        feeBumpJwt: import.meta.env.PUBLIC_feeBumpJwt,
     });
 
     const to = import.meta.env.PUBLIC_superpeachUrl;
@@ -106,7 +103,7 @@
     async function transfer() {
         const built = await transferSAC({
 			SAC: import.meta.env.PUBLIC_nativeContractId,
-			source: sequencePubkey,
+			source: import.meta.env.PUBLIC_sequencePublickey,
 			from: $contractId,
 			to: account.factory.options.contractId,
 			amount: 10_000_000

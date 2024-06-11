@@ -1,11 +1,12 @@
 <script lang="ts">
     import { contractId } from "../store/contractId";
     import { keyId } from "../store/keyId";
-    import { Networks, Transaction } from "@stellar/stellar-sdk";
+    import { Networks } from "@stellar/stellar-sdk";
     import { onMount } from "svelte";
     import { PasskeyAccount } from "passkey-kit";
-    import { connect, fund, register, sequenceKeypair, submit } from "../lib/common";
+    import { connect, fund, register } from "../lib/common";
     import base64url from "base64url";
+    import { submit } from "../lib/passkey";
 
     let url: URL;
     let params: URLSearchParams;
@@ -14,12 +15,10 @@
     let signerPublicKey: Buffer;
 
     const account = new PasskeyAccount({
-        sequencePublicKey: sequenceKeypair.publicKey(),
+        sequencePublicKey: import.meta.env.PUBLIC_sequencePublickey,
         networkPassphrase: import.meta.env.PUBLIC_networkPassphrase as Networks,
         horizonUrl: import.meta.env.PUBLIC_horizonUrl,
         rpcUrl: import.meta.env.PUBLIC_rpcUrl,
-        feeBumpUrl: import.meta.env.PUBLIC_feeBumpUrl,
-        feeBumpJwt: import.meta.env.PUBLIC_feeBumpJwt,
     });
 
     keyId.subscribe(async (kid) => {

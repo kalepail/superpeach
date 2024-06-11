@@ -1,5 +1,15 @@
-import { Account, nativeToScVal, Operation, scValToNative, SorobanRpc, TransactionBuilder, xdr, type Networks } from '@stellar/stellar-sdk';
+import { Account, nativeToScVal, Operation, scValToNative, SorobanRpc, TransactionBuilder, xdr } from '@stellar/stellar-sdk';
 import { rpc } from './common';
+
+export async function submit(xdr: string) {
+    return fetch("/api/submit", {
+        method: "POST",
+        body: xdr,
+    }).then(async (res) => {
+        if (res.ok) return res.json();
+        else throw await res.text();
+    });
+}
 
 export async function getBalance(id: string) {
     const val = xdr.ScVal.scvVec([

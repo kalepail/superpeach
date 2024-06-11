@@ -11,6 +11,9 @@ importers:
       '@simplewebauthn/browser':
         specifier: ^10.0.0
         version: 10.0.0
+      '@stellar/stellar-base':
+        specifier: ^12.0.0
+        version: 12.0.0
       '@stellar/stellar-sdk':
         specifier: 12.0.1
         version: 12.0.1
@@ -24,8 +27,8 @@ importers:
         specifier: ^1.5.9
         version: 1.5.9
       passkey-kit:
-        specifier: 0.0.29
-        version: 0.0.29
+        specifier: 0.1.1
+        version: 0.1.1
     devDependencies:
       '@astrojs/check':
         specifier: ^0.7.0
@@ -45,6 +48,9 @@ importers:
       astro:
         specifier: ^4.10.0
         version: 4.10.0(@types/node@20.14.2)(typescript@5.4.5)
+      serverless:
+        specifier: link:@astrojs/vercel/serverless
+        version: link:@astrojs/vercel/serverless
       svelte:
         specifier: ^4.2.18
         version: 4.2.18
@@ -2120,8 +2126,8 @@ packages:
   passkey-kit-sdk@0.0.7:
     resolution: {integrity: sha512-3e1stExMOFL0g9cBTeRsBdgxwj4Fdiz4c48cHjKFwW9qA4aHo0t0O7ohiYwBcQV8Jep1iVBT1T1iNtVgYOKbEQ==}
 
-  passkey-kit@0.0.29:
-    resolution: {integrity: sha512-+5F+BbzfKj1wKeHw3nRaxCBZAJqrue+B7aD61aOUDhSZ+PN6dIzzCzVLSfWFpHtKMMdxeiP3xX+9dTPlFdlZYw==}
+  passkey-kit@0.1.1:
+    resolution: {integrity: sha512-SN7EQBkl16Sc4dD6qnqDBdMjNwL6+6b1nICs1lNleUcM9ZmUe1Q6BnIihCXdd7TaeG6CO9RDR0oekwAasZcFXw==}
 
   path-browserify@1.0.1:
     resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
@@ -5264,7 +5270,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  passkey-kit@0.0.29:
+  passkey-kit@0.1.1:
     dependencies:
       '@simplewebauthn/browser': 10.0.0
       '@simplewebauthn/types': 10.0.0

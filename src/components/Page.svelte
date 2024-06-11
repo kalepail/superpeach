@@ -1,10 +1,10 @@
 <script lang="ts">
     import { contractId } from "../store/contractId";
     import base64url from "base64url";
-    import { Networks, Transaction } from "@stellar/stellar-sdk";
+    import { Networks } from "@stellar/stellar-sdk";
     import { keyId } from "../store/keyId";
-    import { getBalance } from "../lib/passkey";
-    import { connect, fund, register, sequenceKeypair, submit } from "../lib/common";
+    import { getBalance, submit } from "../lib/passkey";
+    import { connect, fund, register } from "../lib/common";
     import { arraysEqual } from "../lib/utils";
     import { PasskeyAccount } from "passkey-kit";
 
@@ -12,12 +12,10 @@
     let balance: string = "0";
 
     const account = new PasskeyAccount({
-        sequencePublicKey: sequenceKeypair.publicKey(),
+        sequencePublicKey: import.meta.env.PUBLIC_sequencePublickey,
         networkPassphrase: import.meta.env.PUBLIC_networkPassphrase as Networks,
         horizonUrl: import.meta.env.PUBLIC_horizonUrl,
         rpcUrl: import.meta.env.PUBLIC_rpcUrl,
-        feeBumpUrl: import.meta.env.PUBLIC_feeBumpUrl,
-        feeBumpJwt: import.meta.env.PUBLIC_feeBumpJwt,
     });
 
     keyId.subscribe(async (kid) => {

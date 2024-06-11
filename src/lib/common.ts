@@ -1,16 +1,13 @@
-import { Horizon, Keypair, SorobanRpc, Transaction } from "@stellar/stellar-sdk"
+import { Horizon, Keypair, SorobanRpc } from "@stellar/stellar-sdk"
 import { formatDate } from "./utils";
 import { contractId } from "../store/contractId";
 import { keyId } from "../store/keyId";
 import type { PasskeyAccount } from "passkey-kit";
-import { transferSAC } from "./passkey";
+import { submit, transferSAC } from "./passkey";
 import base64url from 'base64url'
 
 export const rpc = new SorobanRpc.Server(import.meta.env.PUBLIC_rpcUrl);
 export const horizon = new Horizon.Server(import.meta.env.PUBLIC_horizonUrl)
-
-export const sequenceKeypair = Keypair.fromSecret(import.meta.env.PUBLIC_sequenceSecret);
-export const sequencePubkey = sequenceKeypair.publicKey()
 
 export const fundKeypair = new Promise<Keypair>(async (resolve) => {
     const now = new Date();
@@ -29,16 +26,6 @@ export const fundKeypair = new Promise<Keypair>(async (resolve) => {
     resolve(keypair)
 })
 export const fundPubkey = (await fundKeypair).publicKey()
-
-export async function submit(xdr: string) {
-    return fetch("/api/submit", {
-        method: "POST",
-        body: xdr,
-    }).then(async (res) => {
-        if (res.ok) return res.json();
-        else throw await res.text();
-    });
-}
 
 export async function register(account: PasskeyAccount) {
     const user = `Super Peach ${formatDate()}`;

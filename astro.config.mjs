@@ -11,9 +11,6 @@ export default defineConfig({
         excludeFiles: ["site/**/*"],
     }),
     // vite: {
-    //     define: {
-    //         global: 'globalThis'
-    //     },
     //     plugins: [
     //         nodePolyfills({
     //             include: ['buffer']
