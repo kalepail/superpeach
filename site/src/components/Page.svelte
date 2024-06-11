@@ -4,9 +4,10 @@
     import { keyId } from "../store/keyId";
     import base64url from "base64url";
     import { Networks } from "@stellar/stellar-sdk";
-    import { formatDate } from "../lib/utils";
+
     import { PasskeyKit } from "passkey-kit";
     import { submit, transferSAC } from "../lib/passkey";
+    import { formatDate } from "../lib/common";
 
     // Register new passkey
     // Forward that key to super peach (both the id and the pk)
