@@ -22,21 +22,33 @@
     const to = import.meta.env.PUBLIC_superpeachUrl;
     const from = location.origin;
 
+    keyId.subscribe(async (kid) => {
+        if (kid && !account.keyId) {
+            const { contractId: cid } = await account.connectWallet(kid);
+            contractId.set(cid);
+        }
+    });
+
+    contractId.subscribe(async (cid) => {
+        if (cid && $keyId && !account.keyId)
+            await account.connectWallet($keyId);
+    });
+
     onDestroy(() => {
         window.removeEventListener("message", messenger);
     });
 
     onMount(async () => {
         window.addEventListener("message", messenger);
-
-        if ($keyId)
-            await account.connectWallet($keyId);
     });
 
     function messenger(event: MessageEvent<any>) {
         if (event.origin !== to) return;
 
         if (event.data.type === "wallet") {
+            // Now that we've got a contractId it's safe to connect the wallet
+            account.connectWallet($keyId);
+
             contractId.set(event.data.contractId);
             console.log(event.data.contractId);
 
@@ -100,19 +112,23 @@
         }
     }
     async function transfer() {
-        const { built } = await transferSAC({
-			SAC: import.meta.env.PUBLIC_nativeContractId,
-			from: $contractId,
-			to: account.factory.options.contractId,
-			amount: 10_000_000
-		});
+        try {
+            const { built } = await transferSAC({
+                SAC: import.meta.env.PUBLIC_nativeContractId,
+                from: $contractId,
+                to: account.factory.options.contractId,
+                amount: 10_000_000
+            });
 
-		const xdr = await account.sign(built, { keyId: $keyId });
-        const res = await send(xdr)
+            const xdr = await account.sign(built, { keyId: $keyId });
+            const res = await send(xdr)
 
-		console.log(res);
+            console.log(res);
 
-        alert("✅ Transfer complete");
+            alert("✅ Transfer complete");
+        } catch (err: any) {
+            alert(err.message)
+        }
     }
     async function logout() {
         localStorage.removeItem("sp:keyId");
