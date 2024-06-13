@@ -116,49 +116,6 @@
                     </li>
                 {/each}
             </ul>
-            <br />
-            <p>Sites</p>
-            {#if import.meta.env.DEV}
-                <ul>
-                    <li>
-                        <a
-                            class="text-[#ccaff8] underline"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href="http://localhost:4322/">localhost:4322</a
-                        >
-                    </li>
-                    <li>
-                        <a
-                            class="text-[#ccaff8] underline"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href="http://localhost:4323/">localhost:4323</a
-                        >
-                    </li>
-                </ul>
-            {:else}
-                <ul>
-                    <li>
-                        <a
-                            class="text-[#ccaff8] underline"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href="https://minipeach-a.vercel.app/"
-                            >minipeach-a.vercel.app</a
-                        >
-                    </li>
-                    <li>
-                        <a
-                            class="text-[#ccaff8] underline"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href="https://minipeach-b.vercel.app/"
-                            >minipeach-b.vercel.app</a
-                        >
-                    </li>
-                </ul>
-            {/if}
         {/if}
 
         {#if !$contractId}
@@ -170,6 +127,50 @@
                 class="bg-[#566b9b] text-white px-2 py-1 rounded mb-2"
                 on:click={onConnect}>+ Connect existing super key</button
             >
+        {/if}
+
+        <br />
+        <p>Sites</p>
+        {#if import.meta.env.DEV}
+            <ul>
+                <li>
+                    <a
+                        class="text-[#ccaff8] underline"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="http://localhost:4322/">localhost:4322</a
+                    >
+                </li>
+                <li>
+                    <a
+                        class="text-[#ccaff8] underline"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="http://localhost:4323/">localhost:4323</a
+                    >
+                </li>
+            </ul>
+        {:else}
+            <ul>
+                <li>
+                    <a
+                        class="text-[#ccaff8] underline"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://minipeach-a.vercel.app/"
+                        >minipeach-a.vercel.app</a
+                    >
+                </li>
+                <li>
+                    <a
+                        class="text-[#ccaff8] underline"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://minipeach-b.vercel.app/"
+                        >minipeach-b.vercel.app</a
+                    >
+                </li>
+            </ul>
         {/if}
     </div>
 
