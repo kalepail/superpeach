@@ -19,7 +19,10 @@
     });
 
     keyId.subscribe(async (kid) => {
-        if (kid && !account.keyId) await account.connectWallet(kid);
+        if (kid && !account.keyId) {
+            const { contractId: cid } = await account.connectWallet(kid);
+            contractId.set(cid);
+        }
     });
 
     onMount(async () => {
@@ -34,25 +37,33 @@
     });
 
     async function onRegister() {
-        await register(account);
-        await fund($contractId);
+        try {
+            await register(account);
+            await fund($contractId);
+        } catch(err: any) {
+            alert(err.message)
+        }
     }
     async function addSigner() {
-        const { built } = await account.wallet!.add_sig({
-            id: signerKeyId,
-            pk: signerPublicKey,
-        });
+        try {
+            const { built } = await account.wallet!.add_sig({
+                id: signerKeyId,
+                pk: signerPublicKey,
+            });
 
-        // xdr to txn funk due to TypeError: XDR Write Error: [object Object] is not a DecoratedSignature
-        const xdr = await account.sign(built!, { keyId: "sudo" });
-        const res = await send(xdr)
+            // xdr to txn funk due to TypeError: XDR Write Error: [object Object] is not a DecoratedSignature
+            const xdr = await account.sign(built!, { keyId: "sudo" });
+            const res = await send(xdr)
 
-        console.log(res);
+            console.log(res);
 
-        window.opener.postMessage(
-            { type: "wallet", contractId: $contractId },
-            origin,
-        );
+            window.opener.postMessage(
+                { type: "wallet", contractId: $contractId },
+                origin,
+            );
+        } catch(err: any) {
+            alert(err.message)
+        }
     }
 </script>
 

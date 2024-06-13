@@ -17,9 +17,10 @@
 
     keyId.subscribe(async (kid) => {
         if (kid && !account.keyId) {
-            await account.connectWallet(kid);
-            onGetBalance();
-            onGetData();
+            const { contractId: cid } = await account.connectWallet(kid);
+            contractId.set(cid);
+            await onGetBalance();
+            await onGetData();
         }
     });
 
@@ -60,7 +61,6 @@
     }
     async function logout() {
         localStorage.removeItem("sp:keyId");
-        localStorage.removeItem("sp:contractId");
         window.location.reload();
     }
 </script>
@@ -116,9 +116,7 @@
                     </li>
                 {/each}
             </ul>
-        {/if}
-
-        {#if !$contractId}
+        {:else}
             <button
                 class="bg-[#51ba95] text-white px-2 py-1 rounded mb-2"
                 on:click={onRegister}>+ Register new super key</button

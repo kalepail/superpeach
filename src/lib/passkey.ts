@@ -23,7 +23,6 @@ export async function register(account: PasskeyKit) {
 
     contractId.set(cid);
     console.log(cid);
-    localStorage.setItem("sp:contractId", cid);
 }
 export async function connect(account: PasskeyKit) {
     const { keyId: kid, contractId: cid } = await account.connectWallet();
@@ -36,7 +35,6 @@ export async function connect(account: PasskeyKit) {
 
     contractId.set(cid);
     console.log(cid);
-    localStorage.setItem("sp:contractId", cid);
 }
 export async function fund(to: string) {
     const { txn, sim } = await transferSAC({

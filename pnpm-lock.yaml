@@ -30,8 +30,8 @@ importers:
         specifier: ^1.5.9
         version: 1.5.9
       passkey-kit:
-        specifier: 0.2.1
-        version: 0.2.1
+        specifier: 0.2.4
+        version: 0.2.4
     devDependencies:
       '@astrojs/check':
         specifier: ^0.7.0
@@ -2764,8 +2764,8 @@ packages:
   passkey-kit-sdk@0.0.8:
     resolution: {integrity: sha512-CGKevAUGWAoqYlnnfI6yZ4vcokt5Fe8sg3oqg+7/Kxbq1s1Ck28l4ikicK/YldHbzckOu3G0F9Aoi3JfHPijbw==}
 
-  passkey-kit@0.2.1:
-    resolution: {integrity: sha512-4faZnVJJlqBbkDt26gd5PLyZuqKhlMsCabUmoa3kfe/vMffXcTapYHsCbBp3flTn49XH98jM8X9w6rdiHkl/jA==}
+  passkey-kit@0.2.4:
+    resolution: {integrity: sha512-GgD8KJvDcMoWJ6IV++fEOfMA3zukBPDNfvaQZ7Ns7vI0BLuMfe7Vno48juNIkuyjxa7JduPYAAonJ9KYC5W36w==}
 
   path-browserify@1.0.1:
     resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
@@ -6821,7 +6821,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  passkey-kit@0.2.1:
+  passkey-kit@0.2.4:
     dependencies:
       '@simplewebauthn/browser': 10.0.0
       '@stellar/stellar-sdk': 12.0.1

@@ -8,7 +8,6 @@
     import { send, transferSAC } from "../lib/passkey";
     import { formatDate } from "../lib/common";
 
-
     // Register new passkey
     // Forward that key to super peach (both the id and the pk)
     // Send contract address back if successfully added
@@ -27,8 +26,11 @@
         window.removeEventListener("message", messenger);
     });
 
-    onMount(() => {
+    onMount(async () => {
         window.addEventListener("message", messenger);
+
+        if ($keyId)
+            await account.connectWallet($keyId);
     });
 
     function messenger(event: MessageEvent<any>) {
@@ -37,13 +39,12 @@
         if (event.data.type === "wallet") {
             contractId.set(event.data.contractId);
             console.log(event.data.contractId);
-            localStorage.setItem("sp:contractId", event.data.contractId);
 
             popup?.close();
         }
     }
 
-    async function openPage(type?: "signin") {
+    async function connect(type?: "signin") {
         let kid: Buffer | undefined
         let publicKey: Buffer | undefined
 
@@ -55,7 +56,6 @@
 
                 contractId.set(wallet.contractId);
                 console.log(wallet.contractId);
-                localStorage.setItem("sp:contractId", $contractId);
             } else {
                 const key = await account.createKey("Super Peach", `${import.meta.env.PUBLIC_name} ${formatDate()}`)
 
@@ -63,7 +63,7 @@
                 publicKey = key.publicKey
             }
         } catch(err: any) {
-            alert(err.message)
+            return alert(err.message)
         }
 
         const keyId_base64url = base64url.encode(kid!);
@@ -116,7 +116,6 @@
     }
     async function logout() {
         localStorage.removeItem("sp:keyId");
-        localStorage.removeItem("sp:contractId");
         window.location.reload();
     }
 </script>
@@ -134,9 +133,6 @@
         <p>{$contractId}</p>
         <p>{$keyId}</p>
         <br />
-    {/if}
-
-    {#if $contractId}
         <button
             class="bg-[#51ba95] text-white px-2 py-1 rounded"
             on:click={transfer}>Transfer 1 XLM</button
@@ -144,11 +140,11 @@
     {:else}
         <button
             class="bg-[#51ba95] text-white px-2 py-1 rounded mb-2"
-            on:click|trusted={() => openPage()}>+ Register new signer</button
+            on:click|trusted={() => connect()}>+ Register new signer</button
         >
         <button
             class="bg-[#566b9b] text-white px-2 py-1 rounded mb-2"
-            on:click|trusted={() => openPage("signin")}
+            on:click|trusted={() => connect("signin")}
             >+ Connect existing signer</button
         >
     {/if}
