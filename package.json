@@ -17,14 +17,15 @@
     "@stellar/stellar-sdk": "12.0.1",
     "base64url": "^3.0.1",
     "bigint-conversion": "^2.4.3",
+    "buffer": "^6.0.3",
     "cbor-x": "^1.5.9",
-    "passkey-kit": "0.2.0"
+    "passkey-kit": "0.2.1"
   },
   "devDependencies": {
-    "@astrojs/vercel": "^7.6.0",
     "@astrojs/check": "^0.7.0",
     "@astrojs/svelte": "^5.5.0",
     "@astrojs/tailwind": "^5.1.0",
+    "@astrojs/vercel": "^7.6.0",
     "@simplewebauthn/types": "^10.0.0",
     "@types/node": "^20.14.2",
     "astro": "^4.10.0",

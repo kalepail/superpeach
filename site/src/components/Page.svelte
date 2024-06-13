@@ -4,10 +4,10 @@
     import { keyId } from "../store/keyId";
     import base64url from "base64url";
     import { Networks } from "@stellar/stellar-sdk";
-
     import { PasskeyKit } from "passkey-kit";
-    import { submit, transferSAC } from "../lib/passkey";
+    import { send, transferSAC } from "../lib/passkey";
     import { formatDate } from "../lib/common";
+
 
     // Register new passkey
     // Forward that key to super peach (both the id and the pk)
@@ -16,9 +16,7 @@
     let popup: Window | null;
 
     const account = new PasskeyKit({
-        sequencePublicKey: import.meta.env.PUBLIC_sequencePublickey,
         networkPassphrase: import.meta.env.PUBLIC_networkPassphrase as Networks,
-        horizonUrl: import.meta.env.PUBLIC_horizonUrl,
         rpcUrl: import.meta.env.PUBLIC_rpcUrl,
     });
 
@@ -102,16 +100,15 @@
         }
     }
     async function transfer() {
-        const built = await transferSAC({
+        const { built } = await transferSAC({
 			SAC: import.meta.env.PUBLIC_nativeContractId,
-			source: import.meta.env.PUBLIC_sequencePublickey,
 			from: $contractId,
 			to: account.factory.options.contractId,
 			amount: 10_000_000
 		});
 
 		const xdr = await account.sign(built, { keyId: $keyId });
-        const res = await submit(xdr)
+        const res = await send(xdr)
 
 		console.log(res);
 

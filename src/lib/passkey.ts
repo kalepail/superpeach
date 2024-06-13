@@ -1,8 +1,70 @@
-import { Account, nativeToScVal, Operation, scValToNative, SorobanRpc, TransactionBuilder, xdr } from '@stellar/stellar-sdk';
-import { rpc } from './common';
+import { authorizeEntry, nativeToScVal, Operation, scValToNative, SorobanRpc, TransactionBuilder, xdr } from "@stellar/stellar-sdk"
+import { contractId } from "../store/contractId";
+import { keyId } from "../store/keyId";
+import type { PasskeyKit } from "passkey-kit";
+import base64url from 'base64url'
+import { formatDate, fundKeypair, fundPubkey, mockSource, rpc } from "./common";
 
-export async function submit(xdr: string) {
-    return fetch("/api/submit", {
+export async function register(account: PasskeyKit) {
+    const user = `Super Peach ${formatDate()}`;
+    const {
+        keyId: kid,
+        contractId: cid,
+        xdr,
+    } = await account.createWallet("Super Peach", user);
+    
+    await send(xdr);
+
+    const keyId_base64url = base64url(kid)
+
+    keyId.set(keyId_base64url);
+    console.log(keyId_base64url);
+    localStorage.setItem("sp:keyId", keyId_base64url);
+
+    contractId.set(cid);
+    console.log(cid);
+    localStorage.setItem("sp:contractId", cid);
+}
+export async function connect(account: PasskeyKit) {
+    const { keyId: kid, contractId: cid } = await account.connectWallet();
+
+    const keyId_base64url = base64url(kid)
+
+    keyId.set(keyId_base64url);
+    console.log(keyId_base64url);
+    localStorage.setItem("sp:keyId", keyId_base64url);
+
+    contractId.set(cid);
+    console.log(cid);
+    localStorage.setItem("sp:contractId", cid);
+}
+export async function fund(to: string) {
+    const { txn, sim } = await transferSAC({
+        SAC: import.meta.env.PUBLIC_nativeContractId,
+        from: fundPubkey,
+        to,
+        amount: 100 * 10_000_000,
+    });
+
+    const op = txn.operations[0] as Operation.InvokeHostFunction
+
+    for (const auth of sim.result?.auth || []) {
+        const signEntry = await authorizeEntry(
+            auth, 
+            await fundKeypair, 
+            sim.latestLedger + 60, 
+            import.meta.env.PUBLIC_networkPassphrase
+        )
+        
+        op.auth!.push(signEntry)
+    }
+
+    const res = await send(txn.toXDR());
+
+    console.log(res);
+}
+export async function send(xdr: string) {
+    return fetch("/api/send", {
         method: "POST",
         body: xdr,
     }).then(async (res) => {
@@ -27,19 +89,15 @@ export async function getBalance(id: string) {
 
     return (amount as BigInt).toString()
 }
-
 export async function transferSAC(args: {
-    SAC: string, 
-    source: string, 
+    SAC: string,
     from: string, 
     to: string, 
-    amount: number
+    amount: number,
     fee?: number
 }) {
-    const { SAC, source, from, to, amount, fee = 0 } = args
-    const account = await rpc.getAccount(source).then((res) => new Account(res.accountId(), res.sequenceNumber()))
-
-    const simTxn = new TransactionBuilder(account, {
+    const { SAC, from, to, amount, fee = 0 } = args
+    const txn = new TransactionBuilder(mockSource, {
         fee: fee.toString(),
         networkPassphrase: import.meta.env.PUBLIC_networkPassphrase
     })
@@ -50,19 +108,21 @@ export async function transferSAC(args: {
                 nativeToScVal(from, { type: 'address' }),
                 nativeToScVal(to, { type: 'address' }),
                 nativeToScVal(amount, { type: 'i128' })
-            ]
+            ],
         }))
         .setTimeout(5 * 60)
         .build()
 
-    const sim = await rpc.simulateTransaction(simTxn)
+    const sim = await rpc.simulateTransaction(txn)
 
     if (
         SorobanRpc.Api.isSimulationError(sim)
         || SorobanRpc.Api.isSimulationRestore(sim)
     ) throw sim
 
-    const authTxn = SorobanRpc.assembleTransaction(simTxn, sim).build()
-
-    return authTxn
+    return {
+        txn,
+        sim,
+        built: SorobanRpc.assembleTransaction(txn, sim).build()
+    }
 }

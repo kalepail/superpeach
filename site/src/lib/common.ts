@@ -1,7 +1,11 @@
-import { Horizon, SorobanRpc } from "@stellar/stellar-sdk"
+import { Account, Keypair, SorobanRpc } from "@stellar/stellar-sdk"
+import { Buffer } from "buffer";
 
 export const rpc = new SorobanRpc.Server(import.meta.env.PUBLIC_rpcUrl);
-export const horizon = new Horizon.Server(import.meta.env.PUBLIC_horizonUrl)
+
+export const mockKeypair = Keypair.fromRawEd25519Seed(Buffer.alloc(32)) // NOTE this isn't the actual zero address
+export const mockPubkey = mockKeypair.publicKey()
+export const mockSource = new Account(mockPubkey, '0')
 
 export function formatDate() {
     const date = new Date(); // Get current date

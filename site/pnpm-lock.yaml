@@ -23,12 +23,15 @@ importers:
       bigint-conversion:
         specifier: ^2.4.3
         version: 2.4.3
+      buffer:
+        specifier: ^6.0.3
+        version: 6.0.3
       cbor-x:
         specifier: ^1.5.9
         version: 1.5.9
       passkey-kit:
-        specifier: 0.2.0
-        version: 0.2.0
+        specifier: 0.2.1
+        version: 0.2.1
     devDependencies:
       '@astrojs/check':
         specifier: ^0.7.0
@@ -2273,14 +2276,14 @@ packages:
   pascal-case@3.1.2:
     resolution: {integrity: sha512-uWlGT3YSnK9x3BQJaOdcZwrnV6hPpd8jFH1/ucpiLRPh/2zCVJKS19E4GvYHvaCcACn3foXZ0cLB9Wrx1KGe5g==}
 
-  passkey-factory-sdk@0.0.7:
-    resolution: {integrity: sha512-Vrkdgnvha2KVU1jP+h3JG64JD/HXJms78hIrm5Joq22dVF4FHJBLit3WSGWgh+q00UrfU/rG5fmtPx34CAEXWQ==}
+  passkey-factory-sdk@0.0.8:
+    resolution: {integrity: sha512-BHGfBKKeNYhsJKbIcLuYU+Lpq6gSxBB3a2WPJ7Rxw/6V1Uxm1Cz/BEGy1b/r3wdN4LAMzpQs+8TZYIYcTaYBUA==}
 
-  passkey-kit-sdk@0.0.7:
-    resolution: {integrity: sha512-3e1stExMOFL0g9cBTeRsBdgxwj4Fdiz4c48cHjKFwW9qA4aHo0t0O7ohiYwBcQV8Jep1iVBT1T1iNtVgYOKbEQ==}
+  passkey-kit-sdk@0.0.8:
+    resolution: {integrity: sha512-CGKevAUGWAoqYlnnfI6yZ4vcokt5Fe8sg3oqg+7/Kxbq1s1Ck28l4ikicK/YldHbzckOu3G0F9Aoi3JfHPijbw==}
 
-  passkey-kit@0.2.0:
-    resolution: {integrity: sha512-YCw2LsYa7VfcHcIcStM70swwBrEdVUzH0gI3usjvYAJM8lYwJ83KUOBRhYkf+MytIbj+4jlnHY/Pl5TeftN4UA==}
+  passkey-kit@0.2.1:
+    resolution: {integrity: sha512-4faZnVJJlqBbkDt26gd5PLyZuqKhlMsCabUmoa3kfe/vMffXcTapYHsCbBp3flTn49XH98jM8X9w6rdiHkl/jA==}
 
   path-browserify@1.0.1:
     resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
@@ -5638,21 +5641,21 @@ snapshots:
       no-case: 3.0.4
       tslib: 2.6.2
 
-  passkey-factory-sdk@0.0.7:
+  passkey-factory-sdk@0.0.8:
     dependencies:
       '@stellar/stellar-sdk': 12.0.1
       buffer: 6.0.3
     transitivePeerDependencies:
       - debug
 
-  passkey-kit-sdk@0.0.7:
+  passkey-kit-sdk@0.0.8:
     dependencies:
       '@stellar/stellar-sdk': 12.0.1
       buffer: 6.0.3
     transitivePeerDependencies:
       - debug
 
-  passkey-kit@0.2.0:
+  passkey-kit@0.2.1:
     dependencies:
       '@simplewebauthn/browser': 10.0.0
       '@stellar/stellar-sdk': 12.0.1
@@ -5660,8 +5663,8 @@ snapshots:
       bigint-conversion: 2.4.3
       buffer: 6.0.3
       cbor-x: 1.5.9
-      passkey-factory-sdk: 0.0.7
-      passkey-kit-sdk: 0.0.7
+      passkey-factory-sdk: 0.0.8
+      passkey-kit-sdk: 0.0.8
     transitivePeerDependencies:
       - debug
 

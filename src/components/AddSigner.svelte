@@ -4,9 +4,8 @@
     import { Networks } from "@stellar/stellar-sdk";
     import { onMount } from "svelte";
     import { PasskeyKit } from "passkey-kit";
-    import { connect, fund, register } from "../lib/common";
     import base64url from "base64url";
-    import { submit } from "../lib/passkey";
+    import { connect, fund, register, send } from "../lib/passkey";
 
     let url: URL;
     let params: URLSearchParams;
@@ -15,9 +14,7 @@
     let signerPublicKey: Buffer;
 
     const account = new PasskeyKit({
-        sequencePublicKey: import.meta.env.PUBLIC_sequencePublickey,
         networkPassphrase: import.meta.env.PUBLIC_networkPassphrase as Networks,
-        horizonUrl: import.meta.env.PUBLIC_horizonUrl,
         rpcUrl: import.meta.env.PUBLIC_rpcUrl,
     });
 
@@ -48,7 +45,7 @@
 
         // xdr to txn funk due to TypeError: XDR Write Error: [object Object] is not a DecoratedSignature
         const xdr = await account.sign(built!, { keyId: "sudo" });
-        const res = await submit(xdr)
+        const res = await send(xdr)
 
         console.log(res);
 

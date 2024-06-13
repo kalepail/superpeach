@@ -3,17 +3,15 @@
     import base64url from "base64url";
     import { Networks } from "@stellar/stellar-sdk";
     import { keyId } from "../store/keyId";
-    import { getBalance, submit } from "../lib/passkey";
-    import { arraysEqual, connect, fund, register } from "../lib/common";
+    import { getBalance, connect, fund, register, send } from "../lib/passkey";
+    import { arraysEqual } from "../lib/common";
     import { PasskeyKit } from "passkey-kit";
 
     let walletData: Map<string, any> = new Map();
     let balance: string = "0";
 
     const account = new PasskeyKit({
-        sequencePublicKey: import.meta.env.PUBLIC_sequencePublickey,
         networkPassphrase: import.meta.env.PUBLIC_networkPassphrase as Networks,
-        horizonUrl: import.meta.env.PUBLIC_horizonUrl,
         rpcUrl: import.meta.env.PUBLIC_rpcUrl,
     });
 
@@ -54,7 +52,7 @@
         });
 
         const xdr = await account.sign(built!, { keyId: "sudo" });
-        const res = await submit(xdr);
+        const res = await send(xdr);
 
         console.log(res);
 
