@@ -17,6 +17,9 @@ importers:
       '@stellar/stellar-sdk':
         specifier: 12.0.1
         version: 12.0.1
+      '@vercel/analytics':
+        specifier: ^1.3.1
+        version: 1.3.1
       base64url:
         specifier: ^3.0.1
         version: 3.0.1

@@ -9,6 +9,9 @@ export default defineConfig({
     output: "server",
     adapter: vercel({
         excludeFiles: ["site/**/*"],
+        webAnalytics: {
+            enabled: true,
+        }
     }),
     // vite: {
     //     plugins: [
