@@ -3,9 +3,9 @@
 A passkey powered multi signer abstract account contract example.
 
 Play with the demo here:
-- https://superpeach.pages.dev/
-- https://minipeach-a.pages.dev/
-- https://minipeach-b.pages.dev/
+- [superpeach.vercel.app](https://superpeach.vercel.app/)
+- [minipeach-a.vercel.app](https://minipeach-a.vercel.app/)
+- [minipeach-b.vercel.app](https://minipeach-b.vercel.app/)
 
 ```
 mv .env.example .env
