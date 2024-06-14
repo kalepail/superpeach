@@ -1,10 +1,9 @@
-import { Account, Keypair, SorobanRpc } from "@stellar/stellar-sdk"
+import { Account, SorobanRpc, StrKey } from "@stellar/stellar-sdk"
 import { Buffer } from "buffer";
 
 export const rpc = new SorobanRpc.Server(import.meta.env.PUBLIC_rpcUrl);
 
-export const mockKeypair = Keypair.fromRawEd25519Seed(Buffer.alloc(32)) // NOTE this isn't the actual zero address
-export const mockPubkey = mockKeypair.publicKey()
+export const mockPubkey = StrKey.encodeEd25519PublicKey(Buffer.alloc(32))
 export const mockSource = new Account(mockPubkey, '0')
 
 export function formatDate() {
