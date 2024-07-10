@@ -3,24 +3,36 @@
     import base64url from "base64url";
     import { Networks } from "@stellar/stellar-sdk";
     import { keyId } from "../store/keyId";
-    import { getBalance, connect, fund, register, send } from "../lib/passkey";
-    import { arraysEqual } from "../lib/common";
+    import {
+        getBalance,
+        connect,
+        fund,
+        register,
+        send,
+        getContractId,
+        getSigners,
+    } from "../lib/passkey";
     import { PasskeyKit } from "passkey-kit";
+    import type { Signer } from "../lib/common";
 
-    let walletData: Map<string, any> = new Map();
+    let signers: Signer[] = [];
     let balance: string = "0";
 
     const account = new PasskeyKit({
-        networkPassphrase: import.meta.env.PUBLIC_networkPassphrase as Networks,
         rpcUrl: import.meta.env.PUBLIC_rpcUrl,
+        networkPassphrase: import.meta.env.PUBLIC_networkPassphrase as Networks,
+        factoryContractId: import.meta.env.PUBLIC_factoryContractId,
     });
 
     keyId.subscribe(async (kid) => {
         if (kid && !account.keyId) {
-            const { contractId: cid } = await account.connectWallet(kid);
+            const { contractId: cid } = await account.connectWallet({
+                keyId: kid,
+                getContractId,
+            });
             contractId.set(cid);
             await onGetBalance();
-            await onGetData();
+            await onGetSigners();
         }
     });
 
@@ -29,13 +41,13 @@
         await fund($contractId);
 
         await onGetBalance();
-        await onGetData();
+        await onGetSigners();
     }
     async function onConnect() {
         await connect(account);
 
         await onGetBalance();
-        await onGetData();
+        await onGetSigners();
     }
     async function onFund() {
         await fund($contractId);
@@ -44,20 +56,21 @@
     async function onGetBalance() {
         balance = await getBalance($contractId);
     }
-    async function onGetData() {
-        walletData = await account.getData();
+    async function onGetSigners() {
+        signers = await getSigners($contractId);
+        console.log(signers);
     }
-    async function onRemoveSignature(signer: Uint8Array) {
-        const { built } = await account.wallet!.rm_sig({
-            id: Buffer.from(signer),
+    async function onRemoveSignature(signer: string) {
+        const { built } = await account.wallet!.remove({
+            id: base64url.toBuffer(signer),
         });
 
-        const xdr = await account.sign(built!, { keyId: "sudo" });
+        const xdr = await account.sign(built!, { keyId: $keyId });
         const res = await send(xdr);
 
         console.log(res);
 
-        await onGetData();
+        await onGetSigners();
     }
     async function logout() {
         localStorage.removeItem("sp:keyId");
@@ -98,18 +111,18 @@
                 Signers
                 <button
                     class="text-xs uppercase bg-[#566b9b] rounded text-white px-2 py-1"
-                    on:click={onGetData}>Refresh</button
+                    on:click={onGetSigners}>Refresh</button
                 >
             </p>
             <ul>
-                {#each walletData.size ? walletData.get("sigs") : [] as signer}
+                {#each signers as { id, admin }}
                     <li>
-                        {base64url(signer)}
+                        {id}
 
-                        {#if walletData.size && !arraysEqual(signer, walletData.get("sudo_sig"))}
+                        {#if !admin}
                             <button
                                 class="text-xs uppercase bg-[#ee494e] rounded text-white px-2 py-1"
-                                on:click={() => onRemoveSignature(signer)}
+                                on:click={() => onRemoveSignature(id)}
                                 >Remove</button
                             >
                         {/if}

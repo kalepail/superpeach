@@ -5,7 +5,7 @@
     import { onMount } from "svelte";
     import { PasskeyKit } from "passkey-kit";
     import base64url from "base64url";
-    import { connect, fund, register, send } from "../lib/passkey";
+    import { connect, fund, getContractId, register, send } from "../lib/passkey";
 
     let url: URL;
     let params: URLSearchParams;
@@ -14,13 +14,17 @@
     let signerPublicKey: Buffer;
 
     const account = new PasskeyKit({
-        networkPassphrase: import.meta.env.PUBLIC_networkPassphrase as Networks,
         rpcUrl: import.meta.env.PUBLIC_rpcUrl,
+        networkPassphrase: import.meta.env.PUBLIC_networkPassphrase as Networks,
+        factoryContractId: import.meta.env.PUBLIC_factoryContractId,
     });
 
     keyId.subscribe(async (kid) => {
         if (kid && !account.keyId) {
-            const { contractId: cid } = await account.connectWallet(kid);
+            const { contractId: cid } = await account.connectWallet({
+                keyId: kid,
+                getContractId
+            });
             contractId.set(cid);
         }
     });
@@ -46,13 +50,14 @@
     }
     async function addSigner() {
         try {
-            const { built } = await account.wallet!.add_sig({
+            const { built } = await account.wallet!.add({
                 id: signerKeyId,
                 pk: signerPublicKey,
+                admin: false
             });
 
             // xdr to txn funk due to TypeError: XDR Write Error: [object Object] is not a DecoratedSignature
-            const xdr = await account.sign(built!, { keyId: "sudo" });
+            const xdr = await account.sign(built!, { keyId: $keyId });
             const res = await send(xdr)
 
             console.log(res);

@@ -1,6 +1,13 @@
 import { Account, Keypair, SorobanRpc } from "@stellar/stellar-sdk"
 import { Buffer } from "buffer";
 
+export type Signer = {
+    id: string;
+    pk: string;
+    admin: boolean;
+    expired: boolean;
+}
+
 export const rpc = new SorobanRpc.Server(import.meta.env.PUBLIC_rpcUrl);
 
 export const mockKeypair = Keypair.fromRawEd25519Seed(Buffer.alloc(32)) // NOTE this isn't the actual zero address
@@ -32,11 +39,4 @@ export function formatDate() {
     const year = date.getFullYear(); // Get full year
     
     return `${day}/${month}/${year}`; // Return the formatted date
-}
-
-export function arraysEqual(arr1: Uint8Array, arr2: Uint8Array) {
-    return (
-        arr1?.length === arr2?.length &&
-        arr1.every((value, index) => value === arr2[index])
-    );
 }
