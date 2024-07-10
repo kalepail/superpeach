@@ -20,8 +20,8 @@
         factoryContractId: import.meta.env.PUBLIC_factoryContractId,
     });
 
-    const to = import.meta.env.PUBLIC_superpeachUrl;
-    const from = location.origin;
+    // const to = import.meta.env.PUBLIC_superpeachUrl;
+    // const from = location.origin;
 
     keyId.subscribe(async (kid) => {
         if (kid && !account.keyId) {
@@ -42,7 +42,7 @@
     });
 
     async function messenger(event: MessageEvent<any>) {
-        if (event.origin !== to) return;
+        if (event.origin !== import.meta.env.PUBLIC_superpeachUrl) return;
 
         if (event.data.type === "wallet") {
             console.log(event);
@@ -87,7 +87,7 @@
 
                 // TODO should probably pass id and public key through postmessage vs the url
                 popup = window.open(
-                    `${to}/add-signer?from=${encodeURIComponent(from)}&keyId=${kid.toString("hex")}&publicKey=${wallet.publicKey.toString("hex")}`,
+                    `${import.meta.env.PUBLIC_superpeachUrl}/add-signer?from=${encodeURIComponent(location.origin)}&keyId=${kid.toString("hex")}&publicKey=${wallet.publicKey.toString("hex")}`,
                     "Super Peach",
                     windowFeatures,
                 );
