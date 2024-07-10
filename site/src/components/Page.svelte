@@ -10,9 +10,7 @@
 
     // Register new passkey
     // Forward that key to super peach (both the id and the pk)
-    // Send contract address back if successfully added
-
-    // TODO so many `connectWallet` calls. Why?!
+    // Send success back if successfully added
 
     let popup: Window | null;
 
@@ -35,14 +33,6 @@
         }
     });
 
-    contractId.subscribe(async (cid) => {
-        if (cid && $keyId && !account.keyId)
-            await account.connectWallet({
-                keyId: $keyId,
-                getContractId
-        });
-    });
-
     onDestroy(() => {
         window.removeEventListener("message", messenger);
     });
@@ -51,78 +41,71 @@
         window.addEventListener("message", messenger);
     });
 
-    function messenger(event: MessageEvent<any>) {
+    async function messenger(event: MessageEvent<any>) {
         if (event.origin !== to) return;
 
         if (event.data.type === "wallet") {
-            // Now that we've got a contractId it's safe to connect the wallet
-            account.connectWallet({
+            console.log(event);
+
+            const { contractId: cid } = await account.connectWallet({
                 keyId: $keyId,
                 getContractId
             });
 
-            contractId.set(event.data.contractId);
-            console.log(event.data.contractId);
+            contractId.set(cid);
+            console.log(cid);
 
             popup?.close();
         }
     }
 
     async function connect(type?: "signin") {
-        let kid: Buffer | undefined
-        let publicKey: Buffer | undefined
-
         try {
+            let kid: Buffer;
+
             if (type === "signin") {
                 const wallet = await account.connectWallet({
                     getContractId
                 });
 
-                kid = wallet.keyId
-
                 contractId.set(wallet.contractId);
                 console.log(wallet.contractId);
-            } else {
-                const key = await account.createKey("Super Peach", `${import.meta.env.PUBLIC_name} ${formatDate()}`)
 
-                kid = key.keyId
-                publicKey = key.publicKey
+                kid = wallet.keyId;
+                
+            } else {
+                const wallet = await account.createKey("Super Peach", `${import.meta.env.PUBLIC_name} ${formatDate()}`)
+
+                kid = wallet.keyId
+
+                const w = 400;
+                const h = 500;
+                const left = window.screenX + (window.outerWidth - w) / 2;
+                const top = window.screenY + (window.outerHeight - h) / 2;
+
+                const windowFeatures = `width=${w},height=${h},left=${left},top=${top},resizable=no,scrollbars=no,menubar=no,toolbar=no,location=no,status=no`;
+
+                // TODO should probably pass id and public key through postmessage vs the url
+                popup = window.open(
+                    `${to}/add-signer?from=${encodeURIComponent(from)}&keyId=${kid.toString("hex")}&publicKey=${wallet.publicKey.toString("hex")}`,
+                    "Super Peach",
+                    windowFeatures,
+                );
+
+                if (!popup) {
+                    alert("Popup was blocked by the browser.");
+                } else {
+                    popup.focus();
+                }
             }
+
+            const keyId_base64url = base64url.encode(kid);
+
+            keyId.set(keyId_base64url);
+            console.log(keyId_base64url);
+            localStorage.setItem("sp:keyId", keyId_base64url);
         } catch(err: any) {
             return alert(err.message)
-        }
-
-        const keyId_base64url = base64url.encode(kid!);
-
-        keyId.set(keyId_base64url);
-        console.log(keyId_base64url);
-        localStorage.setItem("sp:keyId", keyId_base64url);
-
-        // Successfully signed in, no need to forward anything to Super Peach
-        if ($keyId && $contractId)
-            return;
-
-        if (!kid || !publicKey) 
-            return alert("Something went wrong")
-
-        const w = 400;
-        const h = 500;
-        const left = window.screenX + (window.outerWidth - w) / 2;
-        const top = window.screenY + (window.outerHeight - h) / 2;
-
-        const windowFeatures = `width=${w},height=${h},left=${left},top=${top},resizable=no,scrollbars=no,menubar=no,toolbar=no,location=no,status=no`;
-
-        // TODO should probably pass id and public key through postmessage vs the url
-        popup = window.open(
-            `${to}/add-signer?from=${encodeURIComponent(from)}&keyId=${kid.toString("hex")}&publicKey=${publicKey.toString("hex")}`,
-            "Super Peach",
-            windowFeatures,
-        );
-
-        if (!popup) {
-            alert("Popup was blocked by the browser.");
-        } else {
-            popup.focus();
         }
     }
     async function transfer() {

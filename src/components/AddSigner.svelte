@@ -63,7 +63,7 @@
             console.log(res);
 
             window.opener.postMessage(
-                { type: "wallet", contractId: $contractId },
+                { type: "wallet", message: 'OK' },
                 origin,
             );
         } catch(err: any) {
