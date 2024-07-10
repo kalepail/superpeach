@@ -5,18 +5,21 @@
     import base64url from "base64url";
     import { Networks } from "@stellar/stellar-sdk";
     import { PasskeyKit } from "passkey-kit";
-    import { send, transferSAC } from "../lib/passkey";
+    import { getContractId, send, transferSAC } from "../lib/passkey";
     import { formatDate } from "../lib/common";
 
     // Register new passkey
     // Forward that key to super peach (both the id and the pk)
     // Send contract address back if successfully added
 
+    // TODO so many `connectWallet` calls. Why?!
+
     let popup: Window | null;
 
     const account = new PasskeyKit({
-        networkPassphrase: import.meta.env.PUBLIC_networkPassphrase as Networks,
         rpcUrl: import.meta.env.PUBLIC_rpcUrl,
+        networkPassphrase: import.meta.env.PUBLIC_networkPassphrase as Networks,
+        factoryContractId: import.meta.env.PUBLIC_factoryContractId,
     });
 
     const to = import.meta.env.PUBLIC_superpeachUrl;
@@ -24,14 +27,20 @@
 
     keyId.subscribe(async (kid) => {
         if (kid && !account.keyId) {
-            const { contractId: cid } = await account.connectWallet(kid);
+            const { contractId: cid } = await account.connectWallet({
+                keyId: kid,
+                getContractId
+            });
             contractId.set(cid);
         }
     });
 
     contractId.subscribe(async (cid) => {
         if (cid && $keyId && !account.keyId)
-            await account.connectWallet($keyId);
+            await account.connectWallet({
+                keyId: $keyId,
+                getContractId
+        });
     });
 
     onDestroy(() => {
@@ -47,7 +56,10 @@
 
         if (event.data.type === "wallet") {
             // Now that we've got a contractId it's safe to connect the wallet
-            account.connectWallet($keyId);
+            account.connectWallet({
+                keyId: $keyId,
+                getContractId
+            });
 
             contractId.set(event.data.contractId);
             console.log(event.data.contractId);
@@ -62,7 +74,9 @@
 
         try {
             if (type === "signin") {
-                const wallet = await account.connectWallet();
+                const wallet = await account.connectWallet({
+                    getContractId
+                });
 
                 kid = wallet.keyId
 
@@ -116,7 +130,7 @@
             const { built } = await transferSAC({
                 SAC: import.meta.env.PUBLIC_nativeContractId,
                 from: $contractId,
-                to: account.factory.options.contractId,
+                to: import.meta.env.PUBLIC_factoryContractId,
                 amount: 10_000_000
             });
 

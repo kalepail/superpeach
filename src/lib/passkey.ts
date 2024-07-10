@@ -12,7 +12,7 @@ export async function register(account: PasskeyKit) {
         contractId: cid,
         xdr,
     } = await account.createWallet("Super Peach", user);
-    
+
     await send(xdr);
 
     const keyId_base64url = base64url(kid)
@@ -24,8 +24,11 @@ export async function register(account: PasskeyKit) {
     contractId.set(cid);
     console.log(cid);
 }
+
 export async function connect(account: PasskeyKit) {
-    const { keyId: kid, contractId: cid } = await account.connectWallet();
+    const { keyId: kid, contractId: cid } = await account.connectWallet({
+        getContractId
+    });
 
     const keyId_base64url = base64url(kid)
 
@@ -36,6 +39,7 @@ export async function connect(account: PasskeyKit) {
     contractId.set(cid);
     console.log(cid);
 }
+
 export async function fund(to: string) {
     const { txn, sim } = await transferSAC({
         SAC: import.meta.env.PUBLIC_nativeContractId,
@@ -48,12 +52,12 @@ export async function fund(to: string) {
 
     for (const auth of sim.result?.auth || []) {
         const signEntry = await authorizeEntry(
-            auth, 
-            await fundKeypair, 
-            sim.latestLedger + 60, 
+            auth,
+            await fundKeypair,
+            sim.latestLedger + 60,
             import.meta.env.PUBLIC_networkPassphrase
         )
-        
+
         op.auth!.push(signEntry)
     }
 
@@ -69,6 +73,22 @@ export async function send(xdr: string) {
         if (res.ok) return res.json();
         else throw await res.text();
     });
+}
+
+export async function getSigners(contractId: string) {
+    return fetch(`/api/signers/${contractId}`)
+        .then(async (res) => {
+            if (res.ok) return res.json();
+            else throw await res.text();
+        });
+}
+
+export async function getContractId(signer: string) {
+    return fetch(`/api/contract-id/${signer}`)
+        .then(async (res) => {
+            if (res.ok) return res.text();
+            else throw await res.text();
+        });
 }
 
 export async function getBalance(id: string) {
@@ -87,10 +107,11 @@ export async function getBalance(id: string) {
 
     return (amount as BigInt).toString()
 }
+
 export async function transferSAC(args: {
     SAC: string,
-    from: string, 
-    to: string, 
+    from: string,
+    to: string,
     amount: number,
     fee?: number
 }) {

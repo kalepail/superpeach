@@ -11,6 +11,14 @@ export async function send(xdr: string) {
     });
 }
 
+export async function getContractId(signer: string) {
+    return fetch(`/api/contract-id/${signer}`)
+        .then(async (res) => {
+            if (res.ok) return res.text();
+            else throw await res.text();
+        });
+}
+
 export async function transferSAC(args: {
     SAC: string,
     from: string, 
