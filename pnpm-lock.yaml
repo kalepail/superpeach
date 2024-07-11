@@ -33,11 +33,11 @@ importers:
         specifier: ^1.5.9
         version: 1.5.9
       passkey-kit:
-        specifier: 0.4.1
-        version: 0.4.1
+        specifier: 0.4.6
+        version: 0.4.6
     devDependencies:
       '@astrojs/check':
-        specifier: ^0.8.0
+        specifier: ^0.8.1
         version: 0.8.1(typescript@5.5.3)
       '@astrojs/svelte':
         specifier: ^5.6.0
@@ -2608,8 +2608,8 @@ packages:
   passkey-kit-sdk@0.2.1:
     resolution: {integrity: sha512-C+/+Tm3gNHIiNYx1fsbYhlpJIGDGUV/xiMCmBm7q7iIwlKGyinFMUQh4L2laXpQO7bw/GtlTVs6aAD5IQN69Vw==}
 
-  passkey-kit@0.4.1:
-    resolution: {integrity: sha512-j5XpPhY8nwuzOWzUyHLqGVQiz2ugKvjA95u+Xwrzq0984E3zh37PkIP5ipwiwr2iNDTN34KKFgloWTgaiVIyYw==}
+  passkey-kit@0.4.6:
+    resolution: {integrity: sha512-Mip/XG1e50WK6s64IrXq2ZH1Ws0LAYitCoPQCfTCCSg6sLNbqJ6K/DdirELxRN+ZjqECtjVE/DKolzMacy6TNA==}
 
   path-browserify@1.0.1:
     resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
@@ -6521,13 +6521,12 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  passkey-kit@0.4.1:
+  passkey-kit@0.4.6:
     dependencies:
       '@simplewebauthn/browser': 10.0.0
       '@stellar/stellar-sdk': 12.1.0
       base64url: 3.0.1
       buffer: 6.0.3
-      cbor-x: 1.5.9
       passkey-factory-sdk: 0.2.1
       passkey-kit-sdk: 0.2.1
     transitivePeerDependencies:

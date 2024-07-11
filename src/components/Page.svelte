@@ -1,7 +1,6 @@
 <script lang="ts">
     import { contractId } from "../store/contractId";
     import base64url from "base64url";
-    import { Networks } from "@stellar/stellar-sdk";
     import { keyId } from "../store/keyId";
     import {
         getBalance,
@@ -12,17 +11,15 @@
         getContractId,
         getSigners,
     } from "../lib/passkey";
-    import { PasskeyKit } from "passkey-kit";
-    import type { Signer } from "../lib/common";
+    import { account } from "../lib/common-client";
 
-    let signers: Signer[] = [];
     let balance: string = "0";
-
-    const account = new PasskeyKit({
-        rpcUrl: import.meta.env.PUBLIC_rpcUrl,
-        networkPassphrase: import.meta.env.PUBLIC_networkPassphrase as Networks,
-        factoryContractId: import.meta.env.PUBLIC_factoryContractId,
-    });
+    let signers: {
+		id: string;
+		pk: string;
+		admin: boolean;
+		expired?: boolean | undefined;
+	}[] = [];
 
     keyId.subscribe(async (kid) => {
         if (kid && !account.keyId) {

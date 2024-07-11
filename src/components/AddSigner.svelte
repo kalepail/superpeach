@@ -6,18 +6,13 @@
     import { PasskeyKit } from "passkey-kit";
     import base64url from "base64url";
     import { connect, fund, getContractId, register, send } from "../lib/passkey";
+    import { account } from "../lib/common-client";
 
     let url: URL;
     let params: URLSearchParams;
     let origin: string;
     let signerKeyId: Buffer;
     let signerPublicKey: Buffer;
-
-    const account = new PasskeyKit({
-        rpcUrl: import.meta.env.PUBLIC_rpcUrl,
-        networkPassphrase: import.meta.env.PUBLIC_networkPassphrase as Networks,
-        factoryContractId: import.meta.env.PUBLIC_factoryContractId,
-    });
 
     keyId.subscribe(async (kid) => {
         if (kid && !account.keyId) {

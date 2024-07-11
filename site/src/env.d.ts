@@ -11,6 +11,8 @@ interface ImportMetaEnv {
     readonly PUBLIC_style: string;
 
     readonly PRIVATE_launchtubeJwt: string
+    readonly PRIVATE_mercuryEmail: string
+    readonly PRIVATE_mercuryPassword: string
 }
 
 interface ImportMeta {

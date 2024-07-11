@@ -1,5 +1,5 @@
 import { nativeToScVal, Operation, SorobanRpc, TransactionBuilder } from "@stellar/stellar-sdk"
-import { mockSource, rpc } from "./common";
+import { mockSource, rpc } from "./common-client";
 
 export async function send(xdr: string) {
     return fetch("/api/send", {

@@ -3,25 +3,14 @@
     import { contractId } from "../store/contractId";
     import { keyId } from "../store/keyId";
     import base64url from "base64url";
-    import { Networks } from "@stellar/stellar-sdk";
-    import { PasskeyKit } from "passkey-kit";
     import { getContractId, send, transferSAC } from "../lib/passkey";
-    import { formatDate } from "../lib/common";
+    import { account } from "../lib/common-client";
 
     // Register new passkey
     // Forward that key to super peach (both the id and the pk)
     // Send success back if successfully added
 
     let popup: Window | null;
-
-    const account = new PasskeyKit({
-        rpcUrl: import.meta.env.PUBLIC_rpcUrl,
-        networkPassphrase: import.meta.env.PUBLIC_networkPassphrase as Networks,
-        factoryContractId: import.meta.env.PUBLIC_factoryContractId,
-    });
-
-    // const to = import.meta.env.PUBLIC_superpeachUrl;
-    // const from = location.origin;
 
     keyId.subscribe(async (kid) => {
         if (kid && !account.keyId) {
@@ -74,7 +63,7 @@
                 kid = wallet.keyId;
                 
             } else {
-                const wallet = await account.createKey("Super Peach", `${import.meta.env.PUBLIC_name} ${formatDate()}`)
+                const wallet = await account.createKey("Super Peach", import.meta.env.PUBLIC_name)
 
                 kid = wallet.keyId
 

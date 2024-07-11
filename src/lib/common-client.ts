@@ -1,12 +1,6 @@
 import { Account, Keypair, SorobanRpc } from "@stellar/stellar-sdk"
 import { Buffer } from "buffer";
-
-export type Signer = {
-    id: string;
-    pk: string;
-    admin: boolean;
-    expired: boolean;
-}
+import { PasskeyKit } from "passkey-kit";
 
 export const rpc = new SorobanRpc.Server(import.meta.env.PUBLIC_rpcUrl);
 
@@ -32,11 +26,8 @@ export const fundKeypair = new Promise<Keypair>(async (resolve) => {
 })
 export const fundPubkey = (await fundKeypair).publicKey()
 
-export function formatDate() {
-    const date = new Date(); // Get current date
-    const day = date.getDate().toString().padStart(2, '0'); // Get day and pad with zero if needed
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Get month, add 1 (January is 0), and pad
-    const year = date.getFullYear(); // Get full year
-    
-    return `${day}/${month}/${year}`; // Return the formatted date
-}
+export const account = new PasskeyKit({
+    rpcUrl: import.meta.env.PUBLIC_rpcUrl,
+    networkPassphrase: import.meta.env.PUBLIC_networkPassphrase,
+    factoryContractId: import.meta.env.PUBLIC_factoryContractId,
+});

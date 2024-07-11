@@ -20,10 +20,10 @@
     "bigint-conversion": "^2.4.3",
     "buffer": "^6.0.3",
     "cbor-x": "^1.5.9",
-    "passkey-kit": "0.4.1"
+    "passkey-kit": "0.4.6"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.8.0",
+    "@astrojs/check": "^0.8.1",
     "@astrojs/svelte": "^5.6.0",
     "@astrojs/tailwind": "^5.1.0",
     "@astrojs/vercel": "^7.7.2",

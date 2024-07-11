@@ -3,15 +3,15 @@ import { contractId } from "../store/contractId";
 import { keyId } from "../store/keyId";
 import type { PasskeyKit } from "passkey-kit";
 import base64url from 'base64url'
-import { formatDate, fundKeypair, fundPubkey, mockSource, rpc } from "./common";
+import { fundKeypair, fundPubkey, mockSource, rpc } from "./common-client";
 
 export async function register(account: PasskeyKit) {
-    const user = `Super Peach ${formatDate()}`;
+    const user = 'Super Peach';
     const {
         keyId: kid,
         contractId: cid,
         xdr,
-    } = await account.createWallet("Super Peach", user);
+    } = await account.createWallet(user, user);
 
     await send(xdr);
 
