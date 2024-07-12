@@ -13,12 +13,16 @@
     let popup: Window | null;
 
     keyId.subscribe(async (kid) => {
-        if (kid && !account.keyId) {
-            const { contractId: cid } = await account.connectWallet({
-                keyId: kid,
-                getContractId
-            });
-            contractId.set(cid);
+        try {
+            if (kid && !account.keyId) {
+                const { contractId: cid } = await account.connectWallet({
+                    keyId: kid,
+                    getContractId
+                });
+                contractId.set(cid);
+            }
+        } catch (err: any) {
+            alert(err.message)
         }
     });
 
@@ -31,20 +35,24 @@
     });
 
     async function messenger(event: MessageEvent<any>) {
-        if (event.origin !== import.meta.env.PUBLIC_superpeachUrl) return;
+        try {
+            if (event.origin !== import.meta.env.PUBLIC_superpeachUrl) return;
 
-        if (event.data.type === "wallet") {
-            console.log(event);
+            if (event.data.type === "wallet") {
+                console.log(event);
 
-            const { contractId: cid } = await account.connectWallet({
-                keyId: $keyId,
-                getContractId
-            });
+                const { contractId: cid } = await account.connectWallet({
+                    keyId: $keyId,
+                    getContractId
+                });
 
-            contractId.set(cid);
-            console.log(cid);
+                contractId.set(cid);
+                console.log(cid);
 
-            popup?.close();
+                popup?.close();
+            }
+        } catch (err: any) {
+            alert(err.message)
         }
     }
 

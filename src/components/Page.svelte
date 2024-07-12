@@ -21,14 +21,18 @@
 	}[] = [];
 
     keyId.subscribe(async (kid) => {
-        if (kid && !account.keyId) {
-            const { contractId: cid } = await account.connectWallet({
-                keyId: kid,
-                getContractId,
-            });
-            contractId.set(cid);
-            await onGetBalance();
-            await onGetSigners();
+        try {
+            if (kid && !account.keyId) {
+                const { contractId: cid } = await account.connectWallet({
+                    keyId: kid,
+                    getContractId,
+                });
+                contractId.set(cid);
+                await onGetBalance();
+                await onGetSigners();
+            }
+        } catch (err: any) {
+            alert(err.message)
         }
     });
 
@@ -60,16 +64,20 @@
         console.log(signers);
     }
     async function onRemoveSignature(signer: string) {
-        const { built } = await account.wallet!.remove({
-            id: base64url.toBuffer(signer),
-        });
+        try {
+            const { built } = await account.wallet!.remove({
+                id: base64url.toBuffer(signer),
+            });
 
-        const xdr = await account.sign(built!, { keyId: $keyId });
-        const res = await send(xdr);
+            const xdr = await account.sign(built!, { keyId: $keyId });
+            const res = await send(xdr);
 
-        console.log(res);
+            console.log(res);
 
-        await onGetSigners();
+            await onGetSigners();
+        } catch(err: any) {
+            alert(err.message)
+        }
     }
     async function logout() {
         localStorage.removeItem("sp:keyId");

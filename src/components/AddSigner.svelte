@@ -15,12 +15,16 @@
     let signerPublicKey: Buffer;
 
     keyId.subscribe(async (kid) => {
-        if (kid && !account.keyId) {
-            const { contractId: cid } = await account.connectWallet({
-                keyId: kid,
-                getContractId
-            });
-            contractId.set(cid);
+        try {
+            if (kid && !account.keyId) {
+                const { contractId: cid } = await account.connectWallet({
+                    keyId: kid,
+                    getContractId
+                });
+                contractId.set(cid);
+            }
+        } catch (err: any) {
+            alert(err.message)
         }
     });
 
