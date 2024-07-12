@@ -1,12 +1,17 @@
-import { Account, Keypair, SorobanRpc } from "@stellar/stellar-sdk"
+import { Account, Keypair, SorobanRpc, StrKey } from "@stellar/stellar-sdk"
 import { Buffer } from "buffer";
 import { PasskeyKit } from "passkey-kit";
 
 export const rpc = new SorobanRpc.Server(import.meta.env.PUBLIC_rpcUrl);
 
-export const mockKeypair = Keypair.fromRawEd25519Seed(Buffer.alloc(32)) // NOTE this isn't the actual zero address
-export const mockPubkey = mockKeypair.publicKey()
+export const mockPubkey = StrKey.encodeEd25519PublicKey(Buffer.alloc(32))
 export const mockSource = new Account(mockPubkey, '0')
+
+export const account = new PasskeyKit({
+    rpcUrl: import.meta.env.PUBLIC_rpcUrl,
+    networkPassphrase: import.meta.env.PUBLIC_networkPassphrase,
+    factoryContractId: import.meta.env.PUBLIC_factoryContractId,
+});
 
 export const fundKeypair = new Promise<Keypair>(async (resolve) => {
     const now = new Date();
@@ -25,9 +30,3 @@ export const fundKeypair = new Promise<Keypair>(async (resolve) => {
     resolve(keypair)
 })
 export const fundPubkey = (await fundKeypair).publicKey()
-
-export const account = new PasskeyKit({
-    rpcUrl: import.meta.env.PUBLIC_rpcUrl,
-    networkPassphrase: import.meta.env.PUBLIC_networkPassphrase,
-    factoryContractId: import.meta.env.PUBLIC_factoryContractId,
-});

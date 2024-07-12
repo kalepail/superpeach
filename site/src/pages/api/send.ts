@@ -1,10 +1,5 @@
 import type { APIRoute } from "astro"
-import { PasskeyBase } from 'passkey-kit'
-
-const account = new PasskeyBase({
-    launchtubeUrl: import.meta.env.PUBLIC_launchtubeUrl,
-    launchtubeJwt: import.meta.env.PRIVATE_launchtubeJwt,
-});
+import { account } from "../../lib/common-server"
 
 export const POST: APIRoute = async ({ request }) => {
     const xdr = await request.text()

@@ -1,6 +1,6 @@
-import { PasskeyBase } from "passkey-kit";
+import { PasskeyServer } from "passkey-kit";
 
-export const account = new PasskeyBase({
+export const account = new PasskeyServer({
     rpcUrl: import.meta.env.PUBLIC_rpcUrl,
     launchtubeUrl: import.meta.env.PUBLIC_launchtubeUrl,
     launchtubeJwt: import.meta.env.PRIVATE_launchtubeJwt,

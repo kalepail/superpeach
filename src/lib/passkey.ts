@@ -65,6 +65,7 @@ export async function fund(to: string) {
 
     console.log(res);
 }
+
 export async function send(xdr: string) {
     return fetch("/api/send", {
         method: "POST",
