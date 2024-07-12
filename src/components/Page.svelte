@@ -3,7 +3,6 @@
     import base64url from "base64url";
     import { keyId } from "../store/keyId";
     import {
-        getBalance,
         connect,
         fund,
         register,
@@ -11,7 +10,7 @@
         getContractId,
         getSigners,
     } from "../lib/passkey";
-    import { account } from "../lib/common-client";
+    import { account, native } from "../lib/common-client";
 
     let balance: string = "0";
     let signers: {
@@ -51,7 +50,10 @@
         await onGetBalance();
     }
     async function onGetBalance() {
-        balance = await getBalance($contractId);
+        const { result } = await native.balance({ id: $contractId })
+
+		balance = result.toString()
+		console.log(balance);
     }
     async function onGetSigners() {
         signers = await getSigners($contractId);

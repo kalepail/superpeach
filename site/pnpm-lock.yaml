@@ -30,8 +30,8 @@ importers:
         specifier: ^1.5.9
         version: 1.5.9
       passkey-kit:
-        specifier: 0.5.0
-        version: 0.5.0
+        specifier: 0.5.1
+        version: 0.5.1
     devDependencies:
       '@astrojs/check':
         specifier: ^0.8.1
@@ -2128,8 +2128,8 @@ packages:
   passkey-kit-sdk@0.2.1:
     resolution: {integrity: sha512-C+/+Tm3gNHIiNYx1fsbYhlpJIGDGUV/xiMCmBm7q7iIwlKGyinFMUQh4L2laXpQO7bw/GtlTVs6aAD5IQN69Vw==}
 
-  passkey-kit@0.5.0:
-    resolution: {integrity: sha512-1s8803hmftIty9S/VxG8+chSrnvt3VNcwtug15Rq9SWs1hWAZIP9F7nVueqQeTBMdIYYTCQnjlknLO5WKJV5cA==}
+  passkey-kit@0.5.1:
+    resolution: {integrity: sha512-gY1/DfUgNVO1FQdb3P+ACDb5/KhEG5drgEwyfex3aL2TeeKxroFvzfTxPztMy0VlPb2JxzETm+drHyYkyu5igg==}
 
   path-browserify@1.0.1:
     resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
@@ -2379,6 +2379,9 @@ packages:
 
   run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
+
+  sac-sdk@0.1.0:
+    resolution: {integrity: sha512-jr17D5Ac0UXbBkwztwCJI0dWYDmCCNGG0CXuMbDCJcj1t9f9ljV4Izqfn7V9I/p+b5td+NKhjwwocovqzJP6Sg==}
 
   safe-buffer@5.1.2:
     resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
@@ -5371,7 +5374,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  passkey-kit@0.5.0:
+  passkey-kit@0.5.1:
     dependencies:
       '@simplewebauthn/browser': 10.0.0
       '@stellar/stellar-sdk': 12.1.0
@@ -5379,6 +5382,7 @@ snapshots:
       buffer: 6.0.3
       passkey-factory-sdk: 0.2.1
       passkey-kit-sdk: 0.2.1
+      sac-sdk: 0.1.0
     transitivePeerDependencies:
       - debug
 
@@ -5690,6 +5694,13 @@ snapshots:
   run-parallel@1.2.0:
     dependencies:
       queue-microtask: 1.2.3
+
+  sac-sdk@0.1.0:
+    dependencies:
+      '@stellar/stellar-sdk': 12.1.0
+      buffer: 6.0.3
+    transitivePeerDependencies:
+      - debug
 
   safe-buffer@5.1.2: {}
 

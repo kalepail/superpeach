@@ -3,8 +3,8 @@
     import { contractId } from "../store/contractId";
     import { keyId } from "../store/keyId";
     import base64url from "base64url";
-    import { getContractId, send, transferSAC } from "../lib/passkey";
-    import { account } from "../lib/common-client";
+    import { getContractId, send } from "../lib/passkey";
+    import { account, native } from "../lib/common-client";
 
     // Register new passkey
     // Forward that key to super peach (both the id and the pk)
@@ -99,15 +99,14 @@
     }
     async function transfer() {
         try {
-            const { built } = await transferSAC({
-                SAC: import.meta.env.PUBLIC_nativeContractId,
-                from: $contractId,
+            const { built } = await native.transfer({
                 to: import.meta.env.PUBLIC_factoryContractId,
-                amount: 10_000_000
+                from: $contractId,
+                amount: BigInt(10_000_000),
             });
 
-            const xdr = await account.sign(built, { keyId: $keyId });
-            const res = await send(xdr)
+            const xdr = await account.sign(built!, { keyId: $keyId });
+            const res = await send(xdr);
 
             console.log(res);
 

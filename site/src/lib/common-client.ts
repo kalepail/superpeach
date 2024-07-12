@@ -1,6 +1,6 @@
 import { Account, SorobanRpc, StrKey } from "@stellar/stellar-sdk"
 import { Buffer } from "buffer";
-import { PasskeyKit } from "passkey-kit";
+import { PasskeyKit, SACClient } from "passkey-kit";
 
 export const rpc = new SorobanRpc.Server(import.meta.env.PUBLIC_rpcUrl);
 
@@ -12,3 +12,9 @@ export const account = new PasskeyKit({
     networkPassphrase: import.meta.env.PUBLIC_networkPassphrase,
     factoryContractId: import.meta.env.PUBLIC_factoryContractId,
 });
+
+export const sac = new SACClient({
+    rpcUrl: import.meta.env.PUBLIC_rpcUrl,
+    networkPassphrase: import.meta.env.PUBLIC_networkPassphrase,
+});
+export const native = sac.getSACClient(import.meta.env.PUBLIC_nativeContractId)

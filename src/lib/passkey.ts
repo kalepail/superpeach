@@ -1,9 +1,9 @@
-import { authorizeEntry, nativeToScVal, Operation, scValToNative, SorobanRpc, TransactionBuilder, xdr } from "@stellar/stellar-sdk"
+import { authorizeEntry, Operation } from "@stellar/stellar-sdk"
 import { contractId } from "../store/contractId";
 import { keyId } from "../store/keyId";
 import type { PasskeyKit } from "passkey-kit";
 import base64url from 'base64url'
-import { fundKeypair, fundPubkey, mockSource, rpc } from "./common-client";
+import { fundKeypair, fundPubkey, fundSigner, native } from "./common-client";
 
 export async function register(account: PasskeyKit) {
     const user = 'Super Peach';
@@ -41,27 +41,18 @@ export async function connect(account: PasskeyKit) {
 }
 
 export async function fund(to: string) {
-    const { txn, sim } = await transferSAC({
-        SAC: import.meta.env.PUBLIC_nativeContractId,
-        from: fundPubkey,
+    const { built, ...transfer } = await native.transfer({
         to,
-        amount: 100 * 10_000_000,
-    });
+        from: fundPubkey,
+        amount: BigInt(100 * 10_000_000),
+    })
 
-    const op = txn.operations[0] as Operation.InvokeHostFunction
+    await transfer.signAuthEntries({
+        publicKey: fundPubkey,
+        signAuthEntry: (auth) => fundSigner.signAuthEntry(auth)
+    })
 
-    for (const auth of sim.result?.auth || []) {
-        const signEntry = await authorizeEntry(
-            auth,
-            await fundKeypair,
-            sim.latestLedger + 60,
-            import.meta.env.PUBLIC_networkPassphrase
-        )
-
-        op.auth!.push(signEntry)
-    }
-
-    const res = await send(txn.toXDR());
+    const res = await send(built!.toXDR());
 
     console.log(res);
 }
@@ -90,59 +81,4 @@ export async function getContractId(signer: string) {
             if (res.ok) return res.text();
             else throw await res.text();
         });
-}
-
-export async function getBalance(id: string) {
-    const val = xdr.ScVal.scvVec([
-        nativeToScVal('Balance', { type: 'symbol' }),
-        nativeToScVal(id, { type: 'address' }),
-    ])
-
-    const { amount } = await rpc
-        .getContractData(import.meta.env.PUBLIC_nativeContractId, val)
-        .then((res) => scValToNative(res.val.contractData().val()))
-        .catch((err) => {
-            console.error(err)
-            return { amount: BigInt(0) }
-        })
-
-    return (amount as BigInt).toString()
-}
-
-export async function transferSAC(args: {
-    SAC: string,
-    from: string,
-    to: string,
-    amount: number,
-    fee?: number
-}) {
-    const { SAC, from, to, amount, fee = 0 } = args
-    const txn = new TransactionBuilder(mockSource, {
-        fee: fee.toString(),
-        networkPassphrase: import.meta.env.PUBLIC_networkPassphrase
-    })
-        .addOperation(Operation.invokeContractFunction({
-            contract: SAC,
-            function: 'transfer',
-            args: [
-                nativeToScVal(from, { type: 'address' }),
-                nativeToScVal(to, { type: 'address' }),
-                nativeToScVal(amount, { type: 'i128' })
-            ],
-        }))
-        .setTimeout(5 * 60)
-        .build()
-
-    const sim = await rpc.simulateTransaction(txn)
-
-    if (
-        SorobanRpc.Api.isSimulationError(sim)
-        || SorobanRpc.Api.isSimulationRestore(sim)
-    ) throw sim
-
-    return {
-        txn,
-        sim,
-        built: SorobanRpc.assembleTransaction(txn, sim).build()
-    }
 }

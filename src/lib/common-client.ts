@@ -1,6 +1,7 @@
 import { Account, Keypair, SorobanRpc, StrKey } from "@stellar/stellar-sdk"
+import { basicNodeSigner } from "@stellar/stellar-sdk/contract";
 import { Buffer } from "buffer";
-import { PasskeyKit } from "passkey-kit";
+import { PasskeyKit, SACClient } from "passkey-kit";
 
 export const rpc = new SorobanRpc.Server(import.meta.env.PUBLIC_rpcUrl);
 
@@ -30,3 +31,10 @@ export const fundKeypair = new Promise<Keypair>(async (resolve) => {
     resolve(keypair)
 })
 export const fundPubkey = (await fundKeypair).publicKey()
+export const fundSigner = basicNodeSigner(await fundKeypair, import.meta.env.PUBLIC_networkPassphrase)
+
+export const sac = new SACClient({
+    rpcUrl: import.meta.env.PUBLIC_rpcUrl,
+    networkPassphrase: import.meta.env.PUBLIC_networkPassphrase,
+});
+export const native = sac.getSACClient(import.meta.env.PUBLIC_nativeContractId)
