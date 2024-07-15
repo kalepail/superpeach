@@ -216,7 +216,7 @@
         <table>
             <tbody class="[&>tr>td]:px-2">
                 <tr>
-                    <td>Sites:</td>
+                    <td>Demo Apps:</td>
                 </tr>
                 {#if import.meta.env.DEV}
                     <tr>
