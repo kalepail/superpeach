@@ -1,16 +1,15 @@
 <script lang="ts">
     import { contractId } from "../store/contractId";
     import { keyId } from "../store/keyId";
-    import { Networks } from "@stellar/stellar-sdk";
     import { onMount } from "svelte";
-    import { PasskeyKit } from "passkey-kit";
     import base64url from "base64url";
-    import { connect, fund, getContractId, register, send } from "../lib/passkey";
+    import { connect, fund, getContractId, create, send } from "../lib/passkey";
     import { account } from "../lib/common-client";
 
     let url: URL;
     let params: URLSearchParams;
     let origin: string;
+    let signerKey: string;
     let signerKeyId: Buffer;
     let signerPublicKey: Buffer;
 
@@ -19,12 +18,12 @@
             if (kid && !account.keyId) {
                 const { contractId: cid } = await account.connectWallet({
                     keyId: kid,
-                    getContractId
+                    getContractId,
                 });
                 contractId.set(cid);
             }
         } catch (err: any) {
-            alert(err.message)
+            alert(err.message);
         }
     });
 
@@ -34,70 +33,125 @@
 
         if (params.size) {
             origin = decodeURIComponent(params.get("from")!);
-            signerKeyId = Buffer.from(params.get("keyId")!, "hex");
-            signerPublicKey = Buffer.from(params.get("publicKey")!, "hex");
+            signerKey = params.get("keyId")!;
+            signerKeyId = base64url.toBuffer(signerKey);
+            signerPublicKey = base64url.toBuffer(params.get("publicKey")!);
         }
     });
 
-    async function onRegister() {
-        try {
-            await register(account);
-            await fund($contractId);
-        } catch(err: any) {
-            alert(err.message)
-        }
+    async function onCreate() {
+        await create();
+        await fund($contractId);
     }
     async function addSigner() {
         try {
             const { built } = await account.wallet!.add({
                 id: signerKeyId,
                 pk: signerPublicKey,
-                admin: false
+                admin: false,
             });
 
-            // xdr to txn funk due to TypeError: XDR Write Error: [object Object] is not a DecoratedSignature
             const xdr = await account.sign(built!, { keyId: $keyId });
-            const res = await send(xdr)
+            const res = await send(xdr);
 
             console.log(res);
 
             window.opener.postMessage(
-                { type: "wallet", message: 'OK' },
+                { type: "wallet", message: "OK" },
                 origin,
             );
-        } catch(err: any) {
-            alert(err.message)
+        } catch (err: any) {
+            alert(err.message);
         }
+    }
+    async function logout() {
+        localStorage.removeItem("sp:keyId");
+        window.location.reload();
     }
 </script>
 
-<main class="flex flex-col items-start p-2">
-    <h1 class="text-2xl mb-2">Add Signer</h1>
+<main class="p-2">
+    <table class="table-fixed mb-2">
+        <thead>
+            <tr>
+                <th>
+                    <img src="/favicon_2.webp" width="28" />
+                </th>
+                <th class="px-2">Super Peach</th>
+                {#if $contractId}
+                    <td class="px-2">Add Signer</td>
+                    <td>
+                        <button
+                            class="bg-black text-white px-2 py-1 uppercase text-sm"
+                            on:click={logout}>Reset</button
+                        >
+                    </td>
+                {/if}
+            </tr>
+        </thead>
+    </table>
 
     {#if $contractId}
-        <p>{$contractId}</p>
+        <table class="table-fixed">
+            <tbody>
+                <tr class="[&>td]:px-2">
+                    <td colspan="2">Contract:</td>
+                    <td
+                        >{$contractId.substring(0, 6)}...{$contractId.substring(
+                            $contractId.length - 6,
+                        )}</td
+                    >
+                </tr>
 
-        {#if signerKeyId}
-            <p>{base64url(signerKeyId)}</p>
-            <br />
-            {#if signerPublicKey.length}
-                <button
-                    class="bg-[#f27457] text-white px-2 py-1 rounded"
-                    on:click={addSigner}>+ Add signer</button
-                >
-            {/if}
-        {/if}
+                {#if signerKey && signerKeyId.length}
+                    <tr class="[&>td]:px-2">
+                        <td colspan="2">Key:</td>
+                        <td
+                            >{signerKey.substring(0, 6)}...{signerKey.substring(
+                                signerKey.length - 6,
+                            )}</td
+                        >
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <button
+                                class="bg-black text-white px-2 py-1 uppercase text-sm w-full"
+                                on:click={addSigner}>+ Add signer</button
+                            >
+                        </td>
+                    </tr>
+                {/if}
+            </tbody>
+        </table>
     {:else}
-        <p>Register a new or connect an existing super key</p>
-        <br />
-        <button
-            class="bg-[#51ba95] text-white px-2 py-1 rounded mb-2"
-            on:click={onRegister}>+ Register new super key</button
-        >
-        <button
-            class="bg-[#566b9b] text-white px-2 py-1 rounded mb-2"
-            on:click={() => connect(account)}
-            >+ Connect existing super key</button
-        >
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <button
+                            class="bg-black text-white px-2 py-1 uppercase text-sm w-full"
+                            on:click={onCreate}>+ Create new wallet</button
+                        >
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button
+                            class="text-black px-2 py-1 uppercase text-sm w-full"
+                            on:click={connect}>+ Connect existing wallet</button
+                        >
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     {/if}
 </main>
+
+<style>
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>

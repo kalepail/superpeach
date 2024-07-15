@@ -69,7 +69,6 @@
                 console.log(wallet.contractId);
 
                 kid = wallet.keyId;
-                
             } else {
                 const wallet = await account.createKey("Super Peach", import.meta.env.PUBLIC_name)
 
@@ -84,7 +83,7 @@
 
                 // TODO should probably pass id and public key through postmessage vs the url
                 popup = window.open(
-                    `${import.meta.env.PUBLIC_superpeachUrl}/add-signer?from=${encodeURIComponent(location.origin)}&keyId=${kid.toString("hex")}&publicKey=${wallet.publicKey.toString("hex")}`,
+                    `${import.meta.env.PUBLIC_superpeachUrl}/add-signer?from=${encodeURIComponent(location.origin)}&keyId=${base64url(kid)}&publicKey=${base64url(wallet.publicKey)}`,
                     "Super Peach",
                     windowFeatures,
                 );

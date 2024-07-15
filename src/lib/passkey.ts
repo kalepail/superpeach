@@ -1,10 +1,9 @@
 import { contractId } from "../store/contractId";
 import { keyId } from "../store/keyId";
-import type { PasskeyKit } from "passkey-kit";
 import base64url from 'base64url'
-import { fundPubkey, fundSigner, native } from "./common-client";
+import { account, fundPubkey, fundSigner, native } from "./common-client";
 
-export async function register(account: PasskeyKit) {
+export async function create() {
     try {
         const user = 'Super Peach';
         const {
@@ -28,7 +27,7 @@ export async function register(account: PasskeyKit) {
     }
 }
 
-export async function connect(account: PasskeyKit) {
+export async function connect() {
     try {
         const { keyId: kid, contractId: cid } = await account.connectWallet({
             getContractId
