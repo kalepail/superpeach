@@ -95,7 +95,7 @@
         <table class="table-fixed">
             <tbody>
                 <tr class="[&>td]:px-2">
-                    <td colspan="2">Contract:</td>
+                    <td class="bg-black/10">Contract:</td>
                     <td
                         >{$contractId.substring(0, 6)}...{$contractId.substring(
                             $contractId.length - 6,
@@ -105,7 +105,7 @@
 
                 {#if signerKey && signerKeyId.length}
                     <tr class="[&>td]:px-2">
-                        <td colspan="2">Key:</td>
+                        <td class="bg-black/10">Key:</td>
                         <td
                             >{signerKey.substring(0, 6)}...{signerKey.substring(
                                 signerKey.length - 6,
@@ -113,7 +113,7 @@
                         >
                     </tr>
                     <tr>
-                        <td colspan="3">
+                        <td colspan="2">
                             <button
                                 class="bg-black text-white px-2 py-1 uppercase text-sm w-full"
                                 on:click={addSigner}>+ Add signer</button

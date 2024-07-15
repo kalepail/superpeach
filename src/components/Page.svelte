@@ -110,7 +110,7 @@
             <table class="mb-2">
                 <tbody class="[&>tr>td]:px-2">
                     <tr>
-                        <td>Contract:</td>
+                        <td class="bg-black/10">Contract:</td>
                         <td
                             >{$contractId.substring(
                                 0,
@@ -121,7 +121,7 @@
                         >
                     </tr>
                     <tr>
-                        <td>Key: </td>
+                        <td class="bg-black/10">Key: </td>
                         <td
                             >{$keyId.substring(0, 6)}...{$keyId.substring(
                                 $keyId.length - 6,
@@ -134,7 +134,7 @@
             <table class="mb-2">
                 <tbody>
                     <tr>
-                        <td class="px-2">Balance:</td>
+                        <td class="px-2 bg-black/10">Balance:</td>
                         <td class="px-2"
                             >{parseFloat(
                                 (Number(balance) / 10_000_000).toFixed(7),
@@ -159,7 +159,7 @@
             <table class="mb-2">
                 <tbody>
                     <tr>
-                        <td class="px-2">Signers:</td>
+                        <td class="px-2 bg-black/10">Signers:</td>
                         <td>
                             <button
                                 class="bg-black text-white px-2 py-1 uppercase text-sm"
@@ -214,10 +214,12 @@
         {/if}
 
         <table>
-            <tbody class="[&>tr>td]:px-2">
+            <thead>
                 <tr>
-                    <td>Demo Apps:</td>
+                    <td class="px-2 bg-black/10">Demo Apps:</td>
                 </tr>
+            </thead>
+            <tbody class="[&>tr>td]:px-2">
                 {#if import.meta.env.DEV}
                     <tr>
                         <td>
