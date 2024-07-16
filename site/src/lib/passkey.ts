@@ -4,7 +4,7 @@ export async function send(xdr: string) {
         body: xdr,
     }).then(async (res) => {
         if (res.ok) return res.json();
-        else throw await res.text();
+        else throw await res.json();
     });
 }
 
@@ -12,6 +12,6 @@ export async function getContractId(signer: string) {
     return fetch(`/api/contract-id/${signer}`)
         .then(async (res) => {
             if (res.ok) return res.text();
-            else throw await res.text();
+            else throw await res.json();
         });
 }

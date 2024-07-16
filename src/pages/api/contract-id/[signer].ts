@@ -7,7 +7,7 @@ export const GET: APIRoute = async ({ params }) => {
     const contractId = await account.getContractId(params.signer!)
 
     if (!contractId)
-        throw { status: 404, message: 'Contract not found' }
+        return Response.json({ message: 'Contract not found' }, { status: 404 })
 
     return new Response(contractId)
 }
