@@ -12,6 +12,7 @@
     } from "../lib/passkey";
     import { account, native } from "../lib/common-client";
 
+    let loaders = new Map();
     let balance: string = "0";
     let signers: {
         id: string;
@@ -37,33 +38,76 @@
     });
 
     async function onCreate() {
-        await create();
-        await fund($contractId);
+        loaders.set("create", true);
+        loaders = loaders;
 
-        await onGetBalance();
-        await onGetSigners();
+        try {
+            await create();
+            await fund($contractId);
+
+            await onGetBalance();
+            await onGetSigners();
+        } finally {
+            loaders.delete("create");
+            loaders = loaders;
+        }
     }
     async function onConnect() {
-        await connect();
+        loaders.set("connect", true);
+        loaders = loaders;
 
-        await onGetBalance();
-        await onGetSigners();
+        try {
+            await connect();
+
+            await onGetBalance();
+            await onGetSigners();
+        } finally {
+            loaders.delete("connect");
+            loaders = loaders;
+        }
     }
     async function onFund() {
-        await fund($contractId);
-        await onGetBalance();
+        loaders.set('fund', true);
+        loaders = loaders;
+
+        try {
+            await fund($contractId);
+            await onGetBalance();
+        } finally {
+            loaders.delete('fund');
+            loaders = loaders;
+        }
     }
     async function onGetBalance() {
-        const { result } = await native.balance({ id: $contractId });
+        loaders.set('balance', true);
+        loaders = loaders;
 
-        balance = result.toString();
-        console.log(balance);
+        try {
+            const { result } = await native.balance({ id: $contractId });
+
+            balance = result.toString();
+            console.log(balance);
+        } finally {
+            loaders.delete('balance');
+            loaders = loaders;
+        }
     }
     async function onGetSigners() {
-        signers = await getSigners($contractId);
-        console.log(signers);
+        loaders.set('signers', true);
+        loaders = loaders;
+
+        try {
+            signers = await getSigners($contractId);
+            console.log(signers);
+        } finally {
+            loaders.delete('signers');
+            loaders = loaders;
+        }
     }
     async function onRemoveSignature(signer: string) {
+        loaders.set(signer, true);
+        loaders = loaders;
+
         try {
             const { built } = await account.wallet!.remove({
                 id: base64url.toBuffer(signer),
@@ -77,6 +121,9 @@
             await onGetSigners();
         } catch (err: any) {
             alert(err.message);
+        } finally {
+            loaders.delete(signer);
+            loaders = loaders;
         }
     }
     async function logout() {
@@ -111,14 +158,21 @@
                 <tbody class="[&>tr>td]:px-2">
                     <tr>
                         <td class="bg-black/10">Contract:</td>
-                        <td
-                            >{$contractId.substring(
-                                0,
-                                6,
-                            )}...{$contractId.substring(
-                                $contractId.length - 6,
-                            )}</td
-                        >
+                        <td>
+                            <a
+                                class="underline text-[#0000ff]"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href={`https://stellar.expert/explorer/testnet/contract/${$contractId}`}
+                            >
+                                {$contractId.substring(
+                                    0,
+                                    6,
+                                )}...{$contractId.substring(
+                                    $contractId.length - 6,
+                                )}
+                            </a>
+                        </td>
                     </tr>
                     <tr>
                         <td class="bg-black/10">Key: </td>
@@ -143,13 +197,13 @@
                         <td>
                             <button
                                 class="bg-black text-white px-2 py-1 uppercase text-sm"
-                                on:click={onFund}>Fund</button
+                                on:click={onFund}>Fund {#if loaders.get("fund")}...{/if}</button
                             >
                         </td>
                         <td>
                             <button
                                 class="bg-black text-white px-2 py-1 uppercase text-sm"
-                                on:click={onGetBalance}>Refresh</button
+                                on:click={onGetBalance}>Refresh {#if loaders.get("balance")}...{/if}</button
                             >
                         </td>
                     </tr>
@@ -162,8 +216,8 @@
                         <td class="px-2 bg-black/10">Signers:</td>
                         <td>
                             <button
-                                class="bg-black text-white px-2 py-1 uppercase text-sm"
-                                on:click={onGetSigners}>Refresh</button
+                                class="bg-black text-white px-2 py-1 uppercase text-sm w-full"
+                                on:click={onGetSigners}>Refresh {#if loaders.get("signers")}...{/if}</button
                             >
                         </td>
                     </tr>
@@ -181,7 +235,7 @@
                                     <button
                                         class="bg-black text-white px-2 py-1 uppercase text-sm w-full"
                                         on:click={() => onRemoveSignature(id)}
-                                        >Remove</button
+                                        >Remove {#if loaders.get(id)}...{/if}</button
                                     >
                                 </td>
                             {/if}
@@ -196,7 +250,8 @@
                         <td>
                             <button
                                 class="bg-black text-white px-2 py-1 uppercase text-sm w-full"
-                                on:click={onCreate}>+ Create new wallet</button
+                                on:click={onCreate}
+                                >+ Create new wallet {#if loaders.get("create")}...{/if}</button
                             >
                         </td>
                     </tr>
@@ -205,7 +260,7 @@
                             <button
                                 class="text-black px-2 py-1 uppercase text-sm w-full"
                                 on:click={onConnect}
-                                >+ Connect existing wallet</button
+                                >+ Connect existing wallet {#if loaders.get("connect")}...{/if}</button
                             >
                         </td>
                     </tr>

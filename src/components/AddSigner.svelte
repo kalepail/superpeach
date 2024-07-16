@@ -12,6 +12,7 @@
     let signerKey: string;
     let signerKeyId: Buffer;
     let signerPublicKey: Buffer;
+    let loaders = new Map();
 
     keyId.subscribe(async (kid) => {
         try {
@@ -40,10 +41,32 @@
     });
 
     async function onCreate() {
-        await create();
-        await fund($contractId);
+        loaders.set("create", true);
+        loaders = loaders;
+
+        try {
+            await create();
+            await fund($contractId);
+        } finally {
+            loaders.delete("create");
+            loaders = loaders;
+        }
+    }
+    async function onConnect() {
+        loaders.set("connect", true);
+        loaders = loaders;
+
+        try {
+            await connect();
+        } finally {
+            loaders.delete("connect");
+            loaders = loaders;
+        }
     }
     async function addSigner() {
+        loaders.set("add", true);
+        loaders = loaders;
+
         try {
             const { built } = await account.wallet!.add({
                 id: signerKeyId,
@@ -61,11 +84,15 @@
                 origin,
             );
         } catch (err: any) {
+            alert(err.message);
+
             window.opener.postMessage(
                 { name: "superpeach", message: "ERROR" },
                 origin,
             );
-            alert(err.message);
+        } finally {
+            loaders.delete("add");
+            loaders = loaders;
         }
     }
     async function logout() {
@@ -120,7 +147,7 @@
                         <td colspan="2">
                             <button
                                 class="bg-black text-white px-2 py-1 uppercase text-sm w-full"
-                                on:click={addSigner}>+ Add signer</button
+                                on:click={addSigner}>+ Add signer {#if loaders.get("add")}...{/if}</button
                             >
                         </td>
                     </tr>
@@ -134,7 +161,7 @@
                     <td>
                         <button
                             class="bg-black text-white px-2 py-1 uppercase text-sm w-full"
-                            on:click={onCreate}>+ Create new wallet</button
+                            on:click={onCreate}>+ Create new wallet {#if loaders.get("create")}...{/if}</button
                         >
                     </td>
                 </tr>
@@ -142,7 +169,7 @@
                     <td>
                         <button
                             class="text-black px-2 py-1 uppercase text-sm w-full"
-                            on:click={connect}>+ Connect existing wallet</button
+                            on:click={onConnect}>+ Connect existing wallet {#if loaders.get("connect")}...{/if}</button
                         >
                     </td>
                 </tr>
