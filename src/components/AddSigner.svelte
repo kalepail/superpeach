@@ -5,6 +5,7 @@
     import base64url from "base64url";
     import { connect, fund, getContractId, create, send } from "../lib/passkey";
     import { account } from "../lib/common-client";
+    import Loader from "./Loader.svelte";
 
     let url: URL;
     let params: URLSearchParams;
@@ -146,8 +147,11 @@
                     <tr>
                         <td colspan="2">
                             <button
-                                class="bg-black text-white px-2 py-1 uppercase text-sm w-full"
-                                on:click={addSigner}>+ Add signer {#if loaders.get("add")}...{/if}</button
+                                class="flex items-center justify-center bg-black text-white px-2 py-1 uppercase text-sm w-full"
+                                on:click={addSigner}
+                                >+ Add signer {#if loaders.get("add")}<Loader
+                                        class="ml-2"
+                                    />{/if}</button
                             >
                         </td>
                     </tr>
@@ -160,16 +164,22 @@
                 <tr>
                     <td>
                         <button
-                            class="bg-black text-white px-2 py-1 uppercase text-sm w-full"
-                            on:click={onCreate}>+ Create new wallet {#if loaders.get("create")}...{/if}</button
+                            class="flex items-center justify-center bg-black text-white px-2 py-1 uppercase text-sm w-full"
+                            on:click={onCreate}
+                            >+ Create new wallet {#if loaders.get("create")}<Loader
+                                    class="ml-2"
+                                />{/if}</button
                         >
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <button
-                            class="text-black px-2 py-1 uppercase text-sm w-full"
-                            on:click={onConnect}>+ Connect existing wallet {#if loaders.get("connect")}...{/if}</button
+                            class="flex items-center justify-center text-black px-2 py-1 uppercase text-sm w-full"
+                            on:click={onConnect}
+                            >+ Connect existing wallet {#if loaders.get("connect")}<Loader
+                                    class="ml-2"
+                                />{/if}</button
                         >
                     </td>
                 </tr>

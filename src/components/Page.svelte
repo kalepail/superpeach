@@ -11,6 +11,7 @@
         getSigners,
     } from "../lib/passkey";
     import { account, native } from "../lib/common-client";
+    import Loader from "./Loader.svelte";
 
     let loaders = new Map();
     let balance: string = "0";
@@ -67,19 +68,19 @@
         }
     }
     async function onFund() {
-        loaders.set('fund', true);
+        loaders.set("fund", true);
         loaders = loaders;
 
         try {
             await fund($contractId);
             await onGetBalance();
         } finally {
-            loaders.delete('fund');
+            loaders.delete("fund");
             loaders = loaders;
         }
     }
     async function onGetBalance() {
-        loaders.set('balance', true);
+        loaders.set("balance", true);
         loaders = loaders;
 
         try {
@@ -88,19 +89,19 @@
             balance = result.toString();
             console.log(balance);
         } finally {
-            loaders.delete('balance');
+            loaders.delete("balance");
             loaders = loaders;
         }
     }
     async function onGetSigners() {
-        loaders.set('signers', true);
+        loaders.set("signers", true);
         loaders = loaders;
 
         try {
             signers = await getSigners($contractId);
             console.log(signers);
         } finally {
-            loaders.delete('signers');
+            loaders.delete("signers");
             loaders = loaders;
         }
     }
@@ -196,14 +197,20 @@
                         >
                         <td>
                             <button
-                                class="bg-black text-white px-2 py-1 uppercase text-sm"
-                                on:click={onFund}>Fund {#if loaders.get("fund")}...{/if}</button
+                                class="flex items-center justify-center bg-black text-white px-2 py-1 uppercase text-sm"
+                                on:click={onFund}
+                                >Fund {#if loaders.get("fund")}<Loader
+                                        class="ml-2"
+                                    />{/if}</button
                             >
                         </td>
                         <td>
                             <button
-                                class="bg-black text-white px-2 py-1 uppercase text-sm"
-                                on:click={onGetBalance}>Refresh {#if loaders.get("balance")}...{/if}</button
+                                class="flex items-center justify-center bg-black text-white px-2 py-1 uppercase text-sm"
+                                on:click={onGetBalance}
+                                >Refresh {#if loaders.get("balance")}<Loader
+                                        class="ml-2"
+                                    />{/if}</button
                             >
                         </td>
                     </tr>
@@ -216,8 +223,11 @@
                         <td class="px-2 bg-black/10">Signers:</td>
                         <td>
                             <button
-                                class="bg-black text-white px-2 py-1 uppercase text-sm w-full"
-                                on:click={onGetSigners}>Refresh {#if loaders.get("signers")}...{/if}</button
+                                class="flex items-center justify-center bg-black text-white px-2 py-1 uppercase text-sm w-full"
+                                on:click={onGetSigners}
+                                >Refresh{#if loaders.get("signers")}<Loader
+                                        class="ml-2"
+                                    />{/if}</button
                             >
                         </td>
                     </tr>
@@ -233,9 +243,11 @@
                             {#if !admin}
                                 <td>
                                     <button
-                                        class="bg-black text-white px-2 py-1 uppercase text-sm w-full"
+                                        class="flex items-center justify-center bg-black text-white px-2 py-1 uppercase text-sm w-full"
                                         on:click={() => onRemoveSignature(id)}
-                                        >Remove {#if loaders.get(id)}...{/if}</button
+                                        >Remove {#if loaders.get(id)}<Loader
+                                                class="ml-2"
+                                            />{/if}</button
                                     >
                                 </td>
                             {/if}
@@ -249,18 +261,22 @@
                     <tr>
                         <td>
                             <button
-                                class="bg-black text-white px-2 py-1 uppercase text-sm w-full"
+                                class="flex items-center justify-center bg-black text-white px-2 py-1 uppercase text-sm w-full"
                                 on:click={onCreate}
-                                >+ Create new wallet {#if loaders.get("create")}...{/if}</button
+                                >+ Create new wallet {#if loaders.get("create")}<Loader
+                                        class="ml-2"
+                                    />{/if}</button
                             >
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <button
-                                class="text-black px-2 py-1 uppercase text-sm w-full"
+                                class="flex items-center justify-center text-black px-2 py-1 uppercase text-sm w-full"
                                 on:click={onConnect}
-                                >+ Connect existing wallet {#if loaders.get("connect")}...{/if}</button
+                                >+ Connect existing wallet {#if loaders.get("connect")}<Loader
+                                        class="ml-2"
+                                    />{/if}</button
                             >
                         </td>
                     </tr>
