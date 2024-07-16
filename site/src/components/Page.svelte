@@ -36,9 +36,11 @@
 
     async function messenger(event: MessageEvent<any>) {
         try {
-            if (event.origin !== import.meta.env.PUBLIC_superpeachUrl) return;
-
-            if (event.data.type === "wallet") {
+            if (
+                event.data.name === "superpeach" 
+                && event.data.message === 'OK'
+                && event.origin === import.meta.env.PUBLIC_superpeachUrl
+            ) {
                 console.log(event);
 
                 const { contractId: cid } = await account.connectWallet({

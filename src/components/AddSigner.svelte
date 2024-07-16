@@ -57,10 +57,14 @@
             console.log(res);
 
             window.opener.postMessage(
-                { type: "wallet", message: "OK" },
+                { name: "superpeach", message: "OK" },
                 origin,
             );
         } catch (err: any) {
+            window.opener.postMessage(
+                { name: "superpeach", message: "ERROR" },
+                origin,
+            );
             alert(err.message);
         }
     }
