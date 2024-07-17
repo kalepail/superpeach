@@ -41,6 +41,8 @@
                 && event.data.message === 'OK'
                 && event.origin === import.meta.env.PUBLIC_superpeachUrl
             ) {
+                popup?.close();
+                
                 console.log(event);
 
                 const { contractId: cid } = await account.connectWallet({
@@ -50,8 +52,6 @@
 
                 contractId.set(cid);
                 console.log(cid);
-
-                popup?.close();
             }
         } catch (err: any) {
             alert(err.message)
