@@ -14,6 +14,7 @@
     let signerKeyId: Buffer;
     let signerPublicKey: Buffer;
     let loaders = new Map();
+    let added = false;
 
     keyId.subscribe(async (kid) => {
         try {
@@ -84,6 +85,8 @@
                 { name: "superpeach", message: "OK" },
                 origin,
             );
+
+            added = true;
         } catch (err: any) {
             alert(err.message);
 
@@ -91,6 +94,8 @@
                 { name: "superpeach", message: "ERROR" },
                 origin,
             );
+
+            added = false;
         } finally {
             loaders.delete("add");
             loaders = loaders;
@@ -146,13 +151,21 @@
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <button
-                                class="flex items-center justify-center bg-black text-white px-2 py-1 uppercase text-sm w-full"
-                                on:click={addSigner}
-                                >+ Add signer {#if loaders.get("add")}<Loader
-                                        class="ml-2"
-                                    />{/if}</button
-                            >
+                            {#if added}
+                                <span
+                                    class="flex items-center justify-center bg-green-500 text-white px-2 py-1 uppercase text-sm w-full"
+                                >
+                                    Signer added ✔︎
+                                </span>
+                            {:else}
+                                <button
+                                    class="flex items-center justify-center bg-black text-white px-2 py-1 uppercase text-sm w-full"
+                                    on:click={addSigner}
+                                    >+ Add signer {#if loaders.get("add")}<Loader
+                                            class="ml-2"
+                                        />{/if}</button
+                                >
+                            {/if}
                         </td>
                     </tr>
                 {/if}
