@@ -80,14 +80,14 @@
 
             console.log(res);
 
-            window.opener.postMessage(
+            window.opener?.postMessage(
                 { name: "superpeach", message: "OK" },
                 origin,
             );
         } catch (err: any) {
             alert(err.message);
 
-            window.opener.postMessage(
+            window.opener?.postMessage(
                 { name: "superpeach", message: "ERROR" },
                 origin,
             );
