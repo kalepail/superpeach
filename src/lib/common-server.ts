@@ -5,6 +5,5 @@ export const account = new PasskeyServer({
     launchtubeUrl: import.meta.env.PUBLIC_launchtubeUrl,
     launchtubeJwt: import.meta.env.PRIVATE_launchtubeJwt,
     mercuryUrl: import.meta.env.PUBLIC_mercuryUrl,
-    mercuryEmail: import.meta.env.PRIVATE_mercuryEmail,
-    mercuryPassword: import.meta.env.PRIVATE_mercuryPassword,
+    mercuryJwt: import.meta.env.PRIVATE_mercuryJwt,
 });
