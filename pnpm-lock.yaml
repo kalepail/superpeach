@@ -33,21 +33,21 @@ importers:
         specifier: ^1.6.0
         version: 1.6.0
       passkey-kit:
-        specifier: 0.6.0
-        version: 0.6.0(@capacitor/core@5.7.8)
+        specifier: 0.6.1
+        version: 0.6.1(@capacitor/core@5.7.8)
     devDependencies:
       '@astrojs/check':
         specifier: ^0.9.3
         version: 0.9.3(typescript@5.5.4)
       '@astrojs/svelte':
         specifier: ^5.7.0
-        version: 5.7.0(astro@4.15.0(@types/node@20.14.10)(rollup@4.21.0)(typescript@5.5.4))(svelte@4.2.19)(typescript@5.5.4)(vite@5.4.2(@types/node@20.14.10))
+        version: 5.7.0(astro@4.15.2(@types/node@20.14.10)(rollup@4.21.0)(typescript@5.5.4))(svelte@4.2.19)(typescript@5.5.4)(vite@5.4.2(@types/node@20.14.10))
       '@astrojs/tailwind':
         specifier: ^5.1.0
-        version: 5.1.0(astro@4.15.0(@types/node@20.14.10)(rollup@4.21.0)(typescript@5.5.4))(tailwindcss@3.4.10(ts-node@10.9.1(@types/node@20.14.10)(typescript@5.5.4)))(ts-node@10.9.1(@types/node@20.14.10)(typescript@5.5.4))
+        version: 5.1.0(astro@4.15.2(@types/node@20.14.10)(rollup@4.21.0)(typescript@5.5.4))(tailwindcss@3.4.10(ts-node@10.9.1(@types/node@20.14.10)(typescript@5.5.4)))(ts-node@10.9.1(@types/node@20.14.10)(typescript@5.5.4))
       '@astrojs/vercel':
         specifier: ^7.8.0
-        version: 7.8.0(astro@4.15.0(@types/node@20.14.10)(rollup@4.21.0)(typescript@5.5.4))
+        version: 7.8.0(astro@4.15.2(@types/node@20.14.10)(rollup@4.21.0)(typescript@5.5.4))
       '@simplewebauthn/types':
         specifier: ^10.0.0
         version: 10.0.0
@@ -55,8 +55,8 @@ importers:
         specifier: ^20.14.10
         version: 20.14.10
       astro:
-        specifier: ^4.15.0
-        version: 4.15.0(@types/node@20.14.10)(rollup@4.21.0)(typescript@5.5.4)
+        specifier: ^4.15.2
+        version: 4.15.2(@types/node@20.14.10)(rollup@4.21.0)(typescript@5.5.4)
       svelte:
         specifier: ^4.2.19
         version: 4.2.19
@@ -227,8 +227,8 @@ packages:
     resolution: {integrity: sha512-VJ4XsrD+nOvlXyLzmLzUs/0qjFS4sK30te5yEFlvbbUNEgKaVb2BHZUpAL+ttLPQAHNrsI3zZisbfha5Cvr8vg==}
     engines: {node: '>=6.9.0'}
 
-  '@babel/types@7.25.4':
-    resolution: {integrity: sha512-zQ1ijeeCXVEh+aNL0RlmkPkG8HUiDcU2pzQQFjtbntgAczRASFzj4H+6+bV+dy1ntKR14I/DypeuRG1uma98iQ==}
+  '@babel/types@7.25.6':
+    resolution: {integrity: sha512-/l42B1qxpG6RdfYf343Uw1vmDjeNhneUXtzhojE7pDgfpEypmRhI6j1kr17XCVv4Cgl9HdAiQY2x0GwKm7rWCw==}
     engines: {node: '>=6.9.0'}
 
   '@capacitor/core@5.7.8':
@@ -725,8 +725,11 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@shikijs/core@1.14.1':
-    resolution: {integrity: sha512-KyHIIpKNaT20FtFPFjCQB5WVSTpLR/n+jQXhWHWVUMm9MaOaG9BGOG0MSyt7yA4+Lm+4c9rTc03tt3nYzeYSfw==}
+  '@shikijs/core@1.16.1':
+    resolution: {integrity: sha512-aI0hBtw+a6KsJp2jcD4YuQqKpeCbURMZbhHVozDknJpm+KJqeMRkEnfBC8BaKE/5XC+uofPgCLsa/TkTk0Ba0w==}
+
+  '@shikijs/vscode-textmate@9.2.0':
+    resolution: {integrity: sha512-5FinaOp6Vdh/dl4/yaOTh0ZeKch+rYS8DUb38V3GMKYVkdqzxw53lViRKUYkVILRiVQT7dcPC7VvAKOR73zVtQ==}
 
   '@simplewebauthn/browser@10.0.0':
     resolution: {integrity: sha512-hG0JMZD+LiLUbpQcAjS4d+t4gbprE/dLYop/CkE01ugU/9sKXflxV5s0DRjdz3uNMFecatRfb4ZLG3XvF8m5zg==}
@@ -1031,8 +1034,8 @@ packages:
   assert@2.1.0:
     resolution: {integrity: sha512-eLHpSK/Y4nhMJ07gDaAzoX/XAKS8PSaojml3M0DM4JpV1LAi5JOJ/p6H/XWrl8L+DzVEvVCW1z3vWAaB9oTsQw==}
 
-  astro@4.15.0:
-    resolution: {integrity: sha512-bL2ol1+j1Xf/7Q8DQSWP1BfkBd6RkkgVsmp9TCzYklqPSeInpAYGGsAgi+SY7Sf40Vk9o+ku6Zl1zav4MLN4uA==}
+  astro@4.15.2:
+    resolution: {integrity: sha512-UlkQ/cWRLabOm6eVe6oRwjVAKd47N3+d1ktKpEZ5lqQKwq5uYrXQUu3n0ftsm6SJ+01x2LlPmjRe9OfKAbGpXA==}
     engines: {node: ^18.17.1 || ^20.3.0 || >=21.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
 
@@ -2637,8 +2640,8 @@ packages:
   passkey-kit-sdk@0.2.1:
     resolution: {integrity: sha512-C+/+Tm3gNHIiNYx1fsbYhlpJIGDGUV/xiMCmBm7q7iIwlKGyinFMUQh4L2laXpQO7bw/GtlTVs6aAD5IQN69Vw==}
 
-  passkey-kit@0.6.0:
-    resolution: {integrity: sha512-4sY4WNu4bAFW/ReTb7ZC8MiMTuVMOvYSxvcsjr3dzmnrTepM2QGqs7vG7W84WSG/8kkSB+hIGWQwhnQORwUfJg==}
+  passkey-kit@0.6.1:
+    resolution: {integrity: sha512-1ygqIaoY6hhkACGtqHJEIlb34GvL6Z09oSy1WNQW5T3Y0a9U4UUWHSZ4B+nAC7P6nIlg1sAsCgblw/UwRJCn5Q==}
 
   path-browserify@1.0.1:
     resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
@@ -3008,8 +3011,8 @@ packages:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
 
-  shiki@1.14.1:
-    resolution: {integrity: sha512-FujAN40NEejeXdzPt+3sZ3F2dx1U24BY2XTY01+MG8mbxCiA2XukXdcbyMyLAHJ/1AUUnQd1tZlvIjefWWEJeA==}
+  shiki@1.16.1:
+    resolution: {integrity: sha512-tCJIMaxDVB1mEIJ5TvfZU7kCPB5eo9fli5+21Olc/bmyv+w8kye3JOp+LZRmGkAyT71hrkefQhTiY+o9mBikRQ==}
 
   side-channel@1.0.6:
     resolution: {integrity: sha512-fDW/EZ6Q9RiO8eFG8Hj+7u/oW+XrPTIChwCOM2+th2A6OblDtYYIpve9m+KvI9Z4C9qSEXlaGR6bTEYHReuglA==}
@@ -3220,8 +3223,8 @@ packages:
   ts-toolbelt@6.15.5:
     resolution: {integrity: sha512-FZIXf1ksVyLcfr7M317jbB67XFJhOO1YqdTcuGaq9q5jLUoTikukZ+98TPjKiP2jC5CgmYdWWYs0s2nLSU0/1A==}
 
-  tsconfck@3.1.1:
-    resolution: {integrity: sha512-00eoI6WY57SvZEVjm13stEVE90VkEdJAFGgpFLTsZbJyW/LwFQ7uQxJHWpZ2hzSWgCPKc9AnBnNP+0X7o3hAmQ==}
+  tsconfck@3.1.3:
+    resolution: {integrity: sha512-ulNZP1SVpRDesxeMLON/LtWM8HIgAJEIVpVVhBM6gsmvQ8+Rh+ZG7FWGvHh7Ah3pRABwVJWklWCr/BTZSv0xnQ==}
     engines: {node: ^18 || >=20}
     hasBin: true
     peerDependencies:
@@ -3714,7 +3717,7 @@ snapshots:
       remark-parse: 11.0.0
       remark-rehype: 11.1.0
       remark-smartypants: 3.0.2
-      shiki: 1.14.1
+      shiki: 1.16.1
       unified: 11.0.5
       unist-util-remove-position: 5.0.0
       unist-util-visit: 5.0.0
@@ -3727,10 +3730,10 @@ snapshots:
     dependencies:
       prismjs: 1.29.0
 
-  '@astrojs/svelte@5.7.0(astro@4.15.0(@types/node@20.14.10)(rollup@4.21.0)(typescript@5.5.4))(svelte@4.2.19)(typescript@5.5.4)(vite@5.4.2(@types/node@20.14.10))':
+  '@astrojs/svelte@5.7.0(astro@4.15.2(@types/node@20.14.10)(rollup@4.21.0)(typescript@5.5.4))(svelte@4.2.19)(typescript@5.5.4)(vite@5.4.2(@types/node@20.14.10))':
     dependencies:
       '@sveltejs/vite-plugin-svelte': 3.1.1(svelte@4.2.19)(vite@5.4.2(@types/node@20.14.10))
-      astro: 4.15.0(@types/node@20.14.10)(rollup@4.21.0)(typescript@5.5.4)
+      astro: 4.15.2(@types/node@20.14.10)(rollup@4.21.0)(typescript@5.5.4)
       svelte: 4.2.19
       svelte2tsx: 0.7.13(svelte@4.2.19)(typescript@5.5.4)
       typescript: 5.5.4
@@ -3738,9 +3741,9 @@ snapshots:
       - supports-color
       - vite
 
-  '@astrojs/tailwind@5.1.0(astro@4.15.0(@types/node@20.14.10)(rollup@4.21.0)(typescript@5.5.4))(tailwindcss@3.4.10(ts-node@10.9.1(@types/node@20.14.10)(typescript@5.5.4)))(ts-node@10.9.1(@types/node@20.14.10)(typescript@5.5.4))':
+  '@astrojs/tailwind@5.1.0(astro@4.15.2(@types/node@20.14.10)(rollup@4.21.0)(typescript@5.5.4))(tailwindcss@3.4.10(ts-node@10.9.1(@types/node@20.14.10)(typescript@5.5.4)))(ts-node@10.9.1(@types/node@20.14.10)(typescript@5.5.4))':
     dependencies:
-      astro: 4.15.0(@types/node@20.14.10)(rollup@4.21.0)(typescript@5.5.4)
+      astro: 4.15.2(@types/node@20.14.10)(rollup@4.21.0)(typescript@5.5.4)
       autoprefixer: 10.4.19(postcss@8.4.39)
       postcss: 8.4.39
       postcss-load-config: 4.0.2(postcss@8.4.39)(ts-node@10.9.1(@types/node@20.14.10)(typescript@5.5.4))
@@ -3760,13 +3763,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/vercel@7.8.0(astro@4.15.0(@types/node@20.14.10)(rollup@4.21.0)(typescript@5.5.4))':
+  '@astrojs/vercel@7.8.0(astro@4.15.2(@types/node@20.14.10)(rollup@4.21.0)(typescript@5.5.4))':
     dependencies:
       '@astrojs/internal-helpers': 0.4.1
       '@vercel/analytics': 1.3.1
       '@vercel/edge': 1.1.2
       '@vercel/nft': 0.27.3
-      astro: 4.15.0(@types/node@20.14.10)(rollup@4.21.0)(typescript@5.5.4)
+      astro: 4.15.2(@types/node@20.14.10)(rollup@4.21.0)(typescript@5.5.4)
       esbuild: 0.21.5
       fast-glob: 3.3.2
       web-vitals: 3.5.2
@@ -3798,7 +3801,7 @@ snapshots:
       '@babel/parser': 7.25.4
       '@babel/template': 7.25.0
       '@babel/traverse': 7.25.4
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
       convert-source-map: 2.0.0
       debug: 4.3.6
       gensync: 1.0.0-beta.2
@@ -3809,14 +3812,14 @@ snapshots:
 
   '@babel/generator@7.25.5':
     dependencies:
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
       jsesc: 2.5.2
 
   '@babel/helper-annotate-as-pure@7.24.7':
     dependencies:
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
 
   '@babel/helper-compilation-targets@7.25.2':
     dependencies:
@@ -3829,7 +3832,7 @@ snapshots:
   '@babel/helper-module-imports@7.24.7':
     dependencies:
       '@babel/traverse': 7.25.4
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
     transitivePeerDependencies:
       - supports-color
 
@@ -3848,7 +3851,7 @@ snapshots:
   '@babel/helper-simple-access@7.24.7':
     dependencies:
       '@babel/traverse': 7.25.4
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
     transitivePeerDependencies:
       - supports-color
 
@@ -3861,7 +3864,7 @@ snapshots:
   '@babel/helpers@7.25.0':
     dependencies:
       '@babel/template': 7.25.0
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
 
   '@babel/highlight@7.24.7':
     dependencies:
@@ -3872,7 +3875,7 @@ snapshots:
 
   '@babel/parser@7.25.4':
     dependencies:
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
 
   '@babel/plugin-syntax-jsx@7.24.7(@babel/core@7.25.2)':
     dependencies:
@@ -3886,7 +3889,7 @@ snapshots:
       '@babel/helper-module-imports': 7.24.7
       '@babel/helper-plugin-utils': 7.24.8
       '@babel/plugin-syntax-jsx': 7.24.7(@babel/core@7.25.2)
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
     transitivePeerDependencies:
       - supports-color
 
@@ -3894,7 +3897,7 @@ snapshots:
     dependencies:
       '@babel/code-frame': 7.24.7
       '@babel/parser': 7.25.4
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
 
   '@babel/traverse@7.25.4':
     dependencies:
@@ -3902,13 +3905,13 @@ snapshots:
       '@babel/generator': 7.25.5
       '@babel/parser': 7.25.4
       '@babel/template': 7.25.0
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
       debug: 4.3.6
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/types@7.25.4':
+  '@babel/types@7.25.6':
     dependencies:
       '@babel/helper-string-parser': 7.24.8
       '@babel/helper-validator-identifier': 7.24.7
@@ -4265,9 +4268,12 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.21.0':
     optional: true
 
-  '@shikijs/core@1.14.1':
+  '@shikijs/core@1.16.1':
     dependencies:
+      '@shikijs/vscode-textmate': 9.2.0
       '@types/hast': 3.0.4
+
+  '@shikijs/vscode-textmate@9.2.0': {}
 
   '@simplewebauthn/browser@10.0.0':
     dependencies:
@@ -4363,23 +4369,23 @@ snapshots:
   '@types/babel__core@7.20.5':
     dependencies:
       '@babel/parser': 7.25.4
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
       '@types/babel__generator': 7.6.8
       '@types/babel__template': 7.4.4
       '@types/babel__traverse': 7.20.6
 
   '@types/babel__generator@7.6.8':
     dependencies:
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
 
   '@types/babel__template@7.4.4':
     dependencies:
       '@babel/parser': 7.25.4
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
 
   '@types/babel__traverse@7.20.6':
     dependencies:
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
 
   '@types/cookie@0.6.0': {}
 
@@ -4740,7 +4746,7 @@ snapshots:
       object.assign: 4.1.5
       util: 0.12.5
 
-  astro@4.15.0(@types/node@20.14.10)(rollup@4.21.0)(typescript@5.5.4):
+  astro@4.15.2(@types/node@20.14.10)(rollup@4.21.0)(typescript@5.5.4):
     dependencies:
       '@astrojs/compiler': 2.10.3
       '@astrojs/internal-helpers': 0.4.1
@@ -4748,7 +4754,7 @@ snapshots:
       '@astrojs/telemetry': 3.1.0
       '@babel/core': 7.25.2
       '@babel/plugin-transform-react-jsx': 7.25.2(@babel/core@7.25.2)
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
       '@oslojs/encoding': 0.4.1
       '@rollup/pluginutils': 5.1.0(rollup@4.21.0)
       '@types/babel__core': 7.20.5
@@ -4772,6 +4778,7 @@ snapshots:
       esbuild: 0.21.5
       estree-walker: 3.0.3
       fast-glob: 3.3.2
+      fastq: 1.17.1
       flattie: 1.1.1
       github-slugger: 2.0.0
       gray-matter: 4.0.3
@@ -4792,11 +4799,11 @@ snapshots:
       prompts: 2.4.2
       rehype: 13.0.1
       semver: 7.6.3
-      shiki: 1.14.1
+      shiki: 1.16.1
       string-width: 7.2.0
       strip-ansi: 7.1.0
       tinyexec: 0.3.0
-      tsconfck: 3.1.1(typescript@5.5.4)
+      tsconfck: 3.1.3(typescript@5.5.4)
       unist-util-visit: 5.0.0
       vfile: 6.0.3
       vite: 5.4.2(@types/node@20.14.10)
@@ -6020,7 +6027,7 @@ snapshots:
   magicast@0.3.5:
     dependencies:
       '@babel/parser': 7.25.4
-      '@babel/types': 7.25.4
+      '@babel/types': 7.25.6
       source-map-js: 1.2.0
 
   make-dir@3.1.0:
@@ -6655,7 +6662,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  passkey-kit@0.6.0(@capacitor/core@5.7.8):
+  passkey-kit@0.6.1(@capacitor/core@5.7.8):
     dependencies:
       '@darkedges/capacitor-native-webauthn': 0.0.4(@capacitor/core@5.7.8)
       '@simplewebauthn/browser': 10.0.0
@@ -7121,9 +7128,10 @@ snapshots:
 
   shebang-regex@3.0.0: {}
 
-  shiki@1.14.1:
+  shiki@1.16.1:
     dependencies:
-      '@shikijs/core': 1.14.1
+      '@shikijs/core': 1.16.1
+      '@shikijs/vscode-textmate': 9.2.0
       '@types/hast': 3.0.4
 
   side-channel@1.0.6:
@@ -7402,7 +7410,7 @@ snapshots:
 
   ts-toolbelt@6.15.5: {}
 
-  tsconfck@3.1.1(typescript@5.5.4):
+  tsconfck@3.1.3(typescript@5.5.4):
     optionalDependencies:
       typescript: 5.5.4
 
