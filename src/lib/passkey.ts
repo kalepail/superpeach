@@ -1,6 +1,5 @@
 import { contractId } from "../store/contractId";
 import { keyId } from "../store/keyId";
-import base64url from 'base64url'
 import { account, fundPubkey, fundSigner, native } from "./common-client";
 
 export async function create() {
@@ -8,17 +7,16 @@ export async function create() {
         const user = 'Super Peach';
         const {
             keyId: kid,
+            keyId_base64,
             contractId: cid,
             built,
         } = await account.createWallet(user, user);
 
         await send(built.toXDR());
 
-        const keyId_base64url = base64url(kid)
-
-        keyId.set(keyId_base64url);
-        console.log(keyId_base64url);
-        localStorage.setItem("sp:keyId", keyId_base64url);
+        keyId.set(keyId_base64);
+        console.log(keyId_base64);
+        localStorage.setItem("sp:keyId", keyId_base64);
 
         contractId.set(cid);
         console.log(cid);
@@ -29,15 +27,13 @@ export async function create() {
 
 export async function connect() {
     try {
-        const { keyId: kid, contractId: cid } = await account.connectWallet({
+        const { keyId: kid, keyId_base64, contractId: cid } = await account.connectWallet({
             getContractId
         });
 
-        const keyId_base64url = base64url(kid)
-
-        keyId.set(keyId_base64url);
-        console.log(keyId_base64url);
-        localStorage.setItem("sp:keyId", keyId_base64url);
+        keyId.set(keyId_base64);
+        console.log(keyId_base64);
+        localStorage.setItem("sp:keyId", keyId_base64);
 
         contractId.set(cid);
         console.log(cid);
