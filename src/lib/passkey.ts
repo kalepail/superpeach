@@ -51,7 +51,7 @@ export async function fund(to: string) {
         })
 
         await transfer.signAuthEntries({
-            publicKey: fundPubkey,
+            address: fundPubkey,
             signAuthEntry: (auth) => fundSigner.signAuthEntry(auth)
         })
 
