@@ -1,6 +1,5 @@
 <script lang="ts">
     import { contractId } from "../store/contractId";
-    import base64url from "base64url";
     import { keyId } from "../store/keyId";
     import {
         connect,
@@ -12,15 +11,17 @@
     } from "../lib/passkey";
     import { account, native } from "../lib/common-client";
     import Loader from "./Loader.svelte";
+    import { SignerKey } from "passkey-kit";
 
     let loaders = new Map();
     let balance: string = "0";
     let signers: {
-        id: string;
-        pk: string;
-        admin: boolean;
-        expired?: boolean | undefined;
-    }[] = [];
+		kind: string;
+		key: string;
+		val: string;
+		limits: string;
+		expired?: boolean;
+	}[] = [];
 
     keyId.subscribe(async (kid) => {
         try {
@@ -110,12 +111,9 @@
         loaders = loaders;
 
         try {
-            const { built } = await account.wallet!.remove({
-                id: base64url.toBuffer(signer),
-            });
-
-            const xdr = await account.sign(built!, { keyId: $keyId });
-            const res = await send(xdr);
+            const at = await account.remove(SignerKey.Secp256r1(signer)) 
+            await account.sign(at, { keyId: $keyId });
+            const res = await send(at.built!.toXDR());
 
             console.log(res);
 
@@ -232,25 +230,23 @@
                         </td>
                     </tr>
 
-                    {#each signers as { id, admin }}
+                    {#each signers as { key }}
                         <tr>
-                            <td colspan={admin ? 2 : 1} class="px-2"
-                                >{id.substring(0, 6)}...{id.substring(
-                                    id.length - 6,
+                            <td colspan=1 class="px-2"
+                                >{key.substring(0, 6)}...{key.substring(
+                                    key.length - 6,
                                 )}</td
                             >
 
-                            {#if !admin}
-                                <td>
-                                    <button
-                                        class="flex items-center justify-center bg-black text-white px-2 py-1 uppercase text-sm w-full"
-                                        on:click={() => onRemoveSignature(id)}
-                                        >Remove {#if loaders.get(id)}<Loader
-                                                class="ml-2"
-                                            />{/if}</button
-                                    >
-                                </td>
-                            {/if}
+                            <td>
+                                <button
+                                    class="flex items-center justify-center bg-black text-white px-2 py-1 uppercase text-sm w-full"
+                                    on:click={() => onRemoveSignature(key)}
+                                    >Remove {#if loaders.get(key)}<Loader
+                                            class="ml-2"
+                                        />{/if}</button
+                                >
+                            </td>
                         </tr>
                     {/each}
                 </tbody>
@@ -319,8 +315,8 @@
                                 class="text-[#0000ff] underline"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                href="https://minipeach-a.vercel.app/"
-                                >minipeach-a.vercel.app</a
+                                href="https://minipeach-a.pages.dev/"
+                                >minipeach-a.pages.dev</a
                             >
                         </td>
                     </tr>
@@ -330,8 +326,8 @@
                                 class="text-[#0000ff] underline"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                href="https://minipeach-b.vercel.app/"
-                                >minipeach-b.vercel.app</a
+                                href="https://minipeach-b.pages.dev/"
+                                >minipeach-b.pages.dev</a
                             >
                         </td>
                     </tr>

@@ -108,14 +108,14 @@
     }
     async function transfer() {
         try {
-            const { built } = await native.transfer({
+            const at = await native.transfer({
                 to: import.meta.env.PUBLIC_factoryContractId,
                 from: $contractId,
                 amount: BigInt(10_000_000),
             });
 
-            const xdr = await account.sign(built!, { keyId: $keyId });
-            const res = await send(xdr);
+            await account.sign(at, { keyId: $keyId });
+            const res = await send(at.built!.toXDR());
 
             console.log(res);
 

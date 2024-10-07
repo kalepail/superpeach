@@ -6,34 +6,32 @@
     "dev": "astro dev --host",
     "start": "astro dev --host",
     "build": "astro build",
-    "deploy": "pnpm run build && vercel deploy --prod",
     "astro": "astro",
     "site:a": "cd site && astro dev --host",
     "site:b": "cd site && PUBLIC_name='Site B' PUBLIC_style='background-color: #f7fee7; color: #84cc16;' astro dev --host"
   },
   "dependencies": {
-    "@simplewebauthn/browser": "^10.0.0",
-    "@stellar/stellar-base": "^12.1.0",
-    "@stellar/stellar-sdk": "^12.2.0",
-    "@vercel/analytics": "^1.3.1",
+    "@stellar/stellar-sdk": "^13.0.0-beta.1",
     "base64url": "^3.0.1",
-    "bigint-conversion": "^2.4.3",
     "buffer": "^6.0.3",
-    "cbor-x": "^1.6.0",
-    "passkey-kit": "0.6.1"
+    "passkey-kit": "0.9.4"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.3",
-    "@astrojs/svelte": "^5.7.0",
-    "@astrojs/tailwind": "^5.1.0",
-    "@astrojs/vercel": "^7.8.0",
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/cloudflare": "^11.1.0",
+    "@astrojs/svelte": "^5.7.2",
+    "@astrojs/tailwind": "^5.1.1",
     "@simplewebauthn/types": "^10.0.0",
-    "@types/node": "^20.14.10",
-    "astro": "^4.15.2",
+    "@types/node": "^22.7.4",
+    "astro": "^4.15.12",
     "svelte": "^4.2.19",
-    "tailwindcss": "^3.4.10",
-    "typescript": "^5.5.4",
-    "vercel": "^34.3.1",
+    "tailwindcss": "^3.4.13",
+    "typescript": "^5.6.2",
     "vite-plugin-node-polyfills": "^0.22.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "@stellar/stellar-sdk": "$@stellar/stellar-sdk"
+    }
   }
 }
