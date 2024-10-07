@@ -71,7 +71,7 @@
         loaders = loaders;
 
         try {
-            const at = await account.addSecp256r1(signerKeyId, signerPublicKey, new Map(), SignerStore.Persistent);
+            const at = await account.addSecp256r1(signerKeyId, signerPublicKey, new Map(), SignerStore.Temporary);
             await account.sign(at, { keyId: $keyId });
             const res = await send(at.built!.toXDR());
 
