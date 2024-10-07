@@ -315,8 +315,8 @@
                                 class="text-[#0000ff] underline"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                href="https://minipeach-a.vercel.app/"
-                                >minipeach-a.vercel.app</a
+                                href="https://minipeach-a.pages.dev/"
+                                >minipeach-a.pages.dev</a
                             >
                         </td>
                     </tr>
@@ -326,8 +326,8 @@
                                 class="text-[#0000ff] underline"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                href="https://minipeach-b.vercel.app/"
-                                >minipeach-b.vercel.app</a
+                                href="https://minipeach-b.pages.dev/"
+                                >minipeach-b.pages.dev</a
                             >
                         </td>
                     </tr>
