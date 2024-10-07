@@ -6,6 +6,7 @@
     import { connect, fund, getContractId, create, send } from "../lib/passkey";
     import { account } from "../lib/common-client";
     import Loader from "./Loader.svelte";
+    import { SignerStore } from "passkey-kit";
 
     let url: URL;
     let params: URLSearchParams;
@@ -70,14 +71,9 @@
         loaders = loaders;
 
         try {
-            const { built } = await account.wallet!.add({
-                id: signerKeyId,
-                pk: signerPublicKey,
-                admin: false,
-            });
-
-            const xdr = await account.sign(built!, { keyId: $keyId });
-            const res = await send(xdr);
+            const at = await account.addSecp256r1(signerKeyId, signerPublicKey, new Map(), SignerStore.Persistent);
+            await account.sign(at, { keyId: $keyId });
+            const res = await send(at.built!.toXDR());
 
             console.log(res);
 

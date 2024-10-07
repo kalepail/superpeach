@@ -12,6 +12,7 @@
     } from "../lib/passkey";
     import { account, native } from "../lib/common-client";
     import Loader from "./Loader.svelte";
+    import { SignerKey } from "passkey-kit";
 
     let loaders = new Map();
     let balance: string = "0";
@@ -110,12 +111,9 @@
         loaders = loaders;
 
         try {
-            const { built } = await account.wallet!.remove({
-                id: base64url.toBuffer(signer),
-            });
-
-            const xdr = await account.sign(built!, { keyId: $keyId });
-            const res = await send(xdr);
+            const at = await account.remove(SignerKey.Secp256r1(signer)) 
+            await account.sign(at, { keyId: $keyId });
+            const res = await send(at.built!.toXDR());
 
             console.log(res);
 

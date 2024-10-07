@@ -9,10 +9,10 @@ export async function create() {
         const {
             keyId: kid,
             contractId: cid,
-            xdr,
+            built,
         } = await account.createWallet(user, user);
 
-        await send(xdr);
+        await send(built.toXDR());
 
         const keyId_base64url = base64url(kid)
 
