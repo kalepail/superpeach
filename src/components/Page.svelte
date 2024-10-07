@@ -1,6 +1,5 @@
 <script lang="ts">
     import { contractId } from "../store/contractId";
-    import base64url from "base64url";
     import { keyId } from "../store/keyId";
     import {
         connect,
@@ -17,11 +16,12 @@
     let loaders = new Map();
     let balance: string = "0";
     let signers: {
-        id: string;
-        pk: string;
-        admin: boolean;
-        expired?: boolean | undefined;
-    }[] = [];
+		kind: string;
+		key: string;
+		val: string;
+		limits: string;
+		expired?: boolean;
+	}[] = [];
 
     keyId.subscribe(async (kid) => {
         try {
@@ -230,25 +230,23 @@
                         </td>
                     </tr>
 
-                    {#each signers as { id, admin }}
+                    {#each signers as { key }}
                         <tr>
-                            <td colspan={admin ? 2 : 1} class="px-2"
-                                >{id.substring(0, 6)}...{id.substring(
-                                    id.length - 6,
+                            <td colspan=1 class="px-2"
+                                >{key.substring(0, 6)}...{key.substring(
+                                    key.length - 6,
                                 )}</td
                             >
 
-                            {#if !admin}
-                                <td>
-                                    <button
-                                        class="flex items-center justify-center bg-black text-white px-2 py-1 uppercase text-sm w-full"
-                                        on:click={() => onRemoveSignature(id)}
-                                        >Remove {#if loaders.get(id)}<Loader
-                                                class="ml-2"
-                                            />{/if}</button
-                                    >
-                                </td>
-                            {/if}
+                            <td>
+                                <button
+                                    class="flex items-center justify-center bg-black text-white px-2 py-1 uppercase text-sm w-full"
+                                    on:click={() => onRemoveSignature(key)}
+                                    >Remove {#if loaders.get(key)}<Loader
+                                            class="ml-2"
+                                        />{/if}</button
+                                >
+                            </td>
                         </tr>
                     {/each}
                 </tbody>
