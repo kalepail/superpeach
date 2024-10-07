@@ -1,9 +1,11 @@
 import { PasskeyServer } from "passkey-kit";
 
-export const account = new PasskeyServer({
-    rpcUrl: import.meta.env.PUBLIC_rpcUrl,
-    launchtubeUrl: import.meta.env.PUBLIC_launchtubeUrl,
-    launchtubeJwt: import.meta.env.PRIVATE_launchtubeJwt,
-    mercuryUrl: import.meta.env.PUBLIC_mercuryUrl,
-    mercuryJwt: import.meta.env.PRIVATE_mercuryJwt,
-});
+export function account(env: ImportMetaEnv) {
+    return new PasskeyServer({
+        rpcUrl: env.PUBLIC_rpcUrl,
+        launchtubeUrl: env.PUBLIC_launchtubeUrl,
+        launchtubeJwt: env.PRIVATE_launchtubeJwt,
+        mercuryUrl: env.PUBLIC_mercuryUrl,
+        mercuryJwt: env.PRIVATE_mercuryJwt,
+    })
+}
