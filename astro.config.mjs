@@ -15,12 +15,15 @@ export default defineConfig({
     //         enabled: true,
     //     }
     // }),
-    // vite: {
-    //     plugins: [
-    //         nodePolyfills({
-    //             include: ['buffer']
-    //         })
-    //     ]
-    // },
+    vite: {
+        define: {
+            "process.env": process.env
+        },
+        // plugins: [
+        //     nodePolyfills({
+        //         include: ['buffer']
+        //     })
+        // ]
+    },
     integrations: [tailwind(), svelte()]
 });
