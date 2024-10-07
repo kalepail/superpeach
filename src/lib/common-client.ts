@@ -1,4 +1,4 @@
-import { Account, Keypair, SorobanRpc, StrKey } from "@stellar/stellar-sdk"
+import { Account, Keypair, SorobanRpc, StrKey } from "@stellar/stellar-sdk/minimal"
 import { basicNodeSigner } from "@stellar/stellar-sdk/contract";
 import { Buffer } from "buffer";
 import { PasskeyKit, SACClient } from "passkey-kit";

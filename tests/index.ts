@@ -1,4 +1,4 @@
-import { xdr, Account, Keypair, Networks, Operation, SorobanRpc, TransactionBuilder, nativeToScVal, Horizon } from '@stellar/stellar-sdk'
+import { xdr, Account, Keypair, Networks, Operation, SorobanRpc, TransactionBuilder, nativeToScVal, Horizon } from '@stellar/stellar-sdk/minimal'
 
 const rpcUrl = 'https://soroban-testnet.stellar.org'
 const horizonUrl = 'https://horizon-testnet.stellar.org'
