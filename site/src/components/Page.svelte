@@ -4,7 +4,7 @@
     import { keyId } from "../store/keyId";
     import base64url from "base64url";
     import { getContractId, send } from "../lib/passkey";
-    import { account, native } from "../lib/common-client";
+    import { account, mockPubkey, native } from "../lib/common-client";
 
     // Register new passkey
     // Forward that key to super peach (both the id and the pk)
@@ -61,6 +61,7 @@
     async function connect(type?: "signin") {
         try {
             let kid: Buffer;
+            let kidIdBase64: string;
 
             if (type === "signin") {
                 const wallet = await account.connectWallet({
@@ -71,10 +72,12 @@
                 console.log(wallet.contractId);
 
                 kid = wallet.keyId;
+                kidIdBase64 = wallet.keyIdBase64;
             } else {
                 const wallet = await account.createKey("Super Peach", import.meta.env.PUBLIC_name)
 
-                kid = wallet.keyId
+                kid = wallet.keyId;
+                kidIdBase64 = wallet.keyIdBase64;
 
                 const w = 400;
                 const h = 500;
@@ -97,11 +100,9 @@
                 }
             }
 
-            const keyId_base64url = base64url.encode(kid);
-
-            keyId.set(keyId_base64url);
-            console.log(keyId_base64url);
-            localStorage.setItem("sp:keyId", keyId_base64url);
+            keyId.set(kidIdBase64);
+            console.log(kidIdBase64);
+            localStorage.setItem("sp:keyId", kidIdBase64);
         } catch(err: any) {
             return alert(err.message)
         }
@@ -109,7 +110,7 @@
     async function transfer() {
         try {
             const at = await native.transfer({
-                to: import.meta.env.PUBLIC_factoryContractId,
+                to: mockPubkey,
                 from: $contractId,
                 amount: BigInt(10_000_000),
             });

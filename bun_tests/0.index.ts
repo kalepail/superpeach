@@ -1,8 +1,9 @@
-import { xdr, Account, Keypair, Networks, Operation, SorobanRpc, TransactionBuilder, nativeToScVal, Horizon } from '@stellar/stellar-sdk/minimal'
+import { Account, Keypair, Networks, Operation, TransactionBuilder, nativeToScVal, Horizon } from '@stellar/stellar-sdk'
+import { assembleTransaction, Server } from '@stellar/stellar-sdk/rpc'
 
 const rpcUrl = 'https://soroban-testnet.stellar.org'
 const horizonUrl = 'https://horizon-testnet.stellar.org'
-const rpc = new SorobanRpc.Server(rpcUrl)
+const rpc = new Server(rpcUrl)
 const horizon = new Horizon.Server(horizonUrl)
 
 const sequenceKeypair = Keypair.fromSecret('SD3RQYH3I2OX7YGNYRNRWMW6VJGSFGZG4UUYZK4RVLHOJ2UMNARRW4OP') // GBE5YPPSOULORLRVRG3VALWLLUH2IJ3A6I43KIT2CNBIXEYYQTXP5NRR
@@ -32,7 +33,7 @@ const txn = new TransactionBuilder(sequenceSource, {
 
 const sim = await rpc.simulateTransaction(txn)
 
-const transaction = SorobanRpc.assembleTransaction(txn, sim).build()
+const transaction = assembleTransaction(txn, sim).build()
 
 console.log(transaction.toXDR());
 

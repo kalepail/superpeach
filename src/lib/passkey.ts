@@ -7,16 +7,16 @@ export async function create() {
         const user = 'Super Peach';
         const {
             keyId: kid,
-            keyId_base64,
+            keyIdBase64,
             contractId: cid,
-            built,
+            signedTx,
         } = await account.createWallet(user, user);
 
-        await send(built.toXDR());
+        await send(signedTx.toXDR());
 
-        keyId.set(keyId_base64);
-        console.log(keyId_base64);
-        localStorage.setItem("sp:keyId", keyId_base64);
+        keyId.set(keyIdBase64);
+        console.log(keyIdBase64);
+        localStorage.setItem("sp:keyId", keyIdBase64);
 
         contractId.set(cid);
         console.log(cid);
@@ -27,13 +27,13 @@ export async function create() {
 
 export async function connect() {
     try {
-        const { keyId: kid, keyId_base64, contractId: cid } = await account.connectWallet({
+        const { keyId: kid, keyIdBase64, contractId: cid } = await account.connectWallet({
             getContractId
         });
 
-        keyId.set(keyId_base64);
-        console.log(keyId_base64);
-        localStorage.setItem("sp:keyId", keyId_base64);
+        keyId.set(keyIdBase64);
+        console.log(keyIdBase64);
+        localStorage.setItem("sp:keyId", keyIdBase64);
 
         contractId.set(cid);
         console.log(cid);
