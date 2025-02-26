@@ -4,7 +4,7 @@ compatibility_date = "2024-10-06"
 pages_build_output_dir = "./dist"
 
 [vars]
-PUBLIC_walletWasmHash="68edf5f67d8b3ca36a5fe2b1842af19cfd1aeadef7725a996fdf22d3271376d3"
+PUBLIC_walletWasmHash="b62f62217ff256d557513793e9e44317b25b14401a8a6b6149a04d38d72d6c7c"
 PUBLIC_nativeContractId="CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC"
 PUBLIC_networkPassphrase="Test SDF Network ; September 2015"
 PUBLIC_rpcUrl="https://soroban-testnet.stellar.org"
