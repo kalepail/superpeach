@@ -9,10 +9,10 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@stellar/stellar-sdk": "^13.0.0",
+    "@stellar/stellar-sdk": "^13.1.0",
     "base64url": "^3.0.1",
     "buffer": "^6.0.3",
-    "passkey-kit": "0.10.7"
+    "passkey-kit": "0.10.13"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
@@ -20,12 +20,12 @@
     "@astrojs/svelte": "^5.7.2",
     "@astrojs/tailwind": "^5.1.3",
     "@simplewebauthn/types": "^12.0.0",
-    "@types/node": "^22.10.2",
+    "@types/node": "^22.13.5",
     "astro": "^4.15.12",
     "svelte": "^4.2.19",
     "tailwindcss": "^3.4.16",
-    "typescript": "^5.7.2",
-    "vite-plugin-node-polyfills": "^0.22.0"
+    "typescript": "^5.7.3",
+    "vite-plugin-node-polyfills": "^0.23.0"
   },
   "pnpm": {
     "overrides": {

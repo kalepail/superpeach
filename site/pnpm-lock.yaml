@@ -5,15 +5,15 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@stellar/stellar-sdk': ^13.0.0
+  '@stellar/stellar-sdk': ^13.1.0
 
 importers:
 
   .:
     dependencies:
       '@stellar/stellar-sdk':
-        specifier: ^13.0.0
-        version: 13.0.0
+        specifier: ^13.1.0
+        version: 13.1.0
       base64url:
         specifier: ^3.0.1
         version: 3.0.1
@@ -21,30 +21,30 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
       passkey-kit:
-        specifier: 0.10.7
-        version: 0.10.7
+        specifier: 0.10.13
+        version: 0.10.13
     devDependencies:
       '@astrojs/check':
         specifier: ^0.9.4
-        version: 0.9.4(typescript@5.7.2)
+        version: 0.9.4(typescript@5.7.3)
       '@astrojs/cloudflare':
         specifier: ^11.1.0
-        version: 11.1.0(astro@4.15.12(@types/node@22.10.2)(rollup@4.24.0)(typescript@5.7.2))
+        version: 11.1.0(astro@4.15.12(@types/node@22.13.5)(rollup@4.24.0)(typescript@5.7.3))
       '@astrojs/svelte':
         specifier: ^5.7.2
-        version: 5.7.2(astro@4.15.12(@types/node@22.10.2)(rollup@4.24.0)(typescript@5.7.2))(svelte@4.2.19)(typescript@5.7.2)(vite@5.4.8(@types/node@22.10.2))
+        version: 5.7.2(astro@4.15.12(@types/node@22.13.5)(rollup@4.24.0)(typescript@5.7.3))(svelte@4.2.19)(typescript@5.7.3)(vite@5.4.8(@types/node@22.13.5))
       '@astrojs/tailwind':
         specifier: ^5.1.3
-        version: 5.1.3(astro@4.15.12(@types/node@22.10.2)(rollup@4.24.0)(typescript@5.7.2))(tailwindcss@3.4.16)
+        version: 5.1.3(astro@4.15.12(@types/node@22.13.5)(rollup@4.24.0)(typescript@5.7.3))(tailwindcss@3.4.16)
       '@simplewebauthn/types':
         specifier: ^12.0.0
         version: 12.0.0
       '@types/node':
-        specifier: ^22.10.2
-        version: 22.10.2
+        specifier: ^22.13.5
+        version: 22.13.5
       astro:
         specifier: ^4.15.12
-        version: 4.15.12(@types/node@22.10.2)(rollup@4.24.0)(typescript@5.7.2)
+        version: 4.15.12(@types/node@22.13.5)(rollup@4.24.0)(typescript@5.7.3)
       svelte:
         specifier: ^4.2.19
         version: 4.2.19
@@ -52,11 +52,11 @@ importers:
         specifier: ^3.4.16
         version: 3.4.16
       typescript:
-        specifier: ^5.7.2
-        version: 5.7.2
+        specifier: ^5.7.3
+        version: 5.7.3
       vite-plugin-node-polyfills:
-        specifier: ^0.22.0
-        version: 0.22.0(rollup@4.24.0)(vite@5.4.8(@types/node@22.10.2))
+        specifier: ^0.23.0
+        version: 0.23.0(rollup@4.24.0)(vite@5.4.8(@types/node@22.13.5))
 
 packages:
 
@@ -851,8 +851,8 @@ packages:
   '@stellar/stellar-base@13.0.1':
     resolution: {integrity: sha512-Xbd12mc9Oj/130Tv0URmm3wXG77XMshZtZ2yNCjqX5ZbMD5IYpbBs3DVCteLU/4SLj/Fnmhh1dzhrQXnk4r+pQ==}
 
-  '@stellar/stellar-sdk@13.0.0':
-    resolution: {integrity: sha512-+wvmKi+XWwu27nLYTM17EgBdpbKohEkOfCIK4XKfsI4WpMXAqvnqSm98i9h5dAblNB+w8BJqzGs1JY0PtTGm4A==}
+  '@stellar/stellar-sdk@13.1.0':
+    resolution: {integrity: sha512-ARQkUdyGefXdTgwSF0eONkzv/geAqUfyfheJ9Nthz6GAr5b41fNwWW9UtE8JpXC4IpvE3t5elIUN5hKJzASN9w==}
 
   '@sveltejs/vite-plugin-svelte-inspector@2.1.0':
     resolution: {integrity: sha512-9QX28IymvBlSCqsCll5t0kQVxipsfhFFL+L2t3nTWfXnddYwxBuAEtTtlaVQpRz9c37BhJjltSeY4AJSC03SSg==}
@@ -905,8 +905,8 @@ packages:
   '@types/node-forge@1.3.11':
     resolution: {integrity: sha512-FQx220y22OKNTqaByeBGqHWYz4cl94tpcxeFdvBo3wjG6XPBuZ0BNgNZRV5J5TFmmcsJ4IzsLkmGRiQbnYsBEQ==}
 
-  '@types/node@22.10.2':
-    resolution: {integrity: sha512-Xxr6BBRCAOQixvonOye19wnzyDiUtTeqldOOmj3CkeblonbccA12PFwlufvRdrpjXxqnmUaeiU5EOA+7s5diUQ==}
+  '@types/node@22.13.5':
+    resolution: {integrity: sha512-+lTU0PxZXn0Dr1NBtC7Y8cR21AJr87dLLU953CWA6pMxxv/UDc7jYAY90upcrie1nRcD6XNG5HOYEDtgW5TxAg==}
 
   '@types/unist@3.0.3':
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
@@ -1035,8 +1035,8 @@ packages:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
 
-  axios@1.7.7:
-    resolution: {integrity: sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==}
+  axios@1.8.1:
+    resolution: {integrity: sha512-NN+fvwH/kV01dYUQ3PTOZns4LWtWhOFCAhQ/pHb88WQ1hNe5V/dvFwc4VJcDL11LT9xSX0QtsR8sWUuyOuOq7g==}
 
   axobject-query@4.1.0:
     resolution: {integrity: sha512-qIj0G9wZbMGNLjLmg1PT6v2mE9AH2zlnADJD/2tC6E00hgmhUOfEB6greHPAfLRSufHqROIUTkw6E+M3lH0PTQ==}
@@ -1479,8 +1479,8 @@ packages:
   fastq@1.17.1:
     resolution: {integrity: sha512-sRVD3lWVIXWg6By68ZN7vho9a1pQcN/WBFaAAsDDFzlJjvoGx0P8z7V1t72grFJfJhu3YPZBuu25f7Kaw2jN1w==}
 
-  feaxios@0.0.20:
-    resolution: {integrity: sha512-g3hm2YDNffNxA3Re3Hd8ahbpmDee9Fv1Pb1C/NoWsjY7mtD8nyNeJytUzn+DK0Hyl9o6HppeWOrtnqgmhOYfWA==}
+  feaxios@0.0.23:
+    resolution: {integrity: sha512-eghR0A21fvbkcQBgZuMfQhrXxJzC0GNUGC9fXhBge33D+mFDTwl0aJ35zoQQn575BhyjQitRc5N4f+L4cP708g==}
 
   fill-range@7.1.1:
     resolution: {integrity: sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg==}
@@ -2209,11 +2209,11 @@ packages:
   pascal-case@3.1.2:
     resolution: {integrity: sha512-uWlGT3YSnK9x3BQJaOdcZwrnV6hPpd8jFH1/ucpiLRPh/2zCVJKS19E4GvYHvaCcACn3foXZ0cLB9Wrx1KGe5g==}
 
-  passkey-kit-sdk@0.6.3:
-    resolution: {integrity: sha512-u/Lv1dyASHz1OdH5o89506Wilu/qAaGgLOR6sZHth0kgcLYrEG7Z6dQ5NWhveJ8BL/bwoSCLAWpodgzQ3LCc2w==}
+  passkey-kit-sdk@0.6.5:
+    resolution: {integrity: sha512-MxbtPPUmX+ycgw3rpXWizEps7foVMzVlR7hZrRpZmsuox1fHXycw3Ge18SZU3Cmt0xjgaPjCI1d2vnMbdEeDVQ==}
 
-  passkey-kit@0.10.7:
-    resolution: {integrity: sha512-TwDDLSjU47e1df+pLTtSqJozNc6PNbLVOofrvgqSmFVm+BGt5rfn0V3l6fHrcyRb//v3cm4mxFngMf9D18/UUA==}
+  passkey-kit@0.10.13:
+    resolution: {integrity: sha512-+UU1YE1jPAA29biA7EU/Ji0mp8sAeHpxFZri+msBiNyT9Z6MgiRSlRZ/5GkhI2R8rlywVvvwIkcqFagpaaM1ng==}
 
   path-browserify@1.0.1:
     resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
@@ -2497,8 +2497,8 @@ packages:
   run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
 
-  sac-sdk@0.3.3:
-    resolution: {integrity: sha512-tR+RdHmHQ6jouD0WuqyGCGBeM9ovJMk0vTkJTmETmW/ARswdSiqKoI+9dPlqzAHGkmVCD6pTcqzCzu1NdWF4ow==}
+  sac-sdk@0.3.5:
+    resolution: {integrity: sha512-legs0C7+EcSNCYKOxF4NoG4JCAOMN9vhoL6SFFmhVbZeCP6XXzhiM2sn0JLeIaAoXCVeptQ/lp9uYhJQGjTYdw==}
 
   safe-buffer@5.1.2:
     resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
@@ -2741,8 +2741,8 @@ packages:
   typescript-auto-import-cache@0.3.3:
     resolution: {integrity: sha512-ojEC7+Ci1ij9eE6hp8Jl9VUNnsEKzztktP5gtYNRMrTmfXVwA1PITYYAkpxCvvupdSYa/Re51B6KMcv1CTZEUA==}
 
-  typescript@5.7.2:
-    resolution: {integrity: sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==}
+  typescript@5.7.3:
+    resolution: {integrity: sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -2817,10 +2817,10 @@ packages:
   vfile@6.0.3:
     resolution: {integrity: sha512-KzIbH/9tXat2u30jf+smMwFCsno4wHVdNmzFyL+T/L3UGqqk6JKfVqOFOZEpZSHADH1k40ab6NUIXZq422ov3Q==}
 
-  vite-plugin-node-polyfills@0.22.0:
-    resolution: {integrity: sha512-F+G3LjiGbG8QpbH9bZ//GSBr9i1InSTkaulfUHFa9jkLqVGORFBoqc2A/Yu5Mmh1kNAbiAeKeK+6aaQUf3x0JA==}
+  vite-plugin-node-polyfills@0.23.0:
+    resolution: {integrity: sha512-4n+Ys+2bKHQohPBKigFlndwWQ5fFKwaGY6muNDMTb0fSQLyBzS+jjUNRZG9sKF0S/Go4ApG6LFnUGopjkILg3w==}
     peerDependencies:
-      vite: ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
+      vite: ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0
 
   vite@5.4.8:
     resolution: {integrity: sha512-FqrItQ4DT1NC4zCUqMB4c4AZORMKIa0m8/URVCZ77OZ/QSNeJ54bU1vrFADbDsuwfIPcgknRkmqakQcgnL4GiQ==}
@@ -3116,24 +3116,24 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@astrojs/check@0.9.4(typescript@5.7.2)':
+  '@astrojs/check@0.9.4(typescript@5.7.3)':
     dependencies:
-      '@astrojs/language-server': 2.15.0(typescript@5.7.2)
+      '@astrojs/language-server': 2.15.0(typescript@5.7.3)
       chokidar: 4.0.1
       kleur: 4.1.5
-      typescript: 5.7.2
+      typescript: 5.7.3
       yargs: 17.7.2
     transitivePeerDependencies:
       - prettier
       - prettier-plugin-astro
 
-  '@astrojs/cloudflare@11.1.0(astro@4.15.12(@types/node@22.10.2)(rollup@4.24.0)(typescript@5.7.2))':
+  '@astrojs/cloudflare@11.1.0(astro@4.15.12(@types/node@22.13.5)(rollup@4.24.0)(typescript@5.7.3))':
     dependencies:
       '@astrojs/internal-helpers': 0.4.1
       '@astrojs/underscore-redirects': 0.3.4
       '@cloudflare/workers-types': 4.20241004.0
-      '@inox-tools/astro-when': 0.2.4(astro@4.15.12(@types/node@22.10.2)(rollup@4.24.0)(typescript@5.7.2))
-      astro: 4.15.12(@types/node@22.10.2)(rollup@4.24.0)(typescript@5.7.2)
+      '@inox-tools/astro-when': 0.2.4(astro@4.15.12(@types/node@22.13.5)(rollup@4.24.0)(typescript@5.7.3))
+      astro: 4.15.12(@types/node@22.13.5)(rollup@4.24.0)(typescript@5.7.3)
       esbuild: 0.21.5
       estree-walker: 3.0.3
       magic-string: 0.30.11
@@ -3149,12 +3149,12 @@ snapshots:
 
   '@astrojs/internal-helpers@0.4.1': {}
 
-  '@astrojs/language-server@2.15.0(typescript@5.7.2)':
+  '@astrojs/language-server@2.15.0(typescript@5.7.3)':
     dependencies:
       '@astrojs/compiler': 2.10.3
       '@astrojs/yaml2ts': 0.2.1
       '@jridgewell/sourcemap-codec': 1.5.0
-      '@volar/kit': 2.4.6(typescript@5.7.2)
+      '@volar/kit': 2.4.6(typescript@5.7.3)
       '@volar/language-core': 2.4.6
       '@volar/language-server': 2.4.6
       '@volar/language-service': 2.4.6
@@ -3199,20 +3199,20 @@ snapshots:
     dependencies:
       prismjs: 1.29.0
 
-  '@astrojs/svelte@5.7.2(astro@4.15.12(@types/node@22.10.2)(rollup@4.24.0)(typescript@5.7.2))(svelte@4.2.19)(typescript@5.7.2)(vite@5.4.8(@types/node@22.10.2))':
+  '@astrojs/svelte@5.7.2(astro@4.15.12(@types/node@22.13.5)(rollup@4.24.0)(typescript@5.7.3))(svelte@4.2.19)(typescript@5.7.3)(vite@5.4.8(@types/node@22.13.5))':
     dependencies:
-      '@sveltejs/vite-plugin-svelte': 3.1.2(svelte@4.2.19)(vite@5.4.8(@types/node@22.10.2))
-      astro: 4.15.12(@types/node@22.10.2)(rollup@4.24.0)(typescript@5.7.2)
+      '@sveltejs/vite-plugin-svelte': 3.1.2(svelte@4.2.19)(vite@5.4.8(@types/node@22.13.5))
+      astro: 4.15.12(@types/node@22.13.5)(rollup@4.24.0)(typescript@5.7.3)
       svelte: 4.2.19
-      svelte2tsx: 0.7.21(svelte@4.2.19)(typescript@5.7.2)
-      typescript: 5.7.2
+      svelte2tsx: 0.7.21(svelte@4.2.19)(typescript@5.7.3)
+      typescript: 5.7.3
     transitivePeerDependencies:
       - supports-color
       - vite
 
-  '@astrojs/tailwind@5.1.3(astro@4.15.12(@types/node@22.10.2)(rollup@4.24.0)(typescript@5.7.2))(tailwindcss@3.4.16)':
+  '@astrojs/tailwind@5.1.3(astro@4.15.12(@types/node@22.13.5)(rollup@4.24.0)(typescript@5.7.3))(tailwindcss@3.4.16)':
     dependencies:
-      astro: 4.15.12(@types/node@22.10.2)(rollup@4.24.0)(typescript@5.7.2)
+      astro: 4.15.12(@types/node@22.13.5)(rollup@4.24.0)(typescript@5.7.3)
       autoprefixer: 10.4.20(postcss@8.4.49)
       postcss: 8.4.49
       postcss-load-config: 4.0.2(postcss@8.4.49)
@@ -3652,10 +3652,10 @@ snapshots:
   '@img/sharp-win32-x64@0.33.5':
     optional: true
 
-  '@inox-tools/astro-when@0.2.4(astro@4.15.12(@types/node@22.10.2)(rollup@4.24.0)(typescript@5.7.2))':
+  '@inox-tools/astro-when@0.2.4(astro@4.15.12(@types/node@22.13.5)(rollup@4.24.0)(typescript@5.7.3))':
     dependencies:
-      astro: 4.15.12(@types/node@22.10.2)(rollup@4.24.0)(typescript@5.7.2)
-      astro-integration-kit: 0.16.1(astro@4.15.12(@types/node@22.10.2)(rollup@4.24.0)(typescript@5.7.2))
+      astro: 4.15.12(@types/node@22.13.5)(rollup@4.24.0)(typescript@5.7.3)
+      astro-integration-kit: 0.16.1(astro@4.15.12(@types/node@22.13.5)(rollup@4.24.0)(typescript@5.7.3))
       debug: 4.3.7
     transitivePeerDependencies:
       - supports-color
@@ -3816,39 +3816,39 @@ snapshots:
     optionalDependencies:
       sodium-native: 4.3.1
 
-  '@stellar/stellar-sdk@13.0.0':
+  '@stellar/stellar-sdk@13.1.0':
     dependencies:
       '@stellar/stellar-base': 13.0.1
-      axios: 1.7.7
+      axios: 1.8.1
       bignumber.js: 9.1.2
       eventsource: 2.0.2
-      feaxios: 0.0.20
+      feaxios: 0.0.23
       randombytes: 2.1.0
       toml: 3.0.0
       urijs: 1.19.11
     transitivePeerDependencies:
       - debug
 
-  '@sveltejs/vite-plugin-svelte-inspector@2.1.0(@sveltejs/vite-plugin-svelte@3.1.2(svelte@4.2.19)(vite@5.4.8(@types/node@22.10.2)))(svelte@4.2.19)(vite@5.4.8(@types/node@22.10.2))':
+  '@sveltejs/vite-plugin-svelte-inspector@2.1.0(@sveltejs/vite-plugin-svelte@3.1.2(svelte@4.2.19)(vite@5.4.8(@types/node@22.13.5)))(svelte@4.2.19)(vite@5.4.8(@types/node@22.13.5))':
     dependencies:
-      '@sveltejs/vite-plugin-svelte': 3.1.2(svelte@4.2.19)(vite@5.4.8(@types/node@22.10.2))
+      '@sveltejs/vite-plugin-svelte': 3.1.2(svelte@4.2.19)(vite@5.4.8(@types/node@22.13.5))
       debug: 4.3.7
       svelte: 4.2.19
-      vite: 5.4.8(@types/node@22.10.2)
+      vite: 5.4.8(@types/node@22.13.5)
     transitivePeerDependencies:
       - supports-color
 
-  '@sveltejs/vite-plugin-svelte@3.1.2(svelte@4.2.19)(vite@5.4.8(@types/node@22.10.2))':
+  '@sveltejs/vite-plugin-svelte@3.1.2(svelte@4.2.19)(vite@5.4.8(@types/node@22.13.5))':
     dependencies:
-      '@sveltejs/vite-plugin-svelte-inspector': 2.1.0(@sveltejs/vite-plugin-svelte@3.1.2(svelte@4.2.19)(vite@5.4.8(@types/node@22.10.2)))(svelte@4.2.19)(vite@5.4.8(@types/node@22.10.2))
+      '@sveltejs/vite-plugin-svelte-inspector': 2.1.0(@sveltejs/vite-plugin-svelte@3.1.2(svelte@4.2.19)(vite@5.4.8(@types/node@22.13.5)))(svelte@4.2.19)(vite@5.4.8(@types/node@22.13.5))
       debug: 4.3.7
       deepmerge: 4.3.1
       kleur: 4.1.5
       magic-string: 0.30.11
       svelte: 4.2.19
       svelte-hmr: 0.16.0(svelte@4.2.19)
-      vite: 5.4.8(@types/node@22.10.2)
-      vitefu: 0.2.5(vite@5.4.8(@types/node@22.10.2))
+      vite: 5.4.8(@types/node@22.13.5)
+      vitefu: 0.2.5(vite@5.4.8(@types/node@22.13.5))
     transitivePeerDependencies:
       - supports-color
 
@@ -3897,9 +3897,9 @@ snapshots:
 
   '@types/node-forge@1.3.11':
     dependencies:
-      '@types/node': 22.10.2
+      '@types/node': 22.13.5
 
-  '@types/node@22.10.2':
+  '@types/node@22.13.5':
     dependencies:
       undici-types: 6.20.0
 
@@ -3907,12 +3907,12 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
-  '@volar/kit@2.4.6(typescript@5.7.2)':
+  '@volar/kit@2.4.6(typescript@5.7.3)':
     dependencies:
       '@volar/language-service': 2.4.6
       '@volar/typescript': 2.4.6
       typesafe-path: 0.2.2
-      typescript: 5.7.2
+      typescript: 5.7.3
       vscode-languageserver-textdocument: 1.0.12
       vscode-uri: 3.0.8
 
@@ -4029,13 +4029,13 @@ snapshots:
     dependencies:
       tslib: 2.7.0
 
-  astro-integration-kit@0.16.1(astro@4.15.12(@types/node@22.10.2)(rollup@4.24.0)(typescript@5.7.2)):
+  astro-integration-kit@0.16.1(astro@4.15.12(@types/node@22.13.5)(rollup@4.24.0)(typescript@5.7.3)):
     dependencies:
-      astro: 4.15.12(@types/node@22.10.2)(rollup@4.24.0)(typescript@5.7.2)
+      astro: 4.15.12(@types/node@22.13.5)(rollup@4.24.0)(typescript@5.7.3)
       pathe: 1.1.2
       recast: 0.23.9
 
-  astro@4.15.12(@types/node@22.10.2)(rollup@4.24.0)(typescript@5.7.2):
+  astro@4.15.12(@types/node@22.13.5)(rollup@4.24.0)(typescript@5.7.3):
     dependencies:
       '@astrojs/compiler': 2.10.3
       '@astrojs/internal-helpers': 0.4.1
@@ -4090,17 +4090,17 @@ snapshots:
       shiki: 1.22.0
       string-width: 7.2.0
       tinyexec: 0.3.0
-      tsconfck: 3.1.3(typescript@5.7.2)
+      tsconfck: 3.1.3(typescript@5.7.3)
       unist-util-visit: 5.0.0
       vfile: 6.0.3
-      vite: 5.4.8(@types/node@22.10.2)
-      vitefu: 1.0.2(vite@5.4.8(@types/node@22.10.2))
+      vite: 5.4.8(@types/node@22.13.5)
+      vitefu: 1.0.2(vite@5.4.8(@types/node@22.13.5))
       which-pm: 3.0.0
       xxhash-wasm: 1.0.2
       yargs-parser: 21.1.1
       zod: 3.23.8
       zod-to-json-schema: 3.23.3(zod@3.23.8)
-      zod-to-ts: 1.2.0(typescript@5.7.2)(zod@3.23.8)
+      zod-to-ts: 1.2.0(typescript@5.7.3)(zod@3.23.8)
     optionalDependencies:
       sharp: 0.33.5
     transitivePeerDependencies:
@@ -4132,7 +4132,7 @@ snapshots:
     dependencies:
       possible-typed-array-names: 1.0.0
 
-  axios@1.7.7:
+  axios@1.8.1:
     dependencies:
       follow-redirects: 1.15.9
       form-data: 4.0.0
@@ -4639,7 +4639,7 @@ snapshots:
     dependencies:
       reusify: 1.0.4
 
-  feaxios@0.0.20:
+  feaxios@0.0.23:
     dependencies:
       is-retry-allowed: 3.0.0
 
@@ -5597,21 +5597,21 @@ snapshots:
       no-case: 3.0.4
       tslib: 2.7.0
 
-  passkey-kit-sdk@0.6.3:
+  passkey-kit-sdk@0.6.5:
     dependencies:
-      '@stellar/stellar-sdk': 13.0.0
+      '@stellar/stellar-sdk': 13.1.0
       buffer: 6.0.3
     transitivePeerDependencies:
       - debug
 
-  passkey-kit@0.10.7:
+  passkey-kit@0.10.13:
     dependencies:
       '@simplewebauthn/browser': 13.0.0
-      '@stellar/stellar-sdk': 13.0.0
+      '@stellar/stellar-sdk': 13.1.0
       base64url: 3.0.1
       buffer: 6.0.3
-      passkey-kit-sdk: 0.6.3
-      sac-sdk: 0.3.3
+      passkey-kit-sdk: 0.6.5
+      sac-sdk: 0.3.5
     transitivePeerDependencies:
       - debug
 
@@ -5967,9 +5967,9 @@ snapshots:
     dependencies:
       queue-microtask: 1.2.3
 
-  sac-sdk@0.3.3:
+  sac-sdk@0.3.5:
     dependencies:
-      '@stellar/stellar-sdk': 13.0.0
+      '@stellar/stellar-sdk': 13.1.0
       buffer: 6.0.3
     transitivePeerDependencies:
       - debug
@@ -6165,12 +6165,12 @@ snapshots:
     dependencies:
       svelte: 4.2.19
 
-  svelte2tsx@0.7.21(svelte@4.2.19)(typescript@5.7.2):
+  svelte2tsx@0.7.21(svelte@4.2.19)(typescript@5.7.3):
     dependencies:
       dedent-js: 1.0.1
       pascal-case: 3.1.2
       svelte: 4.2.19
-      typescript: 5.7.2
+      typescript: 5.7.3
 
   svelte@4.2.19:
     dependencies:
@@ -6251,9 +6251,9 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  tsconfck@3.1.3(typescript@5.7.2):
+  tsconfck@3.1.3(typescript@5.7.3):
     optionalDependencies:
-      typescript: 5.7.2
+      typescript: 5.7.3
 
   tslib@2.7.0: {}
 
@@ -6269,7 +6269,7 @@ snapshots:
     dependencies:
       semver: 7.6.3
 
-  typescript@5.7.2: {}
+  typescript@5.7.3: {}
 
   ufo@1.5.4: {}
 
@@ -6376,30 +6376,30 @@ snapshots:
       '@types/unist': 3.0.3
       vfile-message: 4.0.2
 
-  vite-plugin-node-polyfills@0.22.0(rollup@4.24.0)(vite@5.4.8(@types/node@22.10.2)):
+  vite-plugin-node-polyfills@0.23.0(rollup@4.24.0)(vite@5.4.8(@types/node@22.13.5)):
     dependencies:
       '@rollup/plugin-inject': 5.0.5(rollup@4.24.0)
       node-stdlib-browser: 1.2.1
-      vite: 5.4.8(@types/node@22.10.2)
+      vite: 5.4.8(@types/node@22.13.5)
     transitivePeerDependencies:
       - rollup
 
-  vite@5.4.8(@types/node@22.10.2):
+  vite@5.4.8(@types/node@22.13.5):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.47
       rollup: 4.24.0
     optionalDependencies:
-      '@types/node': 22.10.2
+      '@types/node': 22.13.5
       fsevents: 2.3.3
 
-  vitefu@0.2.5(vite@5.4.8(@types/node@22.10.2)):
+  vitefu@0.2.5(vite@5.4.8(@types/node@22.13.5)):
     optionalDependencies:
-      vite: 5.4.8(@types/node@22.10.2)
+      vite: 5.4.8(@types/node@22.13.5)
 
-  vitefu@1.0.2(vite@5.4.8(@types/node@22.10.2)):
+  vitefu@1.0.2(vite@5.4.8(@types/node@22.13.5)):
     optionalDependencies:
-      vite: 5.4.8(@types/node@22.10.2)
+      vite: 5.4.8(@types/node@22.13.5)
 
   vm-browserify@1.1.2: {}
 
@@ -6646,9 +6646,9 @@ snapshots:
     dependencies:
       zod: 3.23.8
 
-  zod-to-ts@1.2.0(typescript@5.7.2)(zod@3.23.8):
+  zod-to-ts@1.2.0(typescript@5.7.3)(zod@3.23.8):
     dependencies:
-      typescript: 5.7.2
+      typescript: 5.7.3
       zod: 3.23.8
 
   zod@3.23.8: {}
