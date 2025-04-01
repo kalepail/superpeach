@@ -14,7 +14,7 @@
     "@stellar/stellar-sdk": "^13.1.0",
     "base64url": "^3.0.1",
     "buffer": "^6.0.3",
-    "passkey-kit": "0.10.13"
+    "passkey-kit": "0.10.19"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
