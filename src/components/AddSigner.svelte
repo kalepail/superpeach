@@ -7,10 +7,13 @@
     import { account } from "../lib/common-client";
     import Loader from "./Loader.svelte";
     import { SignerStore } from "passkey-kit";
+    import type { AssembledTransaction } from "@stellar/stellar-sdk/minimal/contract";
 
     let url: URL;
     let params: URLSearchParams;
     let origin: string;
+    let signerLimits: string | null;
+    let publicKey: string;
     let signerKey: string;
     let signerKeyId: Buffer;
     let signerPublicKey: Buffer;
@@ -37,9 +40,13 @@
 
         if (params.size) {
             origin = decodeURIComponent(params.get("from")!);
-            signerKey = params.get("keyId")!;
-            signerKeyId = base64url.toBuffer(signerKey);
-            signerPublicKey = base64url.toBuffer(params.get("publicKey")!);
+            publicKey = params.get("publicKey")!;
+            signerLimits = params.get("signerLimits");
+            try {
+                signerKey = params.get("keyId")!;
+                signerKeyId = base64url.toBuffer(signerKey);
+                signerPublicKey = base64url.toBuffer(publicKey);
+            } catch {}
         }
     });
 
@@ -71,7 +78,18 @@
         loaders = loaders;
 
         try {
-            const at = await account.addSecp256r1(signerKeyId, signerPublicKey, new Map(), SignerStore.Temporary);
+            let at: AssembledTransaction<null>;
+            
+            try {
+                at = await account.addSecp256r1(signerKeyId, signerPublicKey, undefined, SignerStore.Temporary)
+            } catch {
+                at = await account.addEd25519(
+                    publicKey, 
+                    signerLimits ? new Map([[signerLimits, undefined]]) : undefined,
+                    SignerStore.Temporary
+                )
+            }
+
             await account.sign(at, { keyId: $keyId });
             const res = await send(at.built!.toXDR());
 
@@ -136,15 +154,27 @@
                     >
                 </tr>
 
-                {#if signerKey && signerKeyId.length}
-                    <tr class="[&>td]:px-2">
-                        <td class="bg-black/10">Key:</td>
-                        <td
-                            >{signerKey.substring(0, 6)}...{signerKey.substring(
-                                signerKey.length - 6,
-                            )}</td
-                        >
-                    </tr>
+                {#if publicKey}
+                    {#if signerKey && signerKeyId.length}
+                        <tr class="[&>td]:px-2">
+                            <td class="bg-black/10">Key:</td>
+                            <td
+                                >{signerKey.substring(0, 6)}...{signerKey.substring(
+                                    signerKey.length - 6,
+                                )}</td
+                            >
+                        </tr>
+                    {:else}
+                        <tr class="[&>td]:px-2">
+                            <td class="bg-black/10">Key:</td>
+                            <td
+                                >{publicKey.substring(0, 6)}...{publicKey.substring(
+                                    publicKey.length - 6,
+                                )}</td
+                            >
+                        </tr>
+                    {/if}
+
                     <tr>
                         <td colspan="2">
                             {#if added}
