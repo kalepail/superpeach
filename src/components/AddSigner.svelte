@@ -79,15 +79,22 @@
 
         try {
             let at: AssembledTransaction<null>;
-            
+
             try {
-                at = await account.addSecp256r1(signerKeyId, signerPublicKey, undefined, SignerStore.Temporary)
+                at = await account.addSecp256r1(
+                    signerKeyId,
+                    signerPublicKey,
+                    undefined,
+                    SignerStore.Temporary,
+                );
             } catch {
                 at = await account.addEd25519(
-                    publicKey, 
-                    signerLimits ? new Map([[signerLimits, undefined]]) : undefined,
-                    SignerStore.Temporary
-                )
+                    publicKey,
+                    signerLimits
+                        ? new Map([[signerLimits, undefined]])
+                        : undefined,
+                    SignerStore.Temporary,
+                );
             }
 
             await account.sign(at, { keyId: $keyId });
@@ -159,7 +166,10 @@
                         <tr class="[&>td]:px-2">
                             <td class="bg-black/10">Key:</td>
                             <td
-                                >{signerKey.substring(0, 6)}...{signerKey.substring(
+                                >{signerKey.substring(
+                                    0,
+                                    6,
+                                )}...{signerKey.substring(
                                     signerKey.length - 6,
                                 )}</td
                             >
@@ -168,8 +178,26 @@
                         <tr class="[&>td]:px-2">
                             <td class="bg-black/10">Key:</td>
                             <td
-                                >{publicKey.substring(0, 6)}...{publicKey.substring(
+                                >{publicKey.substring(
+                                    0,
+                                    6,
+                                )}...{publicKey.substring(
                                     publicKey.length - 6,
+                                )}</td
+                            >
+                        </tr>
+                    {/if}
+
+                    {#if signerLimits}
+                        <!-- TODO signerLimits need to be a lot more robust and an array, this is a monkey patch -->
+                        <tr class="[&>td]:px-2">
+                            <td class="bg-black/10">Limits:</td>
+                            <td
+                                >{signerLimits.substring(
+                                    0,
+                                    6,
+                                )}...{signerLimits.substring(
+                                    signerLimits.length - 6,
                                 )}</td
                             >
                         </tr>
