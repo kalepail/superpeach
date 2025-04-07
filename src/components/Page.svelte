@@ -12,6 +12,8 @@
     import { account, native } from "../lib/common-client";
     import Loader from "./Loader.svelte";
     import { SignerKey } from "passkey-kit";
+    import type { AssembledTransaction } from "@stellar/stellar-sdk/minimal/contract";
+    import { StrKey } from "@stellar/stellar-sdk/minimal";
 
     let loaders = new Map();
     let balance: string = "0";
@@ -111,7 +113,14 @@
         loaders = loaders;
 
         try {
-            const at = await account.remove(SignerKey.Secp256r1(signer)) 
+            let at: AssembledTransaction<null>;
+
+            if (StrKey.isValidEd25519PublicKey(signer)) {
+                at = await account.remove(SignerKey.Ed25519(signer)) 
+            } else {
+                at = await account.remove(SignerKey.Secp256r1(signer)) 
+            }
+
             await account.sign(at, { keyId: $keyId });
             const res = await send(at.built!.toXDR());
 
